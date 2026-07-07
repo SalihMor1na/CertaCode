@@ -1343,7 +1343,7 @@ form.addEventListener("submit", async (e)=>{
   const mailto = `mailto:info.certacode@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
 
   // If no key is configured yet, fall back to opening the visitor's mail client.
-  const keyReady = WEB3FORMS_KEY && !/DIN-ACCESS-KEY/i.test(WEB3FORMS_KEY);
+  const keyReady = WEB3FORMS_KEY && !/API_KEY/i.test(WEB3FORMS_KEY);
   if(!keyReady){
     showBookingSuccess(mailto);
     try{ window.location.href = mailto; }catch(err){}
