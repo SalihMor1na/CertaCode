@@ -1295,17 +1295,16 @@ function buildSummary(){
 function escapeHtml(str){ return String(str).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
 /* ============================================================
-   BOKNINGSLEVERANS — Web3Forms
+   BOKNINGSLEVERANS — via egen backend (/api/booking)
    ------------------------------------------------------------
-   SÅ HÄR AKTIVERAR DU (tar ~1 minut):
-   1. Gå till  https://web3forms.com
-   2. Skriv in  info.certacode@gmail.com  och klicka "Create Access Key".
-      Nyckeln mejlas till dig direkt (en lång kod, t.ex. a1b2c3d4-....).
-   3. Klistra in nyckeln mellan citattecknen nedan (ersätt DIN-ACCESS-KEY-HÄR).
-   Klart! Varje bokning mejlas då automatiskt till din Gmail-inkorg.
-   (Tills nyckeln är ifylld faller sidan tillbaka på att öppna besökarens mejlklient.)
+   Formuläret skickar INTE nyckeln själv. Det postar till vår
+   Cloudflare Pages Function (functions/api/booking.js), som håller
+   Web3Forms-nyckeln som en krypterad secret på servern och skickar
+   vidare. Nyckeln finns alltså aldrig i den här filen eller i
+   webbläsaren.  (Körs sidan som ren statisk fil utan backend faller
+   den snyggt tillbaka på att öppna besökarens mejlklient.)
    ============================================================ */
-const WEB3FORMS_KEY = "DIN-ACCESS-KEY-HÄR";
+const BOOKING_ENDPOINT = "/api/booking";
 
 const submitBtn = document.getElementById("submitBtn");
 const bookErr = document.getElementById("bookErr");
@@ -1321,6 +1320,7 @@ function showBookingSuccess(mailtoFallback){
   document.getElementById("successMsg").innerHTML = t("book.done.msg") + extra;
   scrollFormIntoView();
 }
+function resetSubmitBtn(label){ submitBtn.disabled = false; submitBtn.textContent = label; }
 
 form.addEventListener("submit", async (e)=>{
   e.preventDefault();
@@ -1342,45 +1342,49 @@ form.addEventListener("submit", async (e)=>{
   ];
   const mailto = `mailto:info.certacode@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
 
-  // If no key is configured yet, fall back to opening the visitor's mail client.
-  const keyReady = WEB3FORMS_KEY && !/API_KEY/i.test(WEB3FORMS_KEY);
-  if(!keyReady){
-    showBookingSuccess(mailto);
-    try{ window.location.href = mailto; }catch(err){}
-    return;
-  }
+  const payload = {
+    subject: subject,
+    replyto: form.email.value.trim(),
+    fields: {
+      "Tjänst": svc,
+      "Datum & tid": `${fmtDate(booking.date)} ${booking.time||""}`,
+      "Namn": form.name.value.trim(),
+      "Företag": form.company.value.trim()||"-",
+      "E-post": form.email.value.trim(),
+      "Telefon": form.phone.value.trim()||"-",
+      "Meddelande": form.message.value.trim()||"-"
+    }
+  };
 
-  // Real submission → lands in your Gmail via Web3Forms.
   const originalLabel = submitBtn.textContent;
   submitBtn.disabled = true;
   submitBtn.textContent = t("book.sending");
+
   try{
-    const res = await fetch("https://api.web3forms.com/submit", {
+    const res = await fetch(BOOKING_ENDPOINT, {
       method:"POST",
       headers:{ "Content-Type":"application/json", "Accept":"application/json" },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_KEY,
-        subject: subject,
-        from_name: "CertaCode – Bokning",
-        replyto: form.email.value.trim(),
-        "Tjänst": svc,
-        "Datum & tid": `${fmtDate(booking.date)} ${booking.time||""}`,
-        "Namn": form.name.value.trim(),
-        "Företag": form.company.value.trim()||"-",
-        "E-post": form.email.value.trim(),
-        "Telefon": form.phone.value.trim()||"-",
-        "Meddelande": form.message.value.trim()||"-"
-      })
+      body: JSON.stringify(payload)
     });
-    const data = await res.json();
-    if(data.success){
+
+    // Parse JSON if the backend answered with it; otherwise treat as "no backend present".
+    let data = null;
+    try{ data = await res.json(); }catch(_){ data = null; }
+
+    if(data && data.success){
       showBookingSuccess(null);
-    } else {
-      throw new Error(data.message || "Web3Forms error");
+      return;
     }
+    if(!data){
+      // No backend (e.g. opened as a plain static file / preview) → mailto fallback.
+      resetSubmitBtn(originalLabel);
+      showBookingSuccess(mailto);
+      try{ window.location.href = mailto; }catch(err){}
+      return;
+    }
+    throw new Error(data.message || "Booking error");
   } catch(err){
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalLabel;
+    resetSubmitBtn(originalLabel);
     bookErr.innerHTML = `${t("book.error")} <a href="${mailto}">${t("book.errorMail")}</a>.`;
     bookErr.classList.add("show");
   }

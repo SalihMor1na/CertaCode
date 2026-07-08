@@ -1,1 +1,13 @@
+# Secrets — never commit these
 .env
+.dev.vars
+.dev.vars.*
+
+# Dependencies / build
+node_modules/
+dist/
+.wrangler/
+
+# OS / editor
+.DS_Store
+Thumbs.db
