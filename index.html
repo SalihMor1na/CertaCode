@@ -35,9 +35,9 @@
   --radius-sm:10px;
   --radius:16px;
   --radius-lg:26px;
-  --shadow-sm:0 1px 2px rgba(20,22,26,.05), 0 2px 8px rgba(20,22,26,.04);
-  --shadow-md:0 4px 12px rgba(20,22,26,.06), 0 18px 40px rgba(20,22,26,.07);
-  --shadow-lg:0 8px 24px rgba(20,22,26,.08), 0 40px 90px rgba(20,22,26,.10);
+  --shadow-sm:0 1px 2px rgba(46,36,22,.05), 0 2px 8px rgba(46,36,22,.045);
+  --shadow-md:0 4px 12px rgba(44,34,20,.06), 0 18px 40px rgba(44,34,20,.07);
+  --shadow-lg:0 8px 24px rgba(42,32,18,.08), 0 40px 92px rgba(42,32,18,.10);
 
   --maxw:1280px;
   --ease:cubic-bezier(.22,1,.36,1);
@@ -63,13 +63,21 @@ body{
   text-rendering:optimizeLegibility;
   overflow-x:hidden;
 }
-h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em;margin:0}
-p{margin:0}
+h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
 a{color:inherit;text-decoration:none}
 img,svg{display:block;max-width:100%}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 :focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:6px}
 ::selection{background:var(--accent);color:#fff}
+
+/* Subtle film grain for premium texture (faint overlay, never blocks interaction) */
+.grain{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+}
 
 /* ============================================================
    LAYOUT PRIMITIVES
@@ -145,7 +153,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    HERO
    ============================================================ */
-.hero{position:relative;padding-top:calc(var(--nav-h) + clamp(36px,5vw,68px));padding-bottom:clamp(48px,6vw,84px);overflow:hidden}
+.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:calc(var(--nav-h) + clamp(28px,4vw,56px));padding-bottom:clamp(40px,5vw,72px);overflow:hidden}
+.hero__shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
+.hero.shader-on .hero__glow{display:none}
 .hero__glow{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero__glow::before{
   content:"";position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;max-width:760px;max-height:760px;
@@ -164,7 +174,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero__cta{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
 .hero__meta{margin-top:44px;display:flex;gap:clamp(28px,3vw,44px);flex-wrap:wrap;align-items:center}
 .hero__meta .stat{display:flex;flex-direction:column;gap:2px}
-.hero__meta .stat b{font-family:"Fraunces",serif;font-size:clamp(28px,2.4vw,38px);font-weight:600;letter-spacing:-.02em;line-height:1}
+.hero__meta .stat b{font-family:"Fraunces",serif;font-size:clamp(28px,2.4vw,38px);font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
 .hero__meta .stat span{font-size:13.5px;color:var(--muted)}
 .hero__meta .divider{width:1px;height:42px;background:var(--line-strong)}
 
@@ -258,7 +268,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 .results{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:8px}
 .result{text-align:center;padding:12px}
-.result b{font-family:"Fraunces",serif;font-size:clamp(40px,6vw,60px);font-weight:600;letter-spacing:-.03em;display:block;line-height:1}
+.result b{font-family:"Fraunces",serif;font-size:clamp(40px,6vw,60px);font-weight:600;letter-spacing:-.03em;display:block;line-height:1;font-variant-numeric:tabular-nums}
 .result span{color:var(--muted);font-size:14.5px;margin-top:10px;display:block}
 .result b em{font-style:normal;color:var(--accent)}
 
@@ -480,6 +490,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </style>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
@@ -526,6 +537,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <!-- ================= HERO ================= -->
 <section class="hero">
+  <canvas class="hero__shader" id="heroShader" aria-hidden="true"></canvas>
   <div class="hero__glow" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero__grid">
@@ -1135,6 +1147,93 @@ const countIO = new IntersectionObserver((entries)=>{
   });
 },{threshold:0.6});
 document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(el));
+
+/* ============================================================
+   HERO LIVING GRADIENT (WebGL)
+   Ported from the Velaris shader to vanilla JS — no React, no build.
+   Recolored to the CertaCode palette (light pastel tints of the accent),
+   light-mode vignette, reduced-motion + off-screen pause for performance.
+   ============================================================ */
+(function initHeroShader(){
+  const canvas = document.getElementById("heroShader");
+  const hero = document.querySelector(".hero");
+  if(!canvas || !hero) return;
+  const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+  if(!gl) return; // graceful fallback → hero keeps its CSS glow
+
+  /* --- CertaCode palette (tweak freely) --- */
+  const CONFIG = {
+    bg: "#FBFAF8",
+    colors: ["#A8BEFF", "#7B9CFF", "#B3A2FF", "#D6E2FF"],
+    speed: 2.0,
+    grain: 0.10
+  };
+
+  const vert = "attribute vec2 position;varying vec2 vUv;void main(){vUv=position*0.5+0.5;gl_Position=vec4(position,0.0,1.0);}";
+  const frag = "precision highp float;varying vec2 vUv;uniform vec2 u_resolution;uniform float u_time;uniform float u_grain;uniform vec3 u_colors[4];uniform vec3 u_bg;"
+    + "vec3 permute(vec3 x){return mod(((x*34.0)+1.0)*x,289.0);}"
+    + "float snoise(vec2 v){const vec4 C=vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);vec2 i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod(i,289.0);vec3 p=permute(permute(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));vec3 m=max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);m=m*m;m=m*m;vec3 x=2.0*fract(p*C.www)-1.0;vec3 h=abs(x)-0.5;vec3 ox=floor(x+0.5);vec3 a0=x-ox;m*=1.79284291400159-0.85373472095314*(a0*a0+h*h);vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;return 130.0*dot(m,g);}"
+    + "void main(){vec2 uv=vUv;float ratio=u_resolution.x/u_resolution.y;vec2 p=uv-0.5;p.x*=ratio;float t=u_time*0.1;"
+    + "float n1=snoise(p*0.4+vec2(t*0.2,-t*0.3));float n2=snoise(p*0.55+vec2(-t*0.15,t*0.25)+n1*0.25);float n3=snoise(p*0.75+vec2(t*0.1,-t*0.2)+n2*0.2);"
+    + "vec3 col=u_bg;float dist=length(p)*1.5;float vignette=1.0-smoothstep(0.3,1.2,dist);"
+    + "col=mix(col,u_colors[0],smoothstep(-0.2,0.5,n1)*0.85);col=mix(col,u_colors[1],smoothstep(-0.1,0.6,n2)*0.7);col=mix(col,u_colors[2],smoothstep(-0.3,0.4,n3)*0.6);col=mix(col,u_colors[3],smoothstep(0.0,0.7,n1*n2)*0.5);"
+    + "float glow=smoothstep(0.8,0.0,dist)*0.06;col+=u_colors[1]*glow;"
+    + "col=mix(col*0.965,col,vignette);"
+    + "float grain=fract(sin(dot(uv,vec2(12.9898,78.233)))*43758.5453+u_time);col+=(grain-0.5)*u_grain*0.08;"
+    + "gl_FragColor=vec4(col,1.0);}";
+
+  function compile(type, src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
+  const prog=gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+  gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return; // fallback stays
+  gl.useProgram(prog);
+
+  const posBuf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const posLoc=gl.getAttribLocation(prog, "position");
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const U={res:gl.getUniformLocation(prog,"u_resolution"),time:gl.getUniformLocation(prog,"u_time"),grain:gl.getUniformLocation(prog,"u_grain"),colors:gl.getUniformLocation(prog,"u_colors"),bg:gl.getUniformLocation(prog,"u_bg")};
+
+  const hex=(h)=>{ h=h.replace("#",""); return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255]; };
+  const flatColors=new Float32Array(CONFIG.colors.slice(0,4).flatMap(hex));
+  const bgRgb=hex(CONFIG.bg);
+
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1, 2);
+    canvas.width=Math.max(1, Math.floor(hero.clientWidth*dpr));
+    canvas.height=Math.max(1, Math.floor(hero.clientHeight*dpr));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  if("ResizeObserver" in window){ new ResizeObserver(resize).observe(hero); }
+  else { window.addEventListener("resize", resize); }
+
+  function draw(timeMs){
+    gl.uniform2f(U.res, canvas.width, canvas.height);
+    gl.uniform1f(U.time, timeMs*0.001*CONFIG.speed);
+    gl.uniform1f(U.grain, CONFIG.grain);
+    gl.uniform3fv(U.colors, flatColors);
+    gl.uniform3f(U.bg, bgRgb[0], bgRgb[1], bgRgb[2]);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  hero.classList.add("shader-on"); // hide the static CSS glow fallback
+  draw(0); // paint one frame immediately so it's there on first paint
+
+  if(reduceMotion){ draw(2600); return; } // single static frame, no animation
+
+  let visible=true;
+  if("IntersectionObserver" in window){
+    new IntersectionObserver((es)=>{ es.forEach(e=>{ visible=e.isIntersecting; }); }, {threshold:0}).observe(hero);
+  }
+  function loop(t){ if(visible) draw(t); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+})();
 
 /* ============================================================
    BOOKING FLOW
