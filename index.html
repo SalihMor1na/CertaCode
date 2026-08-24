@@ -442,7 +442,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .footer__grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:720px){
-  /* phones: robot stays visible behind the copy, veiled just enough to read */
+  /* phones: no video is loaded, and iOS will not paint a <video> poster
+     without a source — so show the still as a real background image */
+  .hero__media{background-image:url("assets/robot-poster-mobile.jpg");background-size:cover;background-position:77% center;background-repeat:no-repeat}
   .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.62) 0%, rgba(251,250,248,.60) 58%, rgba(251,250,248,.46) 82%, rgba(251,250,248,.38) 100%)}
   .hero__video{object-position:77% center}
   .hero__copy{max-width:100%;text-align:center}
