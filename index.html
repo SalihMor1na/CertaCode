@@ -1100,11 +1100,13 @@ document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(
     // honour an explicit data-saver choice; the effectiveType estimate is
     // unreliable during page load, so it is not used to gate the video
     const saveData = (navigator.connection || {}).saveData === true;
-    if(reduce.matches || !wide.matches || saveData) return;  // poster stays as the background
+    if(reduce.matches || saveData) return;   // the still image stays as the background
     loaded = true;
 
+    // phones get a much lighter cut of the same clip
+    const base = wide.matches ? "assets/robot" : "assets/robot-mobile";
     const canWebm = v.canPlayType('video/webm; codecs="vp9"');
-    v.src = (canWebm === "probably" || canWebm === "maybe") ? "assets/robot.webm" : "assets/robot.mp4";
+    v.src = base + ((canWebm === "probably" || canWebm === "maybe") ? ".webm" : ".mp4");
     v.addEventListener("loadeddata", ()=> v.classList.add("ready"), { once:true });
     v.addEventListener("ended", ()=> v.pause(), { once:true });   // hold on the final frame
     v.load();
