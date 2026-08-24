@@ -442,10 +442,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .footer__grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:720px){
-  /* text sits over the poster on phones, so mute the image hard */
-  .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.90) 0%, rgba(251,250,248,.86) 55%, rgba(251,250,248,.94) 100%)}
-  .hero__video{object-position:78% center}
-  .hero__copy{max-width:100%}
+  /* phones: robot stays visible behind the copy, veiled just enough to read */
+  .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.62) 0%, rgba(251,250,248,.60) 58%, rgba(251,250,248,.46) 82%, rgba(251,250,248,.38) 100%)}
+  .hero__video{object-position:77% center}
+  .hero__copy{max-width:100%;text-align:center}
+  .hero__copy .lead{margin-inline:auto}
+  .hero .eyebrow::before{display:none}
+  .hero__cta{justify-content:center}
+  .hero__meta{justify-content:center}
   .nav__links{display:none}
   .nav__right .btn{display:none}
   .nav__burger{display:flex}
