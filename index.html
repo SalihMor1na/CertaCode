@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>CertaCode — Hemsidor, automation & appar</title>
-<meta name="description" content="CertaCode bygger eleganta hemsidor, automatiserade system och appar som driver tillväxt. Boka ett förutsättningslöst möte." />
+<title>CertaCode — Annonsering, hemsidor & AI-assistenter</title>
+<meta name="description" content="CertaCode ger ditt företag fler kunder: annonser på Meta, TikTok, Google & YouTube, konverterande hemsidor och AI-assistenter (chattbot & telefonsvarare). Boka ett förutsättningslöst möte." />
 <meta name="theme-color" content="#FBFAF8" />
 
 <!-- Fonts: Fraunces (display serif) + Inter (body) -->
@@ -44,6 +44,7 @@
   --ease-in:cubic-bezier(.55,.05,.68,.19);
 
   --nav-h:72px;
+  --gutter:clamp(20px,5vw,40px);
 }
 
 /* ============================================================
@@ -82,7 +83,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    LAYOUT PRIMITIVES
    ============================================================ */
-.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,40px)}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
 .eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
@@ -90,7 +91,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--accent);opacity:.6}
 .section{padding:clamp(72px,11vw,132px) 0}
-.lead{color:var(--ink-soft);font-size:clamp(16px,1.2vw,22px);max-width:60ch}
+.lead{color:var(--ink-soft);font-size:clamp(17px,1.3vw,29px);max-width:56ch}
 
 /* Buttons */
 .btn{
@@ -121,7 +122,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   -webkit-backdrop-filter:blur(14px) saturate(1.4);
   box-shadow:0 1px 0 var(--line);
 }
-.nav__inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(20px,5vw,40px)}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:19px;letter-spacing:-.02em}
 .brand__mark{width:34px;height:34px;flex:none}
 .nav__links{display:flex;align-items:center;gap:36px}
@@ -155,6 +156,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:calc(var(--nav-h) + clamp(28px,4vw,56px));padding-bottom:clamp(40px,5vw,72px);overflow:hidden}
 .hero__shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
+/* Hero background video (robot turns to face the visitor) */
+.hero__media{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--bg)}
+.hero__video{width:100%;height:100%;object-fit:cover;object-position:55% top;display:block;opacity:0;transition:opacity .9s var(--ease)}
+.hero__video.ready{opacity:1}
+/* keeps the headline readable on top of the footage */
+.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  /* fades out before the robot starts (~56%) so its colours stay true */
+  background:linear-gradient(100deg, rgba(251,250,248,.94) 0%, rgba(251,250,248,.88) 28%, rgba(251,250,248,.58) 42%, rgba(251,250,248,.18) 51%, rgba(251,250,248,0) 57%);}
 .hero.shader-on .hero__glow{display:none}
 .hero__glow{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero__glow::before{
@@ -167,8 +176,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   background:radial-gradient(circle at center, rgba(14,159,110,.10), transparent 65%);
   filter:blur(20px);
 }
-.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(40px,5vw,72px);align-items:center}
-.hero h1{font-size:clamp(42px,6vw,94px);letter-spacing:-.025em}
+.hero__grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;align-items:center}
+.hero__copy{max-width:min(62%,1280px)}
+.hero h1{font-size:clamp(46px,7.6vw,152px);letter-spacing:-.03em}
 .hero h1 em{font-style:italic;color:var(--accent)}
 .hero .lead{margin-top:26px}
 .hero__cta{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
@@ -179,35 +189,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero__meta .divider{width:1px;height:42px;background:var(--line-strong)}
 
 /* Hero visual card */
-.hero__visual{position:relative;display:flex;flex-direction:column;gap:38px}
-.hero__card{position:relative}
-.hero__stack{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.hero__stack-label{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
-.hero__stack-tags{display:flex;gap:8px;flex-wrap:wrap}
-.hero__stack-tags span{font-size:13.5px;font-weight:600;color:var(--ink-soft);background:var(--bg-tint);border:1px solid var(--line);border-radius:100px;padding:6px 14px;transition:.25s}
-.hero__stack-tags span:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
-.glass-card{
-  position:relative;background:#fff;
-  border:1px solid var(--line);border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-lg);padding:clamp(26px,2vw,36px);
-}
-.code-head{display:flex;align-items:center;gap:8px;margin-bottom:22px}
-.code-head .dot{width:11px;height:11px;border-radius:50%}
-.code-head .dot:nth-child(1){background:#ff5f57}
-.code-head .dot:nth-child(2){background:#febc2e}
-.code-head .dot:nth-child(3){background:#28c840}
-.code-head .tag{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500}
-.code-body{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:clamp(13.5px,1vw,15.5px);line-height:2.05;color:var(--ink-soft)}
-.code-body .k{color:var(--accent)} .code-body .s{color:#0E9F6E} .code-body .c{color:var(--muted)} .code-body .f{color:#B0308B}
-.hero__badge{
-  position:absolute;background:var(--surface);border:1px solid var(--line);border-radius:14px;
-  box-shadow:var(--shadow-md);padding:12px 16px;display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:600;
-}
-.hero__badge svg{width:20px;height:20px;color:var(--accent)}
-.hero__badge--1{bottom:-18px;left:-14px}
-.hero__badge--2{top:-16px;right:-6px}
-.hero__badge .pulse{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(14,159,110,.5);animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,159,110,.45)}70%{box-shadow:0 0 0 10px rgba(14,159,110,0)}100%{box-shadow:0 0 0 0 rgba(14,159,110,0)}}
 
 /* Trust strip */
 .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0}
@@ -221,7 +202,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    SECTION HEADER
    ============================================================ */
 .sec-head{max-width:640px;margin-bottom:clamp(40px,6vw,64px)}
-.sec-head h2{font-size:clamp(30px,4vw,58px);margin-top:16px;letter-spacing:-.02em}
+.sec-head h2{font-size:clamp(30px,3.4vw,76px);margin-top:16px;letter-spacing:-.022em}
 .sec-head p{margin-top:18px}
 .sec-head--center{margin-inline:auto;text-align:center}
 .sec-head--center .eyebrow::before{display:none}
@@ -242,8 +223,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .svc__icon{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:22px;transition:transform .45s var(--ease)}
 .svc:hover .svc__icon{transform:scale(1.06) rotate(-4deg)}
 .svc__icon svg{width:28px;height:28px}
-.svc h3{font-size:24px;margin-bottom:12px}
-.svc p{color:var(--ink-soft);font-size:15.5px}
+.svc h3{font-size:clamp(22px,1.5vw,32px);margin-bottom:12px}
+.svc p{color:var(--ink-soft);font-size:clamp(15.5px,1.02vw,19px)}
 .svc__list{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
 .svc__list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft)}
 .svc__list li svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:2px}
@@ -260,8 +241,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .step{background:var(--ink);padding:34px 26px;transition:background .4s}
 .step:hover{background:#1d2129}
 .step__num{font-family:"Fraunces",serif;font-size:15px;color:#9db0ff;font-weight:600;letter-spacing:.05em}
-.step h3{font-size:21px;margin:16px 0 10px;color:#fff}
-.step p{font-size:14.5px;color:rgba(255,255,255,.62);line-height:1.6}
+.step h3{font-size:clamp(21px,1.35vw,28px);margin:16px 0 10px;color:#fff}
+.step p{font-size:clamp(14.5px,.95vw,18px);color:rgba(255,255,255,.62);line-height:1.6}
 
 /* ============================================================
    WORK / RESULTS
@@ -400,7 +381,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .faq{max-width:820px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
 .faq__item{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden;transition:box-shadow .3s,border-color .3s}
 .faq__item[open]{box-shadow:var(--shadow-sm);border-color:var(--line-strong)}
-.faq__q{list-style:none;cursor:pointer;padding:22px 26px;display:flex;justify-content:space-between;align-items:center;gap:20px;font-weight:600;font-size:17px}
+.faq__q{list-style:none;cursor:pointer;padding:clamp(22px,1.6vw,30px) clamp(26px,1.9vw,36px);display:flex;justify-content:space-between;align-items:center;gap:20px;font-weight:600;font-size:clamp(17px,1.15vw,22px)}
 .faq__q::-webkit-details-marker{display:none}
 .faq__q .ic{width:26px;height:26px;flex:none;border-radius:8px;border:1px solid var(--line-strong);display:grid;place-items:center;transition:transform .35s var(--ease),background .3s}
 .faq__q .ic svg{width:15px;height:15px;transition:.3s}
@@ -445,7 +426,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .reveal[data-delay="4"]{transition-delay:.32s}
 @media (prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
-  .pulse,.hero__badge .pulse{animation:none}
   *{animation-duration:.001ms !important;transition-duration:.08s !important}
 }
 
@@ -454,7 +434,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 @media (max-width:1024px){
   .hero__grid{grid-template-columns:1fr;gap:48px}
-  .hero__visual{max-width:460px}
+  .hero__copy{max-width:72%}
   .services,.quotes{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
   .results{grid-template-columns:1fr 1fr}
@@ -462,6 +442,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .footer__grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:720px){
+  /* text sits over the poster on phones, so mute the image hard */
+  .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.90) 0%, rgba(251,250,248,.86) 55%, rgba(251,250,248,.94) 100%)}
+  .hero__video{object-position:78% center}
+  .hero__copy{max-width:100%}
   .nav__links{display:none}
   .nav__right .btn{display:none}
   .nav__burger{display:flex}
@@ -474,18 +458,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 @media (max-width:480px){
   .footer__grid{grid-template-columns:1fr}
-  .hero__badge--1{left:0} .hero__badge--2{right:0}
 }
 /* Large desktops: widen container + scale spacing so content fills the screen */
 @media (min-width:1500px){
-  :root{--maxw:1400px}
-  .wrap{padding-inline:clamp(40px,4vw,64px)}
+  :root{--maxw:1480px;--gutter:44px;--nav-h:84px}
+  .brand{font-size:22px;gap:13px}
+  .brand__mark{width:40px;height:40px}
+  .nav__links{gap:42px}
+  .nav__link{font-size:17px}
+  .nav .btn{font-size:16px;padding:15px 28px}
+  .lang button{font-size:14px;padding:6px 15px}
 }
 @media (min-width:1800px){
-  :root{--maxw:1560px}
+  :root{--maxw:1680px;--gutter:48px;--nav-h:92px}
+  .brand{font-size:24px}
+  .brand__mark{width:44px;height:44px}
+  .nav__links{gap:48px}
+  .nav__link{font-size:18px}
+  .nav .btn{font-size:17px;padding:16px 30px}
+  .lang button{font-size:15px;padding:7px 16px}
 }
 @media (min-width:2200px){
-  :root{--maxw:1720px}
+  :root{--maxw:2000px;--gutter:56px;--nav-h:104px}
+  .brand{font-size:28px;gap:15px}
+  .brand__mark{width:50px;height:50px}
+  .nav__links{gap:56px}
+  .nav__link{font-size:20px}
+  .nav .btn{font-size:19px;padding:18px 34px}
+  .lang button{font-size:16px;padding:8px 18px}
+}
+@media (min-width:2600px){
+  :root{--maxw:2280px;--gutter:64px;--nav-h:116px}
+  .brand{font-size:31px}
+  .brand__mark{width:56px;height:56px}
+  .nav__link{font-size:22px}
+  .nav .btn{font-size:21px;padding:20px 38px}
+  .lang button{font-size:18px;padding:9px 20px}
 }
 </style>
 
@@ -510,7 +518,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <nav class="nav__links" aria-label="Huvudmeny">
       <a class="nav__link" href="#tjanster" data-i18n="nav.services">Tjänster</a>
       <a class="nav__link" href="#process" data-i18n="nav.process">Process</a>
-      <a class="nav__link" href="#arbete" data-i18n="nav.work">Resultat</a>
       <a class="nav__link" href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
     </nav>
 
@@ -531,7 +538,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div class="mobile-menu" id="mobileMenu">
   <a href="#tjanster" data-i18n="nav.services">Tjänster</a>
   <a href="#process" data-i18n="nav.process">Process</a>
-  <a href="#arbete" data-i18n="nav.work">Resultat</a>
   <a href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
   <a href="#boka" data-i18n="nav.cta" style="color:var(--accent)">Boka möte</a>
 </div>
@@ -540,14 +546,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <!-- ================= HERO ================= -->
 <section class="hero">
-  <canvas class="hero__shader" id="heroShader" aria-hidden="true"></canvas>
+  <div class="hero__media" aria-hidden="true">
+    <video class="hero__video" id="heroVideo" poster="assets/robot-poster.jpg"
+           muted playsinline preload="none" disablepictureinpicture></video>
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
   <div class="hero__glow" aria-hidden="true"></div>
   <div class="wrap">
     <div class="hero__grid">
       <div class="hero__copy">
         <span class="eyebrow reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
-        <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi bygger digitala produkter med <em>premiumkänsla</em> — som presterar.</h1>
-        <p class="lead reveal" data-delay="2" data-i18n="hero.lead">CertaCode designar och utvecklar hemsidor, automatiserade system och appar för företag som vill växa. Snabbt, elegant och byggt för att hålla.</p>
+        <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi ger ditt företag <em>fler kunder</em> — med annonser, hemsidor & AI.</h1>
+        <p class="lead reveal" data-delay="2" data-i18n="hero.lead">CertaCode hjälper företag att växa: annonser på Meta, TikTok, Google och YouTube, hemsidor som säljer, och AI-assistenter som tar hand om dina kunder dygnet runt.</p>
         <div class="hero__cta reveal" data-delay="3">
           <a href="#boka" class="btn btn-primary btn-lg" data-i18n="hero.ctaPrimary">Boka ett möte
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -555,47 +565,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <a href="#tjanster" class="btn btn-ghost btn-lg" data-i18n="hero.ctaSecondary">Se vad vi gör</a>
         </div>
         <div class="hero__meta reveal" data-delay="4">
-          <div class="stat"><b>50+</b><span data-i18n="hero.stat1">Levererade projekt</span></div>
+          <div class="stat"><b>5</b><span data-i18n="hero.stat1">Annonskanaler</span></div>
           <div class="divider"></div>
-          <div class="stat"><b>4.9/5</b><span data-i18n="hero.stat2">Kundbetyg</span></div>
+          <div class="stat"><b>24/7</b><span data-i18n="hero.stat2">AI som svarar</span></div>
           <div class="divider"></div>
           <div class="stat"><b>2–6</b><span data-i18n="hero.stat3">Veckor till lansering</span></div>
         </div>
       </div>
 
-      <div class="hero__visual reveal" data-delay="2">
-        <div class="hero__card">
-        <div class="glass-card">
-          <div class="code-head">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="tag">certacode.deploy</span>
-          </div>
-          <div class="code-body">
-<span class="c">// Från idé till lansering</span><br>
-<span class="k">const</span> projekt = certacode.<span class="f">build</span>({<br>
-&nbsp;&nbsp;site: <span class="s">'Next.js + CMS'</span>,<br>
-&nbsp;&nbsp;automation: <span class="s">'CRM ↔ Faktura'</span>,<br>
-&nbsp;&nbsp;app: <span class="s">'iOS · Android'</span>,<br>
-&nbsp;&nbsp;design: <span class="s">'Skräddarsydd UX'</span>,<br>
-&nbsp;&nbsp;hosting: <span class="s">'Global CDN'</span>,<br>
-});<br>
-<br>
-<span class="k">await</span> projekt.<span class="f">launch</span>();<br>
-<span class="c">// ✓ Live på 3 veckor</span>
-          </div>
-        </div>
-        <div class="hero__badge hero__badge--1">
-          <span class="pulse"></span><span data-i18n="hero.badge1">Systemet är live</span>
-        </div>
-        </div>
-
-        <div class="hero__stack">
-          <span class="hero__stack-label" data-i18n="hero.stackLabel">Vi bygger med</span>
-          <div class="hero__stack-tags">
-            <span>Next.js</span><span>React</span><span>TypeScript</span><span>Node</span><span>Swift</span><span>Figma</span>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -605,50 +582,50 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow" data-i18n="svc.eyebrow">Vad vi gör</span>
-      <h2 data-i18n="svc.title">Tre discipliner. Ett sömlöst team.</h2>
-      <p class="lead" data-i18n="svc.lead">Från första skiss till driftsatt produkt — vi håller ihop design, kod och drift så att du bara har en kontakt.</p>
+      <h2 data-i18n="svc.title">Tre sätt att få fler kunder.</h2>
+      <p class="lead" data-i18n="svc.lead">Vi hjälper ditt företag att växa — från att fånga uppmärksamhet till att ta hand om varje kund som hör av sig.</p>
     </div>
 
     <div class="services">
-      <!-- Websites -->
+      <!-- Ads -->
       <article class="svc reveal" data-delay="1">
+        <div class="svc__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <h3 data-i18n="svc.1.title">Annonsering</h3>
+        <p data-i18n="svc.1.desc">Fler kunder med annonser som konverterar — på Meta, TikTok, Google och YouTube. Vi sköter allt från strategi till optimering.</p>
+        <ul class="svc__list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f1">Facebook, Instagram &amp; TikTok</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f2">Google- &amp; YouTube-annonser</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f3">Löpande optimering &amp; rapporter</span></li>
+        </ul>
+      </article>
+
+      <!-- Websites -->
+      <article class="svc reveal" data-delay="2">
         <div class="svc__icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg>
         </div>
-        <h3 data-i18n="svc.1.title">Hemsidor</h3>
-        <p data-i18n="svc.1.desc">Snabba, tillgängliga sajter som konverterar. Byggda med modern teknik och SEO från grunden.</p>
+        <h3 data-i18n="svc.2.title">Hemsidor</h3>
+        <p data-i18n="svc.2.desc">Snabba, snygga sajter byggda för att sälja. Modern teknik och SEO från grunden.</p>
         <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f1">Design &amp; UX i världsklass</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f2">CMS du faktiskt kan sköta själv</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f3">98+ i Google PageSpeed</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f1">Design &amp; UX i världsklass</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f2">Byggd för konvertering</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f3">Snabb &amp; mobilanpassad</span></li>
         </ul>
       </article>
 
-      <!-- Automation -->
-      <article class="svc reveal" data-delay="2">
-        <div class="svc__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
-        </div>
-        <h3 data-i18n="svc.2.title">Automatiserade system</h3>
-        <p data-i18n="svc.2.desc">Låt mjukvaran göra tråkjobbet. Vi kopplar ihop dina verktyg och automatiserar flöden som stjäl tid.</p>
-        <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f1">Integrationer &amp; API:er</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f2">CRM, faktura &amp; e-post i ett flöde</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f3">AI-drivna arbetsflöden</span></li>
-        </ul>
-      </article>
-
-      <!-- Apps -->
+      <!-- AI assistants -->
       <article class="svc reveal" data-delay="3">
         <div class="svc__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>
         </div>
-        <h3 data-i18n="svc.3.title">Appar</h3>
-        <p data-i18n="svc.3.desc">Native-känsla på iOS och Android från en kodbas. Från idé och prototyp till App Store.</p>
+        <h3 data-i18n="svc.3.title">AI-assistenter</h3>
+        <p data-i18n="svc.3.desc">Låt AI ta hand om dina kunder dygnet runt — en chattbot på hemsidan och en AI-telefonsvarare som svarar när du inte kan.</p>
         <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f1">iOS &amp; Android samtidigt</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f2">Offline &amp; push-notiser</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f3">Publicering &amp; support ingår</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f1">AI-chattbot på hemsidan</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f2">AI-telefonsvarare dygnet runt</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f3">Fångar leads du annars missar</span></li>
         </ul>
       </article>
     </div>
@@ -672,57 +649,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="step"><div class="step__num">03</div><h3 data-i18n="proc.3.t">Bygg</h3><p data-i18n="proc.3.d">Vi utvecklar i korta cykler med löpande demos. Snabb, testad och skalbar kod.</p></div>
         <div class="step"><div class="step__num">04</div><h3 data-i18n="proc.4.t">Lansera</h3><p data-i18n="proc.4.d">Vi driftsätter, mäter och finslipar. Sen finns vi kvar för support och tillväxt.</p></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= RESULTS ================= -->
-<section class="section" id="arbete" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head sec-head--center reveal">
-      <span class="eyebrow" data-i18n="res.eyebrow">Resultat som räknas</span>
-      <h2 data-i18n="res.title">Siffror från riktiga projekt</h2>
-    </div>
-    <div class="results">
-      <div class="result reveal" data-delay="1"><b data-count="3.4" data-suffix="x">3.4<em>x</em></b><span data-i18n="res.1">Fler bokningar efter ny sajt</span></div>
-      <div class="result reveal" data-delay="2"><b data-count="70" data-suffix="%">70<em>%</em></b><span data-i18n="res.2">Mindre manuellt arbete</span></div>
-      <div class="result reveal" data-delay="3"><b data-count="0.8" data-suffix="s">0.8<em>s</em></b><span data-i18n="res.3">Genomsnittlig laddtid</span></div>
-      <div class="result reveal" data-delay="4"><b data-count="12" data-suffix="k">12<em>k</em></b><span data-i18n="res.4">Aktiva app-användare</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= TESTIMONIALS ================= -->
-<section class="section" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="tst.eyebrow">Vad kunder säger</span>
-      <h2 data-i18n="tst.title">Förtroende byggs över tid</h2>
-    </div>
-    <div class="quotes">
-      <figure class="quote reveal" data-delay="1">
-        <div class="quote__stars" aria-label="5 av 5">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg>
-        </div>
-        <p data-i18n="tst.1.q">"CertaCode byggde om vår sajt och kopplade ihop den med vårt bokningssystem. Bokningarna mer än tredubblades på ett kvartal."</p>
-        <figcaption class="quote__who"><span class="quote__av">AL</span><div><b>Anna Lund</b><span data-i18n="tst.1.r">VD, Nordiska Kliniken</span></div></figcaption>
-      </figure>
-
-      <figure class="quote reveal" data-delay="2">
-        <div class="quote__stars" aria-label="5 av 5">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg>
-        </div>
-        <p data-i18n="tst.2.q">"Automationen de byggde sparar oss två arbetsdagar i veckan. Fakturor, CRM och e-post pratar äntligen med varandra."</p>
-        <figcaption class="quote__who"><span class="quote__av">MF</span><div><b>Marcus Fält</b><span data-i18n="tst.2.r">Grundare, Fältström AB</span></div></figcaption>
-      </figure>
-
-      <figure class="quote reveal" data-delay="3">
-        <div class="quote__stars" aria-label="5 av 5">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .8-5.2 4.7L18.3 22 12 18.3 5.7 22 7.2 14 2 9.3l7-.8L12 2z"/></svg>
-        </div>
-        <p data-i18n="tst.3.q">"Vår app gick från idé till App Store på sex veckor. Proffsigt, snabbt och alltid ett steg före."</p>
-        <figcaption class="quote__who"><span class="quote__av">SK</span><div><b>Sara Kvist</b><span data-i18n="tst.3.r">Produktchef, Kvist Retail</span></div></figcaption>
-      </figure>
     </div>
   </div>
 </section>
@@ -763,17 +689,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             <h3 data-i18n="book.s1.title">Vad kan vi hjälpa dig med?</h3>
             <p class="sub" data-i18n="book.s1.sub">Välj det som passar bäst — du kan berätta mer sen.</p>
             <div class="opt-grid" id="serviceOpts">
+              <button type="button" class="opt" data-value="Annonsering" data-value-en="Advertising">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></span>
+                <span><b data-i18n="book.s1.o1t">Annonsering</b><span data-i18n="book.s1.o1d">Ads på Meta, TikTok &amp; Google</span></span>
+              </button>
               <button type="button" class="opt" data-value="Hemsida" data-value-en="Website">
                 <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18"/></svg></span>
-                <span><b data-i18n="book.s1.o1t">Hemsida</b><span data-i18n="book.s1.o1d">Ny sajt eller redesign</span></span>
+                <span><b data-i18n="book.s1.o2t">Hemsida</b><span data-i18n="book.s1.o2d">Ny sajt eller redesign</span></span>
               </button>
-              <button type="button" class="opt" data-value="Automatiserat system" data-value-en="Automation">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
-                <span><b data-i18n="book.s1.o2t">Automatisering</b><span data-i18n="book.s1.o2d">System &amp; integrationer</span></span>
-              </button>
-              <button type="button" class="opt" data-value="App" data-value-en="App">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/></svg></span>
-                <span><b data-i18n="book.s1.o3t">App</b><span data-i18n="book.s1.o3d">iOS &amp; Android</span></span>
+              <button type="button" class="opt" data-value="AI-assistent" data-value-en="AI assistant">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
+                <span><b data-i18n="book.s1.o3t">AI-assistent</b><span data-i18n="book.s1.o3d">Chattbot &amp; telefonsvarare</span></span>
               </button>
               <button type="button" class="opt" data-value="Rådgivning" data-value-en="Consulting">
                 <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></span>
@@ -878,11 +804,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="faq">
       <details class="faq__item reveal">
         <summary class="faq__q"><span data-i18n="faq.1.q">Vad kostar ett projekt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.1.a">Det beror på omfattning. En hemsida börjar oftast runt 30 000 kr, medan större system och appar sätts individuellt. Du får alltid ett fast pris innan vi börjar.</div>
+        <div class="faq__a" data-i18n="faq.1.a">Det beror på tjänst. Annonsering körs oftast som ett månadspris plus din annonsbudget, medan hemsidor och AI-lösningar sätts till fast pris. Du får alltid en tydlig prisbild innan vi börjar.</div>
       </details>
       <details class="faq__item reveal">
         <summary class="faq__q"><span data-i18n="faq.2.q">Hur lång tid tar det?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.2.a">De flesta hemsidor lanseras inom 2–4 veckor. Automationer och appar tar vanligtvis 4–8 veckor beroende på komplexitet.</div>
+        <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.</div>
       </details>
       <details class="faq__item reveal">
         <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
@@ -900,7 +826,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section" style="padding-top:0">
   <div class="wrap">
     <div class="cta-banner reveal">
-      <h2 data-i18n="cta.title">Redo att bygga något som håller?</h2>
+      <h2 data-i18n="cta.title">Redo att få fler kunder?</h2>
       <p data-i18n="cta.lead">Boka ett förutsättningslöst samtal idag. Vi lovar konkreta idéer — inte säljsnack.</p>
       <a href="#boka" class="btn btn-primary btn-lg" data-i18n="cta.btn">Boka ditt möte</a>
     </div>
@@ -918,21 +844,20 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <svg class="brand__mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#14161A"/><path d="M15.5 14.5 10 20l5.5 5.5M24.5 14.5 30 20l-5.5 5.5" stroke="#2547F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 12.5 18 27.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
           <span>CertaCode</span>
         </a>
-        <p data-i18n="foot.tagline">Digital byrå som bygger hemsidor, automatiserade system och appar för växande företag.</p>
+        <p data-i18n="foot.tagline">Vi ger företag fler kunder — med annonser, hemsidor och AI-assistenter.</p>
       </div>
       <div>
         <h4 data-i18n="foot.services">Tjänster</h4>
         <ul>
-          <li><a href="#tjanster" data-i18n="svc.1.title">Hemsidor</a></li>
-          <li><a href="#tjanster" data-i18n="svc.2.title">Automatiserade system</a></li>
-          <li><a href="#tjanster" data-i18n="svc.3.title">Appar</a></li>
+          <li><a href="#tjanster" data-i18n="svc.1.title">Annonsering</a></li>
+          <li><a href="#tjanster" data-i18n="svc.2.title">Hemsidor</a></li>
+          <li><a href="#tjanster" data-i18n="svc.3.title">AI-assistenter</a></li>
         </ul>
       </div>
       <div>
         <h4 data-i18n="foot.company">Företag</h4>
         <ul>
           <li><a href="#process" data-i18n="nav.process">Process</a></li>
-          <li><a href="#arbete" data-i18n="nav.work">Resultat</a></li>
           <li><a href="#faq" data-i18n="nav.faq">Vanliga frågor</a></li>
         </ul>
       </div>
@@ -964,20 +889,19 @@ const I18N = {
   sv:{
     "nav.services":"Tjänster","nav.process":"Process","nav.work":"Resultat","nav.faq":"Vanliga frågor","nav.cta":"Boka möte",
     "hero.eyebrow":"Digital byrå · Sverige",
-    "hero.title":"Vi bygger digitala produkter med <em>premiumkänsla</em> — som presterar.",
-    "hero.lead":"CertaCode designar och utvecklar hemsidor, automatiserade system och appar för företag som vill växa. Snabbt, elegant och byggt för att hålla.",
+    "hero.title":"Vi ger ditt företag <em>fler kunder</em> — med annonser, hemsidor & AI.",
+    "hero.lead":"CertaCode hjälper företag att växa: annonser på Meta, TikTok, Google och YouTube, hemsidor som säljer, och AI-assistenter som tar hand om dina kunder dygnet runt.",
     "hero.ctaPrimary":"Boka ett möte","hero.ctaSecondary":"Se vad vi gör",
-    "hero.stat1":"Levererade projekt","hero.stat2":"Kundbetyg","hero.stat3":"Veckor till lansering",
+    "hero.stat1":"Annonskanaler","hero.stat2":"AI som svarar","hero.stat3":"Veckor till lansering",
     "hero.badge1":"Systemet är live","hero.stackLabel":"Vi bygger med",
-    "trust.label":"Team som litar på oss",
-    "svc.eyebrow":"Vad vi gör","svc.title":"Tre discipliner. Ett sömlöst team.",
-    "svc.lead":"Från första skiss till driftsatt produkt — vi håller ihop design, kod och drift så att du bara har en kontakt.",
-    "svc.1.title":"Hemsidor","svc.1.desc":"Snabba, tillgängliga sajter som konverterar. Byggda med modern teknik och SEO från grunden.",
-    "svc.1.f1":"Design & UX i världsklass","svc.1.f2":"CMS du faktiskt kan sköta själv","svc.1.f3":"98+ i Google PageSpeed",
-    "svc.2.title":"Automatiserade system","svc.2.desc":"Låt mjukvaran göra tråkjobbet. Vi kopplar ihop dina verktyg och automatiserar flöden som stjäl tid.",
-    "svc.2.f1":"Integrationer & API:er","svc.2.f2":"CRM, faktura & e-post i ett flöde","svc.2.f3":"AI-drivna arbetsflöden",
-    "svc.3.title":"Appar","svc.3.desc":"Native-känsla på iOS och Android från en kodbas. Från idé och prototyp till App Store.",
-    "svc.3.f1":"iOS & Android samtidigt","svc.3.f2":"Offline & push-notiser","svc.3.f3":"Publicering & support ingår",
+    "svc.eyebrow":"Vad vi gör","svc.title":"Tre sätt att få fler kunder.",
+    "svc.lead":"Vi hjälper ditt företag att växa — från att fånga uppmärksamhet till att ta hand om varje kund som hör av sig.",
+    "svc.1.title":"Annonsering","svc.1.desc":"Fler kunder med annonser som konverterar — på Meta, TikTok, Google och YouTube. Vi sköter allt från strategi till optimering.",
+    "svc.1.f1":"Facebook, Instagram & TikTok","svc.1.f2":"Google- & YouTube-annonser","svc.1.f3":"Löpande optimering & rapporter",
+    "svc.2.title":"Hemsidor","svc.2.desc":"Snabba, snygga sajter byggda för att sälja. Modern teknik och SEO från grunden.",
+    "svc.2.f1":"Design & UX i världsklass","svc.2.f2":"Byggd för konvertering","svc.2.f3":"Snabb & mobilanpassad",
+    "svc.3.title":"AI-assistenter","svc.3.desc":"Låt AI ta hand om dina kunder dygnet runt — en chattbot på hemsidan och en AI-telefonsvarare som svarar när du inte kan.",
+    "svc.3.f1":"AI-chattbot på hemsidan","svc.3.f2":"AI-telefonsvarare dygnet runt","svc.3.f3":"Fångar leads du annars missar",
     "proc.eyebrow":"Hur vi jobbar","proc.title":"En process byggd på tydlighet",
     "proc.lead":"Inga överraskningar. Du vet alltid vad som händer, vad det kostar och när det är klart.",
     "proc.1.t":"Upptäck","proc.1.d":"Vi lyssnar på mål, målgrupp och utmaningar. Du får en tydlig plan och offert.",
@@ -997,9 +921,9 @@ const I18N = {
     "book.lead":"Berätta om ditt projekt så återkommer vi med idéer, tidsplan och en tydlig prisbild. Ingen bindning.",
     "book.p1":"Konkreta råd redan på första mötet","book.p2":"Fast pris — inga överraskningar","book.p3":"Svar inom 24 timmar",
     "book.s1.title":"Vad kan vi hjälpa dig med?","book.s1.sub":"Välj det som passar bäst — du kan berätta mer sen.",
-    "book.s1.o1t":"Hemsida","book.s1.o1d":"Ny sajt eller redesign",
-    "book.s1.o2t":"Automatisering","book.s1.o2d":"System & integrationer",
-    "book.s1.o3t":"App","book.s1.o3d":"iOS & Android",
+    "book.s1.o1t":"Annonsering","book.s1.o1d":"Ads på Meta, TikTok & Google",
+    "book.s1.o2t":"Hemsida","book.s1.o2d":"Ny sajt eller redesign",
+    "book.s1.o3t":"AI-assistent","book.s1.o3d":"Chattbot & telefonsvarare",
     "book.s1.o4t":"Rådgivning","book.s1.o4d":"Vet inte riktigt än",
     "book.s2.title":"Välj en tid som passar","book.s2.sub":"Alla tider är i svensk tid (CET). Vardagar.","book.s2.slots":"Lediga tider",
     "book.s3.title":"Dina uppgifter","book.s3.sub":"Så vi vet vem vi ska prata med.",
@@ -1011,12 +935,12 @@ const I18N = {
     "book.done.title":"Tack — vi hörs snart!","book.done.msg":"Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.","book.done.again":"Boka en till tid",
     "sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
     "faq.eyebrow":"Vanliga frågor","faq.title":"Bra att veta",
-    "faq.1.q":"Vad kostar ett projekt?","faq.1.a":"Det beror på omfattning. En hemsida börjar oftast runt 30 000 kr, medan större system och appar sätts individuellt. Du får alltid ett fast pris innan vi börjar.",
-    "faq.2.q":"Hur lång tid tar det?","faq.2.a":"De flesta hemsidor lanseras inom 2–4 veckor. Automationer och appar tar vanligtvis 4–8 veckor beroende på komplexitet.",
-    "faq.3.q":"Äger jag koden och designen?","faq.3.a":"Ja. När projektet är betalt äger du all kod, design och allt innehåll till 100 %. Inga inlåsningar.",
-    "faq.4.q":"Erbjuder ni support efteråt?","faq.4.a":"Absolut. Vi erbjuder löpande drift, uppdateringar och vidareutveckling. Många kunder stannar hos oss i åratal.",
-    "cta.title":"Redo att bygga något som håller?","cta.lead":"Boka ett förutsättningslöst samtal idag. Vi lovar konkreta idéer — inte säljsnack.","cta.btn":"Boka ditt möte",
-    "foot.tagline":"Digital byrå som bygger hemsidor, automatiserade system och appar för växande företag.",
+    "faq.1.q":"Vad kostar det?","faq.1.a":"Det beror på tjänst. Annonsering körs oftast som ett månadspris plus din annonsbudget, medan hemsidor och AI-lösningar sätts till fast pris. Du får alltid en tydlig prisbild innan vi börjar.",
+    "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.",
+    "faq.3.q":"Äger jag allt vi tar fram?","faq.3.a":"Ja. När det är betalt äger du all kod, design, annonskonton och allt innehåll till 100 %. Inga inlåsningar.",
+    "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling. Många kunder stannar hos oss i åratal.",
+    "cta.title":"Redo att få fler kunder?","cta.lead":"Boka ett förutsättningslöst samtal idag. Vi lovar konkreta idéer — inte säljsnack.","cta.btn":"Boka ditt möte",
+    "foot.tagline":"Vi ger företag fler kunder — med annonser, hemsidor och AI-assistenter.",
     "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.rights":"Alla rättigheter förbehållna.",
     "months":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
     "dow":["Mån","Tis","Ons","Tor","Fre","Lör","Sön"]
@@ -1024,20 +948,19 @@ const I18N = {
   en:{
     "nav.services":"Services","nav.process":"Process","nav.work":"Results","nav.faq":"FAQ","nav.cta":"Book a call",
     "hero.eyebrow":"Digital agency · Sweden",
-    "hero.title":"We build digital products with a <em>premium feel</em> — that perform.",
-    "hero.lead":"CertaCode designs and builds websites, automated systems and apps for companies that want to grow. Fast, elegant and built to last.",
+    "hero.title":"We bring your business <em>more customers</em> — with ads, websites & AI.",
+    "hero.lead":"CertaCode helps businesses grow: ads on Meta, TikTok, Google and YouTube, websites that sell, and AI assistants that take care of your customers around the clock.",
     "hero.ctaPrimary":"Book a call","hero.ctaSecondary":"See what we do",
-    "hero.stat1":"Projects delivered","hero.stat2":"Client rating","hero.stat3":"Weeks to launch",
+    "hero.stat1":"Ad channels","hero.stat2":"AI that answers","hero.stat3":"Weeks to launch",
     "hero.badge1":"System is live","hero.stackLabel":"We build with",
-    "trust.label":"Teams that trust us",
-    "svc.eyebrow":"What we do","svc.title":"Three disciplines. One seamless team.",
-    "svc.lead":"From first sketch to shipped product — we keep design, code and operations under one roof, so you have a single point of contact.",
-    "svc.1.title":"Websites","svc.1.desc":"Fast, accessible sites that convert. Built with modern tech and SEO from the ground up.",
-    "svc.1.f1":"World-class design & UX","svc.1.f2":"A CMS you can actually run yourself","svc.1.f3":"98+ Google PageSpeed",
-    "svc.2.title":"Automated systems","svc.2.desc":"Let software do the boring work. We connect your tools and automate the flows that steal your time.",
-    "svc.2.f1":"Integrations & APIs","svc.2.f2":"CRM, invoicing & email in one flow","svc.2.f3":"AI-driven workflows",
-    "svc.3.title":"Apps","svc.3.desc":"Native feel on iOS and Android from one codebase. From idea and prototype to the App Store.",
-    "svc.3.f1":"iOS & Android at once","svc.3.f2":"Offline & push notifications","svc.3.f3":"Publishing & support included",
+    "svc.eyebrow":"What we do","svc.title":"Three ways to get more customers.",
+    "svc.lead":"We help your business grow — from capturing attention to taking care of every customer who reaches out.",
+    "svc.1.title":"Advertising","svc.1.desc":"More customers with ads that convert — on Meta, TikTok, Google and YouTube. We handle everything from strategy to optimization.",
+    "svc.1.f1":"Facebook, Instagram & TikTok","svc.1.f2":"Google & YouTube ads","svc.1.f3":"Ongoing optimization & reports",
+    "svc.2.title":"Websites","svc.2.desc":"Fast, beautiful sites built to sell. Modern tech and SEO from the ground up.",
+    "svc.2.f1":"World-class design & UX","svc.2.f2":"Built for conversion","svc.2.f3":"Fast & mobile-friendly",
+    "svc.3.title":"AI assistants","svc.3.desc":"Let AI take care of your customers around the clock — a chatbot on your website and an AI phone answering service for when you can't pick up.",
+    "svc.3.f1":"AI chatbot on your website","svc.3.f2":"24/7 AI phone answering","svc.3.f3":"Captures leads you'd otherwise miss",
     "proc.eyebrow":"How we work","proc.title":"A process built on clarity",
     "proc.lead":"No surprises. You always know what's happening, what it costs and when it's done.",
     "proc.1.t":"Discover","proc.1.d":"We listen to your goals, audience and challenges. You get a clear plan and quote.",
@@ -1057,9 +980,9 @@ const I18N = {
     "book.lead":"Tell us about your project and we'll come back with ideas, a timeline and clear pricing. No commitment.",
     "book.p1":"Concrete advice on the first call","book.p2":"Fixed price — no surprises","book.p3":"Reply within 24 hours",
     "book.s1.title":"How can we help you?","book.s1.sub":"Pick what fits best — you can tell us more later.",
-    "book.s1.o1t":"Website","book.s1.o1d":"New site or redesign",
-    "book.s1.o2t":"Automation","book.s1.o2d":"Systems & integrations",
-    "book.s1.o3t":"App","book.s1.o3d":"iOS & Android",
+    "book.s1.o1t":"Advertising","book.s1.o1d":"Ads on Meta, TikTok & Google",
+    "book.s1.o2t":"Website","book.s1.o2d":"New site or redesign",
+    "book.s1.o3t":"AI assistant","book.s1.o3d":"Chatbot & phone answering",
     "book.s1.o4t":"Consulting","book.s1.o4d":"Not quite sure yet",
     "book.s2.title":"Pick a time that works","book.s2.sub":"All times are in Swedish time (CET). Weekdays.","book.s2.slots":"Available times",
     "book.s3.title":"Your details","book.s3.sub":"So we know who to talk to.",
@@ -1071,12 +994,12 @@ const I18N = {
     "book.done.title":"Thanks — talk soon!","book.done.msg":"Your request has been received. We'll confirm your time by email within 24 hours.","book.done.again":"Book another time",
     "sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
     "faq.eyebrow":"FAQ","faq.title":"Good to know",
-    "faq.1.q":"What does a project cost?","faq.1.a":"It depends on scope. A website usually starts around SEK 30,000, while larger systems and apps are priced individually. You always get a fixed price before we start.",
-    "faq.2.q":"How long does it take?","faq.2.a":"Most websites launch within 2–4 weeks. Automations and apps usually take 4–8 weeks depending on complexity.",
-    "faq.3.q":"Do I own the code and design?","faq.3.a":"Yes. Once the project is paid, you own all code, design and content 100%. No lock-in.",
-    "faq.4.q":"Do you offer support afterwards?","faq.4.a":"Absolutely. We offer ongoing operations, updates and further development. Many clients stay with us for years.",
-    "cta.title":"Ready to build something that lasts?","cta.lead":"Book a no-strings call today. We promise concrete ideas — not a sales pitch.","cta.btn":"Book your call",
-    "foot.tagline":"Digital agency building websites, automated systems and apps for growing companies.",
+    "faq.1.q":"What does it cost?","faq.1.a":"It depends on the service. Advertising usually runs as a monthly fee plus your ad budget, while websites and AI solutions are fixed-price. You always get clear pricing before we start.",
+    "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within 2–4 weeks. Ad campaigns can be live within days, and AI assistants are set up in 1–3 weeks.",
+    "faq.3.q":"Do I own everything we create?","faq.3.a":"Yes. Once it's paid, you own all code, design, ad accounts and content 100%. No lock-in.",
+    "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development. Many clients stay with us for years.",
+    "cta.title":"Ready to get more customers?","cta.lead":"Book a no-strings call today. We promise concrete ideas — not a sales pitch.","cta.btn":"Book your call",
+    "foot.tagline":"We bring businesses more customers — with ads, websites and AI assistants.",
     "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.rights":"All rights reserved.",
     "months":["January","February","March","April","May","June","July","August","September","October","November","December"],
     "dow":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
@@ -1152,90 +1075,46 @@ const countIO = new IntersectionObserver((entries)=>{
 document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(el));
 
 /* ============================================================
-   HERO LIVING GRADIENT (WebGL)
-   Ported from the Velaris shader to vanilla JS — no React, no build.
-   Recolored to the CertaCode palette (light pastel tints of the accent),
-   light-mode vignette, reduced-motion + off-screen pause for performance.
+   HERO BACKGROUND VIDEO
+   The robot starts in profile and turns to face the visitor, then
+   holds on the last frame. Only loaded on larger screens (phones keep
+   the still poster) and skipped entirely for reduced-motion users.
    ============================================================ */
-(function initHeroShader(){
-  const canvas = document.getElementById("heroShader");
-  const hero = document.querySelector(".hero");
-  if(!canvas || !hero) return;
-  const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-  if(!gl) return; // graceful fallback → hero keeps its CSS glow
+(function initHeroVideo(){
+  const v = document.getElementById("heroVideo");
+  if(!v) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const wide   = window.matchMedia("(min-width: 768px)");
+  let loaded = false;
 
-  /* --- CertaCode palette (tweak freely) --- */
-  const CONFIG = {
-    bg: "#FBFAF8",
-    colors: ["#A8BEFF", "#7B9CFF", "#B3A2FF", "#D6E2FF"],
-    speed: 2.0,
-    grain: 0.10
-  };
+  function maybeLoad(){
+    if(loaded) return;
+    // honour an explicit data-saver choice; the effectiveType estimate is
+    // unreliable during page load, so it is not used to gate the video
+    const saveData = (navigator.connection || {}).saveData === true;
+    if(reduce.matches || !wide.matches || saveData) return;  // poster stays as the background
+    loaded = true;
 
-  const vert = "attribute vec2 position;varying vec2 vUv;void main(){vUv=position*0.5+0.5;gl_Position=vec4(position,0.0,1.0);}";
-  const frag = "precision highp float;varying vec2 vUv;uniform vec2 u_resolution;uniform float u_time;uniform float u_grain;uniform vec3 u_colors[4];uniform vec3 u_bg;"
-    + "vec3 permute(vec3 x){return mod(((x*34.0)+1.0)*x,289.0);}"
-    + "float snoise(vec2 v){const vec4 C=vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);vec2 i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod(i,289.0);vec3 p=permute(permute(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));vec3 m=max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);m=m*m;m=m*m;vec3 x=2.0*fract(p*C.www)-1.0;vec3 h=abs(x)-0.5;vec3 ox=floor(x+0.5);vec3 a0=x-ox;m*=1.79284291400159-0.85373472095314*(a0*a0+h*h);vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;return 130.0*dot(m,g);}"
-    + "void main(){vec2 uv=vUv;float ratio=u_resolution.x/u_resolution.y;vec2 p=uv-0.5;p.x*=ratio;float t=u_time*0.1;"
-    + "float n1=snoise(p*0.4+vec2(t*0.2,-t*0.3));float n2=snoise(p*0.55+vec2(-t*0.15,t*0.25)+n1*0.25);float n3=snoise(p*0.75+vec2(t*0.1,-t*0.2)+n2*0.2);"
-    + "vec3 col=u_bg;float dist=length(p)*1.5;float vignette=1.0-smoothstep(0.3,1.2,dist);"
-    + "col=mix(col,u_colors[0],smoothstep(-0.2,0.5,n1)*0.85);col=mix(col,u_colors[1],smoothstep(-0.1,0.6,n2)*0.7);col=mix(col,u_colors[2],smoothstep(-0.3,0.4,n3)*0.6);col=mix(col,u_colors[3],smoothstep(0.0,0.7,n1*n2)*0.5);"
-    + "float glow=smoothstep(0.8,0.0,dist)*0.06;col+=u_colors[1]*glow;"
-    + "col=mix(col*0.965,col,vignette);"
-    + "float grain=fract(sin(dot(uv,vec2(12.9898,78.233)))*43758.5453+u_time);col+=(grain-0.5)*u_grain*0.08;"
-    + "gl_FragColor=vec4(col,1.0);}";
-
-  function compile(type, src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
-  const prog=gl.createProgram();
-  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
-  gl.linkProgram(prog);
-  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)) return; // fallback stays
-  gl.useProgram(prog);
-
-  const posBuf=gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
-  const posLoc=gl.getAttribLocation(prog, "position");
-  gl.enableVertexAttribArray(posLoc);
-  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-  const U={res:gl.getUniformLocation(prog,"u_resolution"),time:gl.getUniformLocation(prog,"u_time"),grain:gl.getUniformLocation(prog,"u_grain"),colors:gl.getUniformLocation(prog,"u_colors"),bg:gl.getUniformLocation(prog,"u_bg")};
-
-  const hex=(h)=>{ h=h.replace("#",""); return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255]; };
-  const flatColors=new Float32Array(CONFIG.colors.slice(0,4).flatMap(hex));
-  const bgRgb=hex(CONFIG.bg);
-
-  function resize(){
-    const dpr=Math.min(window.devicePixelRatio||1, 2);
-    canvas.width=Math.max(1, Math.floor(hero.clientWidth*dpr));
-    canvas.height=Math.max(1, Math.floor(hero.clientHeight*dpr));
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  resize();
-  if("ResizeObserver" in window){ new ResizeObserver(resize).observe(hero); }
-  else { window.addEventListener("resize", resize); }
-
-  function draw(timeMs){
-    gl.uniform2f(U.res, canvas.width, canvas.height);
-    gl.uniform1f(U.time, timeMs*0.001*CONFIG.speed);
-    gl.uniform1f(U.grain, CONFIG.grain);
-    gl.uniform3fv(U.colors, flatColors);
-    gl.uniform3f(U.bg, bgRgb[0], bgRgb[1], bgRgb[2]);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
+    v.src = (canWebm === "probably" || canWebm === "maybe") ? "assets/robot.webm" : "assets/robot.mp4";
+    v.addEventListener("loadeddata", ()=> v.classList.add("ready"), { once:true });
+    v.addEventListener("ended", ()=> v.pause(), { once:true });   // hold on the final frame
+    v.load();
+    const start = ()=>{ const p = v.play(); if(p && p.catch) p.catch(()=> v.classList.add("ready")); };
+    if(v.readyState >= 2) start(); else v.addEventListener("canplay", start, { once:true });
   }
 
-  hero.classList.add("shader-on"); // hide the static CSS glow fallback
-  draw(0); // paint one frame immediately so it's there on first paint
-
-  if(reduceMotion){ draw(2600); return; } // single static frame, no animation
-
-  let visible=true;
-  if("IntersectionObserver" in window){
-    new IntersectionObserver((es)=>{ es.forEach(e=>{ visible=e.isIntersecting; }); }, {threshold:0}).observe(hero);
+  const onChange = ()=> maybeLoad();
+  maybeLoad();
+  // retry when the viewport grows, motion preference flips, or the
+  // connection estimate settles (it can report "slow-2g" for a moment on load)
+  wide.addEventListener ? wide.addEventListener("change", onChange) : wide.addListener(onChange);
+  reduce.addEventListener ? reduce.addEventListener("change", onChange) : reduce.addListener(onChange);
+  window.addEventListener("resize", onChange, { passive:true });
+  window.addEventListener("load", onChange, { once:true });
+  if(navigator.connection && navigator.connection.addEventListener){
+    navigator.connection.addEventListener("change", onChange);
   }
-  function loop(t){ if(visible) draw(t); requestAnimationFrame(loop); }
-  requestAnimationFrame(loop);
 })();
 
 /* ============================================================
