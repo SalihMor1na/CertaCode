@@ -11,3 +11,8 @@ dist/
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# Brand work files: the raw Kling sheets and cut-outs are 70+ MB and are not
+# part of the site. The chosen logos and profile pictures below are kept.
+brand/kling/
+brand/_work/
