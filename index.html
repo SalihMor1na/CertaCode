@@ -1206,52 +1206,53 @@ const WORK_PROJECTS = [
   const VERT = `
     attribute vec2 aPos;
     attribute vec2 aUV;
-    uniform float uOffsetX, uDist, uAmp, uFreq, uYAmp, uFall, uPull, uDrag;
-    uniform vec2  uMouse;
-    uniform mediump float uWarp;
+    uniform float uOffsetX, uDist, uAmp, uFreq, uYAmp;
     uniform mat4  uProj;
-    varying vec2  vUV;
-    varying float vShade;
-    varying float vGlow;
+    varying mediump vec2  vUV;
+    varying mediump vec2  vWorld;
+    varying mediump float vShade;
     void main(){
       float wx = aPos.x + uOffsetX;
       float ph = wx * uFreq;
       float z  = uAmp * (cos(ph) - 1.0);
-      vec2  P  = vec2(wx, aPos.y + uYAmp * sin(ph * 0.5));
-
-      // cursor pulls the surface toward itself and bulges it forward,
-      // strongest at the pointer and falling off smoothly with distance
-      vec2  delta = uMouse - P;
-      float d     = length(delta);
-      float g     = exp(-(d*d) / (uFall*uFall));
-      float infl  = g * uWarp;
-      P += delta * infl * uDrag;
-      z += uPull * infl;
-
+      float y  = aPos.y + uYAmp * sin(ph * 0.5);
       vUV = aUV;
+      vWorld = vec2(wx, y);
       vShade = z / max(uAmp, 0.0001);
-      vGlow  = infl;
-      gl_Position = uProj * vec4(P.x, P.y, z - uDist, 1.0);
+      gl_Position = uProj * vec4(wx, y, z - uDist, 1.0);
     }`;
 
+  /* The cursor distorts the picture inside the card, not the card itself.
+     Displacing geometry towards the camera magnifies it under perspective,
+     which is exactly the swelling we do not want. */
   const FRAG = `
     precision mediump float;
     uniform sampler2D uTex;
-    uniform float uRadius, uAspect, uAlpha;
-    varying vec2 vUV;
-    varying float vShade;
-    varying float vGlow;
+    uniform float uRadius, uAspect, uAlpha, uFall, uPull, uWarp;
+    uniform vec2  uMouse, uCardSize;
+    varying mediump vec2  vUV;
+    varying mediump vec2  vWorld;
+    varying mediump float vShade;
     void main(){
+      // silhouette comes from the undistorted uv, so the outline never moves
       vec2 p = abs(vUV - 0.5) * vec2(uAspect, 1.0) * 2.0;
       vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
-      vec2 d = max(p - halfSize, 0.0);
-      float dist = length(d) - uRadius;
-      float a = 1.0 - smoothstep(-0.005, 0.005, dist);
+      vec2 dd = max(p - halfSize, 0.0);
+      float edge = length(dd) - uRadius;
+      float a = 1.0 - smoothstep(-0.005, 0.005, edge);
       if(a <= 0.001) discard;
-      vec4 tex = texture2D(uTex, vUV);
-      float shade = 1.0 + vShade * 0.22 + vGlow * 0.10;
+
+      vec2  delta = uMouse - vWorld;
+      float d     = length(delta);
+      float g     = exp(-(d*d) / (uFall*uFall));
+      float infl  = g * uWarp;
+      vec2  duv   = vec2(delta.x / uCardSize.x, -delta.y / uCardSize.y);
+      vec2  uvw   = clamp(vUV + duv * infl * uPull, 0.0, 1.0);
+
+      vec4 tex = texture2D(uTex, uvw);
+      float shade = 1.0 + vShade * 0.22 + infl * 0.07;
       vec3 bg = vec3(0.984, 0.980, 0.972);
-      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * vGlow);
+      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * infl);
       gl_FragColor = vec4(col, a * uAlpha);
     }`;
 
@@ -1273,7 +1274,7 @@ const WORK_PROJECTS = [
   }
   gl.useProgram(prog);
 
-  const SEG_X = 30, SEG_Y = 18;
+  const SEG_X = 44, SEG_Y = 1;
   const PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
   const pos = [], uv = [], idx = [];
   for(let iy=0; iy<=SEG_Y; iy++){
@@ -1301,7 +1302,7 @@ const WORK_PROJECTS = [
   const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uDist=U("uDist"),
         uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"),
         uMouse=U("uMouse"), uWarp=U("uWarp"), uFall=U("uFall"),
-        uPull=U("uPull"), uDrag=U("uDrag"), uTex=U("uTex"),
+        uPull=U("uPull"), uCardSize=U("uCardSize"), uTex=U("uTex"),
         uRadius=U("uRadius"), uAspect=U("uAspect"), uAlpha=U("uAlpha");
 
   function makeTexture(){
@@ -1394,8 +1395,8 @@ const WORK_PROJECTS = [
     ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
     freqAmt = (2*Math.PI) / (SPAN * 3.4);        // one wave per ~3.4 cards
     yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
-    fallAmt = width < 720 ? 0.42 : 0.60;         // how far the warp reaches
-    pullAmt = width < 720 ? 0.26 : 0.42;         // how far it bulges forward
+    fallAmt = width < 720 ? 0.22 : 0.30;         // how far the ripple reaches
+    pullAmt = width < 720 ? 0.30 : 0.42;         // how hard it drags the picture
     playAll = width >= 720;                      // phones keep one decode
     needsDraw = true;
   }
@@ -1472,7 +1473,8 @@ const WORK_PROJECTS = [
     gl.uniform1f(uDist,camDist); gl.uniform1f(uAmp,ampAmt);
     gl.uniform1f(uFreq,freqAmt); gl.uniform1f(uYAmp,yAmpAmt);
     gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
-    gl.uniform1f(uFall,fallAmt); gl.uniform1f(uDrag,0.18);
+    gl.uniform1f(uFall,fallAmt);
+    gl.uniform2f(uCardSize, PLANE_W, PLANE_H);
     gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
 
     // upload each playing video once per frame, not once per card that shows it
