@@ -424,6 +424,46 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    REVEAL ANIMATION
    ============================================================ */
+/* ---------- Arbete: WebGL-karusell ---------- */
+.work{padding-bottom:clamp(56px,8vw,96px)}
+.work__stage{position:relative;margin-top:clamp(24px,3vw,44px);height:clamp(340px,42vw,620px);
+  cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.work__stage.is-dragging{cursor:grabbing}
+.work__canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;
+  transition:opacity .7s var(--ease)}
+.work__canvas.ready{opacity:1}
+.work__labels{position:absolute;inset:0;pointer-events:none}
+.work__label{position:absolute;top:0;left:0;text-align:center;white-space:nowrap;
+  transform:translate(-50%,0);transition:opacity .35s var(--ease)}
+.work__label b{display:block;font-family:var(--serif);font-weight:500;letter-spacing:-.01em;
+  font-size:clamp(19px,1.5vw,30px);color:var(--ink)}
+.work__label span{display:block;margin-top:6px;font-size:clamp(12px,.78vw,14px);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.work__hint{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  opacity:.75;transition:opacity .5s var(--ease);pointer-events:none}
+.work__hint.hide{opacity:0}
+
+/* Fallback list: shown when WebGL is unavailable or motion is reduced */
+.work__fallback{display:none;list-style:none;gap:clamp(16px,2vw,26px);
+  padding:0 var(--gutter);overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch}
+.work__fallback li{flex:0 0 min(78vw,520px);scroll-snap-align:center}
+.work__fallback img{width:100%;height:auto;border-radius:14px;box-shadow:var(--shadow-md);
+  background:var(--surface)}
+.work__fallback span{display:block;margin-top:14px;font-family:var(--serif);
+  font-size:clamp(18px,1.4vw,26px);color:var(--ink)}
+.work__stage.is-fallback{height:auto;cursor:default}
+.work__stage.is-fallback .work__canvas,
+.work__stage.is-fallback .work__labels,
+.work__stage.is-fallback .work__hint{display:none}
+.work__stage.is-fallback .work__fallback{display:flex}
+
+@media (max-width:720px){
+  .work__stage{height:clamp(260px,64vw,380px)}
+  .work__label b{font-size:18px}
+  .work__hint{bottom:-2px;font-size:11.5px}
+}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 .reveal[data-delay="1"]{transition-delay:.08s}
@@ -527,6 +567,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
     <nav class="nav__links" aria-label="Huvudmeny">
       <a class="nav__link" href="#tjanster" data-i18n="nav.services">Tjänster</a>
+      <a class="nav__link" href="#arbete" data-i18n="nav.work">Arbete</a>
       <a class="nav__link" href="#process" data-i18n="nav.process">Process</a>
       <a class="nav__link" href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
     </nav>
@@ -547,6 +588,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <!-- mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#tjanster" data-i18n="nav.services">Tjänster</a>
+  <a href="#arbete" data-i18n="nav.work">Arbete</a>
   <a href="#process" data-i18n="nav.process">Process</a>
   <a href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
   <a href="#boka" data-i18n="nav.cta" style="color:var(--accent)">Boka möte</a>
@@ -639,6 +681,34 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         </ul>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- ================= ARBETE ================= -->
+<section class="section work" id="arbete">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="work.eyebrow">Portfölj</span>
+      <h2 data-i18n="work.title">Sajter vi byggt.</h2>
+      <p class="lead" data-i18n="work.lead">Dra i sidled för att bläddra. Varje sajt är byggd från grunden — design, kod och animationer.</p>
+    </div>
+  </div>
+
+  <div class="work__stage reveal" id="workStage">
+    <canvas class="work__canvas" id="workCanvas" aria-hidden="true"></canvas>
+
+    <!-- Titles live in the DOM so they stay crisp, selectable and translatable;
+         their x-position is projected from the WebGL plane each frame. -->
+    <div class="work__labels" id="workLabels" aria-hidden="true"></div>
+
+    <!-- Accessible, no-WebGL and reduced-motion fallback -->
+    <ul class="work__fallback" id="workFallback">
+      <li><img src="assets/portfolio/dagett.jpg" alt="Sajten dag ett — en löparsajt" width="640" height="360" loading="lazy" decoding="async"><span>dag ett</span></li>
+      <li><img src="assets/portfolio/bageri.jpg" alt="Sajten Bageri Bohuslän" width="640" height="360" loading="lazy" decoding="async"><span>Bageri Bohuslän</span></li>
+      <li><img src="assets/portfolio/tarnvik.jpg" alt="Sajten Tärnvik Bad" width="640" height="360" loading="lazy" decoding="async"><span>Tärnvik Bad</span></li>
+    </ul>
+
+    <div class="work__hint" id="workHint" data-i18n="work.hint">Dra för att bläddra</div>
   </div>
 </section>
 
@@ -904,6 +974,9 @@ const I18N = {
     "hero.ctaPrimary":"Boka ett möte","hero.ctaSecondary":"Se vad vi gör",
     "hero.stat1":"Annonskanaler","hero.stat2":"AI som svarar","hero.stat3":"Veckor till lansering",
     "hero.badge1":"Systemet är live","hero.stackLabel":"Vi bygger med",
+    "work.eyebrow":"Portfölj","work.title":"Sajter vi byggt.",
+    "work.lead":"Dra i sidled för att bläddra. Varje sajt är byggd från grunden — design, kod och animationer.",
+    "work.hint":"Dra för att bläddra","nav.work":"Arbete",
     "svc.eyebrow":"Vad vi gör","svc.title":"Tre sätt att få fler kunder.",
     "svc.lead":"Vi hjälper ditt företag att växa — från att fånga uppmärksamhet till att ta hand om varje kund som hör av sig.",
     "svc.1.title":"Annonsering","svc.1.desc":"Fler kunder med annonser som konverterar — på Meta, TikTok, Google och YouTube. Vi sköter allt från strategi till optimering.",
@@ -963,6 +1036,9 @@ const I18N = {
     "hero.ctaPrimary":"Book a call","hero.ctaSecondary":"See what we do",
     "hero.stat1":"Ad channels","hero.stat2":"AI that answers","hero.stat3":"Weeks to launch",
     "hero.badge1":"System is live","hero.stackLabel":"We build with",
+    "work.eyebrow":"Portfolio","work.title":"Sites we've built.",
+    "work.lead":"Drag sideways to browse. Every site is built from scratch — design, code and animation.",
+    "work.hint":"Drag to browse","nav.work":"Work",
     "svc.eyebrow":"What we do","svc.title":"Three ways to get more customers.",
     "svc.lead":"We help your business grow — from capturing attention to taking care of every customer who reaches out.",
     "svc.1.title":"Advertising","svc.1.desc":"More customers with ads that convert — on Meta, TikTok, Google and YouTube. We handle everything from strategy to optimization.",
@@ -1090,6 +1166,346 @@ document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(
    holds on the last frame. Only loaded on larger screens (phones keep
    the still poster) and skipped entirely for reduced-motion users.
    ============================================================ */
+/* ============ ARBETE: curved WebGL carousel ============
+   To add a project later: drop the three files in assets/portfolio/
+   and add one entry here. Nothing else needs touching. */
+const WORK_PROJECTS = [
+  { id:"dagett",  title:"dag ett",          tag:"Löpning · Community", tagEn:"Running · Community" },
+  { id:"bageri",  title:"Bageri Bohuslän",  tag:"Bageri · Hantverk",   tagEn:"Bakery · Craft" },
+  { id:"tarnvik", title:"Tärnvik Bad",      tag:"Kallbad · Bastu",     tagEn:"Cold bath · Sauna" }
+];
+
+(function initWork(){
+  const stage  = document.getElementById("workStage");
+  const canvas = document.getElementById("workCanvas");
+  const labelsEl = document.getElementById("workLabels");
+  const hintEl = document.getElementById("workHint");
+  if(!stage || !canvas) return;
+
+  // lazy images inside a display:none container never load, so switch them
+  // to eager at the moment we actually decide to show the fallback
+  function useFallback(){
+    stage.classList.add("is-fallback");
+    stage.querySelectorAll(".work__fallback img").forEach(img => {
+      img.loading = "eager";
+      if(!img.complete) img.src = img.src;
+    });
+  }
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let gl = null;
+  try{
+    gl = canvas.getContext("webgl", { alpha:true, antialias:true, premultipliedAlpha:false })
+      || canvas.getContext("experimental-webgl");
+  }catch(e){ gl = null; }
+
+  // Fall back to a plain scroller when WebGL is missing or motion is reduced
+  if(!gl || reduce.matches){ useFallback(); return; }
+
+  const VERT = `
+    attribute vec2 aPos;
+    attribute vec2 aUV;
+    uniform float uOffsetX, uCurve, uDist, uHalfW;
+    uniform mat4  uProj;
+    varying vec2  vUV;
+    varying float vDepth;
+    void main(){
+      float wx = aPos.x + uOffsetX;
+      float t  = wx / uHalfW;
+      float z  = -uCurve * t * t;          // parabolic bend: centre closest
+      vUV = aUV;
+      vDepth = z;
+      gl_Position = uProj * vec4(wx, aPos.y, z - uDist, 1.0);
+    }`;
+
+  const FRAG = `
+    precision mediump float;
+    uniform sampler2D uTex;
+    uniform float uRadius, uAspect, uDim, uAlpha;
+    varying vec2 vUV;
+    varying float vDepth;
+    void main(){
+      // rounded corners, matching the card radius used elsewhere on the site
+      vec2 p = abs(vUV - 0.5) * vec2(uAspect, 1.0) * 2.0;
+      vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
+      vec2 d = max(p - halfSize, 0.0);
+      float dist = length(d) - uRadius;
+      float alpha = 1.0 - smoothstep(-0.006, 0.006, dist);
+      if(alpha <= 0.001) discard;
+      vec4 tex = texture2D(uTex, vUV);
+      // planes further back sit slightly back in the light background
+      float fade = 1.0 - clamp(-vDepth * uDim, 0.0, 0.42);
+      vec3 bg = vec3(0.984, 0.980, 0.972);
+      gl_FragColor = vec4(mix(bg, tex.rgb, fade), alpha * uAlpha);
+    }`;
+
+  function compile(type, src){
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+      console.warn("work shader:", gl.getShaderInfoLog(s)); return null;
+    }
+    return s;
+  }
+  const vs = compile(gl.VERTEX_SHADER, VERT), fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if(!vs || !fs){ useFallback(); return; }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){ useFallback(); return; }
+  gl.useProgram(prog);
+
+  // ---- geometry: a subdivided quad so the bend stays smooth
+  const SEG = 32, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT;
+  const pos = [], uv = [], idx = [];
+  for(let i=0;i<=SEG;i++){
+    for(let j=0;j<=1;j++){
+      const u = i/SEG, v = j;
+      pos.push((u-0.5)*PLANE_W, (v-0.5)*PLANE_H);
+      uv.push(u, 1-v);
+    }
+  }
+  for(let i=0;i<SEG;i++){
+    const a=i*2, b=a+1, c=a+2, d=a+3;
+    idx.push(a,b,c, c,b,d);
+  }
+  function buffer(data, target, Type){
+    const b = gl.createBuffer(); gl.bindBuffer(target, b);
+    gl.bufferData(target, new Type(data), gl.STATIC_DRAW); return b;
+  }
+  const posBuf = buffer(pos, gl.ARRAY_BUFFER, Float32Array);
+  const uvBuf  = buffer(uv,  gl.ARRAY_BUFFER, Float32Array);
+  const idxBuf = buffer(idx, gl.ELEMENT_ARRAY_BUFFER, Uint16Array);
+  const aPos = gl.getAttribLocation(prog,"aPos"), aUV = gl.getAttribLocation(prog,"aUV");
+  const U = n => gl.getUniformLocation(prog, n);
+  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uCurve=U("uCurve"), uDist=U("uDist"),
+        uHalfW=U("uHalfW"), uTex=U("uTex"), uRadius=U("uRadius"), uAspect=U("uAspect"), uDim=U("uDim"), uAlpha=U("uAlpha");
+
+  // ---- textures: poster first, video only for the focused card
+  function makeTexture(){
+    const t = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([245,245,243,255]));
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    return t;
+  }
+
+  const items = WORK_PROJECTS.map(p => {
+    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, posterReady:false };
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      gl.bindTexture(gl.TEXTURE_2D, it.tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+      it.posterReady = true; canvas.classList.add("ready"); needsDraw = true;
+    };
+    img.src = `assets/portfolio/${p.id}.jpg`;
+    return it;
+  });
+
+  function ensureVideo(it){
+    if(it.video) return;
+    const v = document.createElement("video");
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute("playsinline",""); v.setAttribute("muted","");
+    v.preload = "auto"; v.crossOrigin = "anonymous";
+    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
+    v.src = `assets/portfolio/${it.id}.` +
+            ((canWebm === "probably" || canWebm === "maybe") ? "webm" : "mp4");
+    v.addEventListener("playing", ()=>{ it.videoReady = true; }, { once:true });
+    it.video = v;
+  }
+
+  // ---- layout & interaction
+  const GAP = 0.34;
+  const SPAN = PLANE_W + GAP;
+  const TOTAL = SPAN * items.length;
+  let scroll = 0, velocity = 0, dragging = false, lastX = 0, moved = 0;
+  let width = 0, height = 0, dpr = 1, needsDraw = true, visible = false, focused = -1;
+
+  function wrap(x){
+    const half = TOTAL/2;
+    return ((x + half) % TOTAL + TOTAL) % TOTAL - half;
+  }
+
+  function perspective(fovY, aspect, near, far){
+    const f = 1/Math.tan(fovY/2), nf = 1/(near-far);
+    return new Float32Array([
+      f/aspect,0,0,0,  0,f,0,0,
+      0,0,(far+near)*nf,-1,  0,0,2*far*near*nf,0
+    ]);
+  }
+
+  let proj, camDist, curve, viewHalfW;
+  function resize(){
+    const r = stage.getBoundingClientRect();
+    width = Math.max(1, Math.round(r.width)); height = Math.max(1, Math.round(r.height));
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
+    gl.viewport(0,0,canvas.width,canvas.height);
+
+    const aspect = width/height;
+    const fov = 45 * Math.PI/180;
+    // pick a camera distance so one plane fills a comfortable share of the stage
+    const targetShare = width < 720 ? 0.86 : 0.52;
+    const visibleW = PLANE_W / targetShare;
+    camDist = (visibleW / aspect) / (2*Math.tan(fov/2));
+    proj = perspective(fov, aspect, 0.1, 100);
+    viewHalfW = visibleW/2;
+    curve = width < 720 ? 0.55 : 0.85;
+    needsDraw = true;
+  }
+
+  // labels are HTML, positioned by projecting the plane centre each frame
+  const labelEls = items.map(it => {
+    const el = document.createElement("div");
+    el.className = "work__label";
+    el.innerHTML = `<b></b><span></span>`;
+    labelsEl.appendChild(el);
+    return el;
+  });
+  function syncLabelText(){
+    const en = document.documentElement.lang === "en";
+    items.forEach((it,i)=>{
+      labelEls[i].querySelector("b").textContent = it.title;
+      labelEls[i].querySelector("span").textContent = en ? it.tagEn : it.tag;
+    });
+  }
+  syncLabelText();
+  document.addEventListener("certacode:lang", syncLabelText);
+
+  function project(x, y, z){
+    const clip = [
+      proj[0]*x, proj[5]*y,
+      proj[10]*(z-camDist) + proj[14],
+      proj[11]*(z-camDist)
+    ];
+    const w = clip[3] || 1e-6;
+    return { x:(clip[0]/w*0.5+0.5)*width, y:(1-(clip[1]/w*0.5+0.5))*height };
+  }
+
+  function draw(){
+    gl.clearColor(0,0,0,0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);
+    gl.enableVertexAttribArray(aUV); gl.vertexAttribPointer(aUV,2,gl.FLOAT,false,0,0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+
+    gl.uniformMatrix4fv(uProj,false,proj);
+    gl.uniform1f(uDist,camDist); gl.uniform1f(uCurve,curve);
+    gl.uniform1f(uHalfW,viewHalfW); gl.uniform1f(uRadius,0.06);
+    gl.uniform1f(uAspect,ASPECT); gl.uniform1f(uDim,0.55);
+    gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
+
+    // draw furthest first so nearer planes sit on top
+    const order = items.map((it,i)=>({ i, x:wrap(i*SPAN - scroll) }))
+                       .sort((a,b)=> Math.abs(b.x) - Math.abs(a.x));
+    for(const o of order){
+      const it = items[o.i];
+      if(it.video && it.videoReady && it.video.readyState >= 2){
+        gl.bindTexture(gl.TEXTURE_2D, it.tex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,it.video);
+      } else {
+        gl.bindTexture(gl.TEXTURE_2D, it.tex);
+      }
+      // dissolve a plane as it nears the wrap-around point, so it never pops
+      const edge = Math.abs(o.x)/(TOTAL/2);
+      const fade = 1 - Math.min(1, Math.max(0, (edge - 0.80)/(0.99 - 0.80)));
+      gl.uniform1f(uAlpha, fade);
+      gl.uniform1f(uOffsetX, o.x);
+      gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+
+      // place the label just under the plane
+      const t = o.x/viewHalfW;
+      const p = project(o.x, -PLANE_H/2, -curve*t*t);
+      const el = labelEls[o.i];
+      el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 18}px)`;
+      el.style.opacity = String(fade * Math.max(0, 1 - Math.abs(o.x)/(SPAN*1.6)));
+    }
+  }
+
+  function focusNearest(){
+    let best = -1, bestDist = Infinity;
+    items.forEach((it,i)=>{
+      const d = Math.abs(wrap(i*SPAN - scroll));
+      if(d < bestDist){ bestDist = d; best = i; }
+    });
+    if(best === focused) return;
+    if(focused >= 0 && items[focused].video) items[focused].video.pause();
+    focused = best;
+    const it = items[focused];
+    ensureVideo(it);
+    const p = it.video.play();
+    if(p && p.catch) p.catch(()=>{});
+  }
+
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min((now-last)/16.667, 3); last = now;
+    if(visible){
+      if(!dragging){
+        scroll += velocity * dt;
+        velocity *= Math.pow(0.94, dt);
+        if(Math.abs(velocity) < 0.00015) velocity = 0;
+      }
+      const moving = dragging || velocity !== 0;
+      const playing = focused >= 0 && items[focused].videoReady;
+      if(moving || needsDraw || playing){ draw(); needsDraw = false; }
+      if(!moving) focusNearest();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ---- pointer / wheel input
+  function toWorld(px){ return (px/width) * (viewHalfW*2); }
+  stage.addEventListener("pointerdown", e => {
+    dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
+    stage.classList.add("is-dragging");
+    stage.setPointerCapture(e.pointerId);
+    if(hintEl) hintEl.classList.add("hide");
+  });
+  stage.addEventListener("pointermove", e => {
+    if(!dragging) return;
+    const dx = e.clientX - lastX; lastX = e.clientX; moved += Math.abs(dx);
+    scroll -= toWorld(dx);
+    velocity = -toWorld(dx) * 0.55;
+    needsDraw = true;
+  });
+  function endDrag(e){
+    if(!dragging) return;
+    dragging = false; stage.classList.remove("is-dragging");
+    try{ stage.releasePointerCapture(e.pointerId); }catch(_){}
+  }
+  stage.addEventListener("pointerup", endDrag);
+  stage.addEventListener("pointercancel", endDrag);
+  stage.addEventListener("wheel", e => {
+    const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
+    if(!dx) return;                       // let vertical wheel scroll the page
+    e.preventDefault();
+    scroll += toWorld(dx); velocity = 0; needsDraw = true;
+    if(hintEl) hintEl.classList.add("hide");
+  }, { passive:false });
+
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if(visible){ needsDraw = true; focusNearest(); }
+    else if(focused >= 0 && items[focused].video) items[focused].video.pause();
+  }, { threshold:0.15 }).observe(stage);
+
+  window.addEventListener("resize", resize, { passive:true });
+  resize();
+  requestAnimationFrame(frame);
+})();
+
 (function initHeroVideo(){
   const v = document.getElementById("heroVideo");
   if(!v) return;
