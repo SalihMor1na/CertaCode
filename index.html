@@ -130,7 +130,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .nav__inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:19px;letter-spacing:-.02em}
-.brand__mark{width:34px;height:34px;flex:none}
+.brand__mark{width:34px;height:34px;flex:none;display:block;object-fit:cover}
 .nav__links{display:flex;align-items:center;gap:36px}
 .nav__link{font-size:15px;font-weight:500;color:var(--ink-soft);position:relative;transition:color .2s}
 .nav__link::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .3s var(--ease)}
@@ -521,11 +521,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <header class="nav" id="nav">
   <div class="nav__inner">
     <a href="#top" class="brand" aria-label="CertaCode">
-      <svg class="brand__mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <rect width="40" height="40" rx="11" fill="#14161A"/>
-        <path d="M15.5 14.5 10 20l5.5 5.5M24.5 14.5 30 20l-5.5 5.5" stroke="#2547F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M22 12.5 18 27.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
-      </svg>
+      <img class="brand__mark" src="/brand/favicon/mark-160.png" alt="" width="160" height="160" decoding="async">
       <span>CertaCode</span>
     </a>
 
@@ -855,7 +851,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="footer__grid">
       <div class="footer__brand">
         <a href="#top" class="brand" aria-label="CertaCode">
-          <svg class="brand__mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#14161A"/><path d="M15.5 14.5 10 20l5.5 5.5M24.5 14.5 30 20l-5.5 5.5" stroke="#2547F0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 12.5 18 27.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <img class="brand__mark" src="/brand/favicon/mark-160.png" alt="" width="160" height="160" decoding="async">
           <span>CertaCode</span>
         </a>
         <p data-i18n="foot.tagline">Vi ger företag fler kunder — med annonser, hemsidor och AI-assistenter.</p>
