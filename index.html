@@ -1198,45 +1198,50 @@ const WORK_PROJECTS = [
     gl = canvas.getContext("webgl", { alpha:true, antialias:true, premultipliedAlpha:false })
       || canvas.getContext("experimental-webgl");
   }catch(e){ gl = null; }
-
-  // Fall back to a plain scroller when WebGL is missing or motion is reduced
   if(!gl || reduce.matches){ useFallback(); return; }
 
+  /* Each card is bent about its OWN centre and pushed back as a whole.
+     Tying depth to each vertex's world position (the first attempt) squeezed
+     distant cards into slivers, which is exactly what we don't want. */
   const VERT = `
     attribute vec2 aPos;
     attribute vec2 aUV;
-    uniform float uOffsetX, uCurve, uDist, uHalfW;
+    uniform float uOffsetX, uBend, uRecede, uLift, uScale, uDist, uHalfW, uSnake;
+    uniform mediump float uHover;
     uniform mat4  uProj;
     varying vec2  vUV;
-    varying float vDepth;
+    varying float vShade;
     void main(){
-      float wx = aPos.x + uOffsetX;
-      float t  = wx / uHalfW;
-      float z  = -uCurve * t * t;          // parabolic bend: centre closest
+      float lx = aPos.x * uScale;
+      float ly = aPos.y * uScale;
+      float u  = lx / uHalfW;                       // -1..1 across the card itself
+      float bend   = -uBend * (1.0 - uHover) * u * u;
+      float depth  = -uRecede + uLift;              // whole card, so it stays readable
       vUV = aUV;
-      vDepth = z;
-      gl_Position = uProj * vec4(wx, aPos.y, z - uDist, 1.0);
+      vShade = bend;
+      gl_Position = uProj * vec4(lx + uOffsetX, ly + uSnake, bend + depth - uDist, 1.0);
     }`;
 
   const FRAG = `
     precision mediump float;
     uniform sampler2D uTex;
-    uniform float uRadius, uAspect, uDim, uAlpha;
+    uniform float uRadius, uAspect, uAlpha, uFade, uHover;
     varying vec2 vUV;
-    varying float vDepth;
+    varying float vShade;
     void main(){
-      // rounded corners, matching the card radius used elsewhere on the site
       vec2 p = abs(vUV - 0.5) * vec2(uAspect, 1.0) * 2.0;
       vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
       vec2 d = max(p - halfSize, 0.0);
       float dist = length(d) - uRadius;
-      float alpha = 1.0 - smoothstep(-0.006, 0.006, dist);
-      if(alpha <= 0.001) discard;
+      float a = 1.0 - smoothstep(-0.006, 0.006, dist);
+      if(a <= 0.001) discard;
       vec4 tex = texture2D(uTex, vUV);
-      // planes further back sit slightly back in the light background
-      float fade = 1.0 - clamp(-vDepth * uDim, 0.0, 0.42);
+      // a touch of shading where the card curves away, lifted on hover
+      float shade = 1.0 + vShade * 0.35 * (1.0 - uHover);
+      vec3 col = tex.rgb * shade;
       vec3 bg = vec3(0.984, 0.980, 0.972);
-      gl_FragColor = vec4(mix(bg, tex.rgb, fade), alpha * uAlpha);
+      col = mix(bg, col, uFade);
+      gl_FragColor = vec4(col, a * uAlpha);
     }`;
 
   function compile(type, src){
@@ -1251,11 +1256,13 @@ const WORK_PROJECTS = [
   if(!vs || !fs){ useFallback(); return; }
   const prog = gl.createProgram();
   gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){ useFallback(); return; }
+  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
+    console.warn("work program link:", gl.getProgramInfoLog(prog));
+    useFallback(); return;
+  }
   gl.useProgram(prog);
 
-  // ---- geometry: a subdivided quad so the bend stays smooth
-  const SEG = 32, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT;
+  const SEG = 28, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
   const pos = [], uv = [], idx = [];
   for(let i=0;i<=SEG;i++){
     for(let j=0;j<=1;j++){
@@ -1264,10 +1271,7 @@ const WORK_PROJECTS = [
       uv.push(u, 1-v);
     }
   }
-  for(let i=0;i<SEG;i++){
-    const a=i*2, b=a+1, c=a+2, d=a+3;
-    idx.push(a,b,c, c,b,d);
-  }
+  for(let i=0;i<SEG;i++){ const a=i*2; idx.push(a,a+1,a+2, a+2,a+1,a+3); }
   function buffer(data, target, Type){
     const b = gl.createBuffer(); gl.bindBuffer(target, b);
     gl.bufferData(target, new Type(data), gl.STATIC_DRAW); return b;
@@ -1277,10 +1281,11 @@ const WORK_PROJECTS = [
   const idxBuf = buffer(idx, gl.ELEMENT_ARRAY_BUFFER, Uint16Array);
   const aPos = gl.getAttribLocation(prog,"aPos"), aUV = gl.getAttribLocation(prog,"aUV");
   const U = n => gl.getUniformLocation(prog, n);
-  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uCurve=U("uCurve"), uDist=U("uDist"),
-        uHalfW=U("uHalfW"), uTex=U("uTex"), uRadius=U("uRadius"), uAspect=U("uAspect"), uDim=U("uDim"), uAlpha=U("uAlpha");
+  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uBend=U("uBend"), uRecede=U("uRecede"),
+        uLift=U("uLift"), uScale=U("uScale"), uHover=U("uHover"), uDist=U("uDist"),
+        uHalfW=U("uHalfW"), uSnake=U("uSnake"), uTex=U("uTex"), uRadius=U("uRadius"),
+        uAspect=U("uAspect"), uAlpha=U("uAlpha"), uFade=U("uFade");
 
-  // ---- textures: poster first, video only for the focused card
   function makeTexture(){
     const t = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, t);
@@ -1293,13 +1298,12 @@ const WORK_PROJECTS = [
   }
 
   const items = WORK_PROJECTS.map(p => {
-    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, posterReady:false };
+    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, hover:0, playing:false };
     const img = new Image();
-    img.crossOrigin = "anonymous";
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, it.tex);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
-      it.posterReady = true; canvas.classList.add("ready"); needsDraw = true;
+      canvas.classList.add("ready"); needsDraw = true;
     };
     img.src = `assets/portfolio/${p.id}.jpg`;
     return it;
@@ -1310,25 +1314,32 @@ const WORK_PROJECTS = [
     const v = document.createElement("video");
     v.muted = true; v.loop = true; v.playsInline = true;
     v.setAttribute("playsinline",""); v.setAttribute("muted","");
-    v.preload = "auto"; v.crossOrigin = "anonymous";
+    v.preload = "auto";
     const canWebm = v.canPlayType('video/webm; codecs="vp9"');
     v.src = `assets/portfolio/${it.id}.` +
             ((canWebm === "probably" || canWebm === "maybe") ? "webm" : "mp4");
     v.addEventListener("playing", ()=>{ it.videoReady = true; }, { once:true });
     it.video = v;
   }
-
-  // ---- layout & interaction
-  const GAP = 0.34;
-  const SPAN = PLANE_W + GAP;
-  const TOTAL = SPAN * items.length;
-  let scroll = 0, velocity = 0, dragging = false, lastX = 0, moved = 0;
-  let width = 0, height = 0, dpr = 1, needsDraw = true, visible = false, focused = -1;
-
-  function wrap(x){
-    const half = TOTAL/2;
-    return ((x + half) % TOTAL + TOTAL) % TOTAL - half;
+  function playOnly(index){
+    items.forEach((it,i)=>{
+      if(i === index){
+        ensureVideo(it);
+        if(!it.playing){ const p = it.video.play(); if(p&&p.catch) p.catch(()=>{}); it.playing = true; }
+      } else if(it.video && it.playing){
+        it.video.pause(); it.playing = false;
+      }
+    });
   }
+
+  const GAP = 0.30, SPAN = PLANE_W + GAP, TOTAL = SPAN * items.length;
+  const SNAKE_AMP = 0.17;                         // vertical wave, alternating per card
+  let scroll = 0, target = 0, pointerX = null, pointerY = null;
+  let dragging = false, lastX = 0, dragVel = 0, moved = 0;
+  let width = 0, height = 0, needsDraw = true, visible = false, hovered = -1;
+
+  const wrap = x => ((x + TOTAL/2) % TOTAL + TOTAL) % TOTAL - TOTAL/2;
+  const snakeY = ox => Math.cos(ox * Math.PI / SPAN) * SNAKE_AMP;
 
   function perspective(fovY, aspect, near, far){
     const f = 1/Math.tan(fovY/2), nf = 1/(near-far);
@@ -1338,28 +1349,26 @@ const WORK_PROJECTS = [
     ]);
   }
 
-  let proj, camDist, curve, viewHalfW;
+  let proj, camDist, viewHalfW, bendAmt, recedeAmt;
   function resize(){
     const r = stage.getBoundingClientRect();
     width = Math.max(1, Math.round(r.width)); height = Math.max(1, Math.round(r.height));
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
     gl.viewport(0,0,canvas.width,canvas.height);
 
-    const aspect = width/height;
-    const fov = 45 * Math.PI/180;
-    // pick a camera distance so one plane fills a comfortable share of the stage
-    const targetShare = width < 720 ? 0.86 : 0.52;
-    const visibleW = PLANE_W / targetShare;
+    const aspect = width/height, fov = 45 * Math.PI/180;
+    const share = width < 720 ? 0.72 : 0.34;        // several cards readable at once
+    const visibleW = PLANE_W / share;
     camDist = (visibleW / aspect) / (2*Math.tan(fov/2));
     proj = perspective(fov, aspect, 0.1, 100);
     viewHalfW = visibleW/2;
-    curve = width < 720 ? 0.55 : 0.85;
+    bendAmt   = width < 720 ? 0.14 : 0.22;          // gentle page curl
+    recedeAmt = width < 720 ? 0.55 : 0.75;
     needsDraw = true;
   }
 
-  // labels are HTML, positioned by projecting the plane centre each frame
-  const labelEls = items.map(it => {
+  const labelEls = items.map(() => {
     const el = document.createElement("div");
     el.className = "work__label";
     el.innerHTML = `<b></b><span></span>`;
@@ -1377,13 +1386,35 @@ const WORK_PROJECTS = [
   document.addEventListener("certacode:lang", syncLabelText);
 
   function project(x, y, z){
-    const clip = [
-      proj[0]*x, proj[5]*y,
-      proj[10]*(z-camDist) + proj[14],
-      proj[11]*(z-camDist)
-    ];
-    const w = clip[3] || 1e-6;
-    return { x:(clip[0]/w*0.5+0.5)*width, y:(1-(clip[1]/w*0.5+0.5))*height };
+    const w = proj[11]*(z-camDist) || 1e-6;
+    return { x:((proj[0]*x)/w*0.5+0.5)*width, y:(1-((proj[5]*y)/w*0.5+0.5))*height };
+  }
+
+  // per-card state used by both drawing and hit-testing
+  function layout(){
+    return items.map((it,i)=>{
+      const ox = wrap(i*SPAN - scroll);
+      const edge = Math.abs(ox)/(TOTAL/2);
+      const alpha = 1 - Math.min(1, Math.max(0, (edge - 0.80)/(0.99 - 0.80)));
+      const dist = Math.abs(ox)/viewHalfW;
+      const recede = recedeAmt * dist * dist;
+      return { i, ox, alpha, recede, sy: snakeY(ox) };
+    });
+  }
+
+  function hitTest(px, py){
+    if(px == null) return -1;
+    let best = -1, bestDepth = Infinity;
+    for(const c of layout()){
+      if(c.alpha < 0.35) continue;
+      const z = -c.recede + c.i * 0;
+      const tl = project(c.ox - HALF_W, c.sy + PLANE_H/2, z);
+      const br = project(c.ox + HALF_W, c.sy - PLANE_H/2, z);
+      if(px >= tl.x && px <= br.x && py >= tl.y && py <= br.y && c.recede < bestDepth){
+        best = c.i; bestDepth = c.recede;
+      }
+    }
+    return best;
   }
 
   function draw(){
@@ -1399,83 +1430,96 @@ const WORK_PROJECTS = [
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
 
     gl.uniformMatrix4fv(uProj,false,proj);
-    gl.uniform1f(uDist,camDist); gl.uniform1f(uCurve,curve);
-    gl.uniform1f(uHalfW,viewHalfW); gl.uniform1f(uRadius,0.06);
-    gl.uniform1f(uAspect,ASPECT); gl.uniform1f(uDim,0.55);
+    gl.uniform1f(uDist,camDist); gl.uniform1f(uHalfW,HALF_W);
+    gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
     gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
 
-    // draw furthest first so nearer planes sit on top
-    const order = items.map((it,i)=>({ i, x:wrap(i*SPAN - scroll) }))
-                       .sort((a,b)=> Math.abs(b.x) - Math.abs(a.x));
-    for(const o of order){
-      const it = items[o.i];
-      if(it.video && it.videoReady && it.video.readyState >= 2){
+    const cards = layout().sort((a,b)=> b.recede - a.recede);   // far ones first
+    for(const c of cards){
+      const it = items[c.i];
+      if(it.playing && it.videoReady && it.video.readyState >= 2){
         gl.bindTexture(gl.TEXTURE_2D, it.tex);
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,it.video);
       } else {
         gl.bindTexture(gl.TEXTURE_2D, it.tex);
       }
-      // dissolve a plane as it nears the wrap-around point, so it never pops
-      const edge = Math.abs(o.x)/(TOTAL/2);
-      const fade = 1 - Math.min(1, Math.max(0, (edge - 0.80)/(0.99 - 0.80)));
-      gl.uniform1f(uAlpha, fade);
-      gl.uniform1f(uOffsetX, o.x);
+      const h = it.hover;
+      gl.uniform1f(uOffsetX, c.ox);
+      gl.uniform1f(uSnake,   c.sy);
+      gl.uniform1f(uBend,    bendAmt);
+      gl.uniform1f(uRecede,  c.recede);
+      gl.uniform1f(uLift,    h * 0.34);            // hovered card steps toward you
+      gl.uniform1f(uScale,   1 + h * 0.045);
+      gl.uniform1f(uHover,   h);
+      gl.uniform1f(uAlpha,   c.alpha);
+      gl.uniform1f(uFade,    1 - Math.min(0.30, c.recede * 0.22) * (1 - h));
       gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
 
-      // place the label just under the plane
-      const t = o.x/viewHalfW;
-      const p = project(o.x, -PLANE_H/2, -curve*t*t);
-      const el = labelEls[o.i];
-      el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 18}px)`;
-      el.style.opacity = String(fade * Math.max(0, 1 - Math.abs(o.x)/(SPAN*1.6)));
+      const p = project(c.ox, c.sy - PLANE_H/2, -c.recede + h*0.34);
+      const el = labelEls[c.i];
+      el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 16}px)`;
+      el.style.opacity = String(c.alpha * (0.55 + 0.45*h));
     }
   }
 
-  function focusNearest(){
-    let best = -1, bestDist = Infinity;
-    items.forEach((it,i)=>{
-      const d = Math.abs(wrap(i*SPAN - scroll));
-      if(d < bestDist){ bestDist = d; best = i; }
-    });
-    if(best === focused) return;
-    if(focused >= 0 && items[focused].video) items[focused].video.pause();
-    focused = best;
-    const it = items[focused];
-    ensureVideo(it);
-    const p = it.video.play();
-    if(p && p.catch) p.catch(()=>{});
+  function nearestToCentre(){
+    let best = 0, bd = Infinity;
+    items.forEach((it,i)=>{ const d = Math.abs(wrap(i*SPAN - scroll)); if(d < bd){ bd = d; best = i; } });
+    return best;
   }
 
   let last = performance.now();
   function frame(now){
-    const dt = Math.min((now-last)/16.667, 3); last = now;
+    const dt = Math.min((now - last)/1000, 0.05); last = now;
     if(visible){
+      // frame-rate independent damping keeps the glide identical on 60 and 144 Hz
       if(!dragging){
-        scroll += velocity * dt;
-        velocity *= Math.pow(0.94, dt);
-        if(Math.abs(velocity) < 0.00015) velocity = 0;
+        target += dragVel;
+        dragVel *= Math.pow(0.02, dt);
+        if(Math.abs(dragVel) < 0.00002) dragVel = 0;
       }
-      const moving = dragging || velocity !== 0;
-      const playing = focused >= 0 && items[focused].videoReady;
-      if(moving || needsDraw || playing){ draw(); needsDraw = false; }
-      if(!moving) focusNearest();
+      const k = 1 - Math.exp(-dt/0.085);
+      const before = scroll;
+      scroll += (target - scroll) * k;
+
+      const nowHovered = dragging ? -1 : hitTest(pointerX, pointerY);
+      if(nowHovered !== hovered){
+        hovered = nowHovered;
+        stage.style.cursor = hovered >= 0 ? "pointer" : "";
+      }
+      let hoverMoving = false;
+      items.forEach((it,i)=>{
+        const want = (i === hovered) ? 1 : 0;
+        const nh = it.hover + (want - it.hover) * (1 - Math.exp(-dt/0.13));
+        if(Math.abs(nh - it.hover) > 0.0004) hoverMoving = true;
+        it.hover = nh;
+      });
+
+      playOnly(hovered >= 0 ? hovered : nearestToCentre());
+
+      const moving = Math.abs(scroll - before) > 0.00005 || dragging || hoverMoving;
+      const playingNow = items.some(it => it.playing && it.videoReady);
+      if(moving || needsDraw || playingNow){ draw(); needsDraw = false; }
     }
     requestAnimationFrame(frame);
   }
 
-  // ---- pointer / wheel input
-  function toWorld(px){ return (px/width) * (viewHalfW*2); }
+  const toWorld = px => (px/width) * (viewHalfW*2);
+
   stage.addEventListener("pointerdown", e => {
-    dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
+    dragging = true; moved = 0; lastX = e.clientX; dragVel = 0;
     stage.classList.add("is-dragging");
-    stage.setPointerCapture(e.pointerId);
+    try{ stage.setPointerCapture(e.pointerId); }catch(_){}
     if(hintEl) hintEl.classList.add("hide");
   });
   stage.addEventListener("pointermove", e => {
+    const r = stage.getBoundingClientRect();
+    pointerX = e.clientX - r.left; pointerY = e.clientY - r.top;
     if(!dragging) return;
     const dx = e.clientX - lastX; lastX = e.clientX; moved += Math.abs(dx);
-    scroll -= toWorld(dx);
-    velocity = -toWorld(dx) * 0.55;
+    const d = toWorld(dx);
+    target -= d; scroll -= d;            // 1:1 under the finger, no lag while dragging
+    dragVel = -d * 0.6;
     needsDraw = true;
   });
   function endDrag(e){
@@ -1485,18 +1529,19 @@ const WORK_PROJECTS = [
   }
   stage.addEventListener("pointerup", endDrag);
   stage.addEventListener("pointercancel", endDrag);
+  stage.addEventListener("pointerleave", () => { pointerX = pointerY = null; });
   stage.addEventListener("wheel", e => {
     const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
-    if(!dx) return;                       // let vertical wheel scroll the page
+    if(!dx) return;
     e.preventDefault();
-    scroll += toWorld(dx); velocity = 0; needsDraw = true;
+    target += toWorld(dx); dragVel = 0;
     if(hintEl) hintEl.classList.add("hide");
   }, { passive:false });
 
   new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
-    if(visible){ needsDraw = true; focusNearest(); }
-    else if(focused >= 0 && items[focused].video) items[focused].video.pause();
+    if(visible) needsDraw = true;
+    else items.forEach(it => { if(it.video && it.playing){ it.video.pause(); it.playing = false; } });
   }, { threshold:0.15 }).observe(stage);
 
   window.addEventListener("resize", resize, { passive:true });
