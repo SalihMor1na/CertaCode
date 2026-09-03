@@ -1200,32 +1200,32 @@ const WORK_PROJECTS = [
   }catch(e){ gl = null; }
   if(!gl || reduce.matches){ useFallback(); return; }
 
-  /* Each card is bent about its OWN centre and pushed back as a whole.
-     Tying depth to each vertex's world position (the first attempt) squeezed
-     distant cards into slivers, which is exactly what we don't want. */
+  /* One continuous wave runs along the whole strip and every card samples it
+     from its own world position, so the right edge of a card meets the left
+     edge of the next at the same phase and the row reads as one chain. */
   const VERT = `
     attribute vec2 aPos;
     attribute vec2 aUV;
-    uniform float uOffsetX, uBend, uRecede, uLift, uScale, uDist, uHalfW, uSnake;
+    uniform float uOffsetX, uScale, uDist, uAmp, uFreq, uYAmp, uLift;
     uniform mediump float uHover;
     uniform mat4  uProj;
     varying vec2  vUV;
     varying float vShade;
     void main(){
-      float lx = aPos.x * uScale;
-      float ly = aPos.y * uScale;
-      float u  = lx / uHalfW;                       // -1..1 across the card itself
-      float bend   = -uBend * (1.0 - uHover) * u * u;
-      float depth  = -uRecede + uLift;              // whole card, so it stays readable
+      float wx = aPos.x * uScale + uOffsetX;
+      float ph = wx * uFreq;
+      float z  = uAmp * (cos(ph) - 1.0) * (1.0 - uHover * 0.85);
+      float y  = aPos.y * uScale + uYAmp * sin(ph * 0.5);
       vUV = aUV;
-      vShade = bend;
-      gl_Position = uProj * vec4(lx + uOffsetX, ly + uSnake, bend + depth - uDist, 1.0);
+      vShade = z / max(uAmp, 0.0001);
+      gl_Position = uProj * vec4(wx, y, z + uLift - uDist, 1.0);
     }`;
 
   const FRAG = `
     precision mediump float;
     uniform sampler2D uTex;
-    uniform float uRadius, uAspect, uAlpha, uFade, uHover;
+    uniform float uRadius, uAspect, uAlpha;
+    uniform mediump float uHover;
     varying vec2 vUV;
     varying float vShade;
     void main(){
@@ -1233,14 +1233,13 @@ const WORK_PROJECTS = [
       vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
       vec2 d = max(p - halfSize, 0.0);
       float dist = length(d) - uRadius;
-      float a = 1.0 - smoothstep(-0.006, 0.006, dist);
+      float a = 1.0 - smoothstep(-0.005, 0.005, dist);
       if(a <= 0.001) discard;
       vec4 tex = texture2D(uTex, vUV);
-      // a touch of shading where the card curves away, lifted on hover
-      float shade = 1.0 + vShade * 0.35 * (1.0 - uHover);
-      vec3 col = tex.rgb * shade;
+      // parts of the ribbon that bow away sit slightly back in the light page
+      float shade = 1.0 + vShade * 0.22 * (1.0 - uHover);
       vec3 bg = vec3(0.984, 0.980, 0.972);
-      col = mix(bg, col, uFade);
+      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * uHover);
       gl_FragColor = vec4(col, a * uAlpha);
     }`;
 
@@ -1262,7 +1261,7 @@ const WORK_PROJECTS = [
   }
   gl.useProgram(prog);
 
-  const SEG = 28, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
+  const SEG = 40, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
   const pos = [], uv = [], idx = [];
   for(let i=0;i<=SEG;i++){
     for(let j=0;j<=1;j++){
@@ -1281,10 +1280,10 @@ const WORK_PROJECTS = [
   const idxBuf = buffer(idx, gl.ELEMENT_ARRAY_BUFFER, Uint16Array);
   const aPos = gl.getAttribLocation(prog,"aPos"), aUV = gl.getAttribLocation(prog,"aUV");
   const U = n => gl.getUniformLocation(prog, n);
-  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uBend=U("uBend"), uRecede=U("uRecede"),
-        uLift=U("uLift"), uScale=U("uScale"), uHover=U("uHover"), uDist=U("uDist"),
-        uHalfW=U("uHalfW"), uSnake=U("uSnake"), uTex=U("uTex"), uRadius=U("uRadius"),
-        uAspect=U("uAspect"), uAlpha=U("uAlpha"), uFade=U("uFade");
+  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uScale=U("uScale"), uDist=U("uDist"),
+        uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"), uLift=U("uLift"),
+        uHover=U("uHover"), uTex=U("uTex"), uRadius=U("uRadius"),
+        uAspect=U("uAspect"), uAlpha=U("uAlpha");
 
   function makeTexture(){
     const t = gl.createTexture();
@@ -1298,7 +1297,7 @@ const WORK_PROJECTS = [
   }
 
   const items = WORK_PROJECTS.map(p => {
-    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, hover:0, playing:false };
+    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, playing:false };
     const img = new Image();
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, it.tex);
@@ -1309,37 +1308,46 @@ const WORK_PROJECTS = [
     return it;
   });
 
-  function ensureVideo(it){
-    if(it.video) return;
-    const v = document.createElement("video");
-    v.muted = true; v.loop = true; v.playsInline = true;
-    v.setAttribute("playsinline",""); v.setAttribute("muted","");
-    v.preload = "auto";
-    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
-    v.src = `assets/portfolio/${it.id}.` +
-            ((canWebm === "probably" || canWebm === "maybe") ? "webm" : "mp4");
-    v.addEventListener("playing", ()=>{ it.videoReady = true; }, { once:true });
-    it.video = v;
-  }
-  function playOnly(index){
+  // repeat the projects so the chain is long enough to never show its own seam
+  const REPEATS = Math.max(2, Math.ceil(7 / items.length));
+  const slots = [];
+  for(let r=0;r<REPEATS;r++) for(let i=0;i<items.length;i++) slots.push(i);
+
+  function startVideos(all){
     items.forEach((it,i)=>{
-      if(i === index){
-        ensureVideo(it);
-        if(!it.playing){ const p = it.video.play(); if(p&&p.catch) p.catch(()=>{}); it.playing = true; }
-      } else if(it.video && it.playing){
-        it.video.pause(); it.playing = false;
+      if(!it.video){
+        const v = document.createElement("video");
+        v.muted = true; v.loop = true; v.playsInline = true;
+        v.setAttribute("playsinline",""); v.setAttribute("muted","");
+        v.preload = "auto";
+        const canWebm = v.canPlayType('video/webm; codecs="vp9"');
+        v.src = `assets/portfolio/${it.id}.` +
+                ((canWebm === "probably" || canWebm === "maybe") ? "webm" : "mp4");
+        v.addEventListener("playing", ()=>{ it.videoReady = true; }, { once:true });
+        it.video = v;
       }
+      const want = all || i === centreItem();
+      if(want && !it.playing){ const p = it.video.play(); if(p&&p.catch) p.catch(()=>{}); it.playing = true; }
+      else if(!want && it.playing){ it.video.pause(); it.playing = false; }
     });
   }
+  function stopVideos(){
+    items.forEach(it => { if(it.video && it.playing){ it.video.pause(); it.playing = false; } });
+  }
 
-  const GAP = 0.30, SPAN = PLANE_W + GAP, TOTAL = SPAN * items.length;
-  const SNAKE_AMP = 0.17;                         // vertical wave, alternating per card
+  const GAP = 0.05;                                  // cards almost touch: one ribbon
+  const SPAN = PLANE_W + GAP, TOTAL = SPAN * slots.length;
   let scroll = 0, target = 0, pointerX = null, pointerY = null;
-  let dragging = false, lastX = 0, dragVel = 0, moved = 0;
+  let dragging = false, lastX = 0, dragVel = 0;
   let width = 0, height = 0, needsDraw = true, visible = false, hovered = -1;
+  let hoverAmt = slots.map(()=>0);
 
   const wrap = x => ((x + TOTAL/2) % TOTAL + TOTAL) % TOTAL - TOTAL/2;
-  const snakeY = ox => Math.cos(ox * Math.PI / SPAN) * SNAKE_AMP;
+  function centreItem(){
+    let best = 0, bd = Infinity;
+    slots.forEach((item,s)=>{ const d = Math.abs(wrap(s*SPAN - scroll)); if(d<bd){ bd=d; best=item; } });
+    return best;
+  }
 
   function perspective(fovY, aspect, near, far){
     const f = 1/Math.tan(fovY/2), nf = 1/(near-far);
@@ -1349,7 +1357,7 @@ const WORK_PROJECTS = [
     ]);
   }
 
-  let proj, camDist, viewHalfW, bendAmt, recedeAmt;
+  let proj, camDist, viewHalfW, ampAmt, freqAmt, yAmpAmt, playAll;
   function resize(){
     const r = stage.getBoundingClientRect();
     width = Math.max(1, Math.round(r.width)); height = Math.max(1, Math.round(r.height));
@@ -1358,17 +1366,19 @@ const WORK_PROJECTS = [
     gl.viewport(0,0,canvas.width,canvas.height);
 
     const aspect = width/height, fov = 45 * Math.PI/180;
-    const share = width < 720 ? 0.72 : 0.34;        // several cards readable at once
+    const share = width < 720 ? 0.62 : 0.30;     // cards run off both edges
     const visibleW = PLANE_W / share;
     camDist = (visibleW / aspect) / (2*Math.tan(fov/2));
     proj = perspective(fov, aspect, 0.1, 100);
     viewHalfW = visibleW/2;
-    bendAmt   = width < 720 ? 0.14 : 0.22;          // gentle page curl
-    recedeAmt = width < 720 ? 0.55 : 0.75;
+    ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
+    freqAmt = (2*Math.PI) / (SPAN * 3.4);        // one wave per ~3.4 cards
+    yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
+    playAll = width >= 720;                      // phones keep one decode
     needsDraw = true;
   }
 
-  const labelEls = items.map(() => {
+  const labelEls = slots.map(() => {
     const el = document.createElement("div");
     el.className = "work__label";
     el.innerHTML = `<b></b><span></span>`;
@@ -1377,41 +1387,40 @@ const WORK_PROJECTS = [
   });
   function syncLabelText(){
     const en = document.documentElement.lang === "en";
-    items.forEach((it,i)=>{
-      labelEls[i].querySelector("b").textContent = it.title;
-      labelEls[i].querySelector("span").textContent = en ? it.tagEn : it.tag;
+    slots.forEach((item,s)=>{
+      labelEls[s].querySelector("b").textContent = items[item].title;
+      labelEls[s].querySelector("span").textContent = en ? items[item].tagEn : items[item].tag;
     });
   }
   syncLabelText();
   document.addEventListener("certacode:lang", syncLabelText);
+
+  const waveZ = wx => ampAmt * (Math.cos(wx*freqAmt) - 1);
+  const waveY = wx => yAmpAmt * Math.sin(wx*freqAmt*0.5);
 
   function project(x, y, z){
     const w = proj[11]*(z-camDist) || 1e-6;
     return { x:((proj[0]*x)/w*0.5+0.5)*width, y:(1-((proj[5]*y)/w*0.5+0.5))*height };
   }
 
-  // per-card state used by both drawing and hit-testing
   function layout(){
-    return items.map((it,i)=>{
-      const ox = wrap(i*SPAN - scroll);
+    return slots.map((item,s)=>{
+      const ox = wrap(s*SPAN - scroll);
       const edge = Math.abs(ox)/(TOTAL/2);
-      const alpha = 1 - Math.min(1, Math.max(0, (edge - 0.80)/(0.99 - 0.80)));
-      const dist = Math.abs(ox)/viewHalfW;
-      const recede = recedeAmt * dist * dist;
-      return { i, ox, alpha, recede, sy: snakeY(ox) };
+      const alpha = 1 - Math.min(1, Math.max(0, (edge - 0.86)/(0.99 - 0.86)));
+      return { s, item, ox, alpha, z: waveZ(ox), sy: waveY(ox) };
     });
   }
 
   function hitTest(px, py){
     if(px == null) return -1;
-    let best = -1, bestDepth = Infinity;
+    let best = -1, bestZ = -Infinity;
     for(const c of layout()){
-      if(c.alpha < 0.35) continue;
-      const z = -c.recede + c.i * 0;
-      const tl = project(c.ox - HALF_W, c.sy + PLANE_H/2, z);
-      const br = project(c.ox + HALF_W, c.sy - PLANE_H/2, z);
-      if(px >= tl.x && px <= br.x && py >= tl.y && py <= br.y && c.recede < bestDepth){
-        best = c.i; bestDepth = c.recede;
+      if(c.alpha < 0.4) continue;
+      const tl = project(c.ox - HALF_W, c.sy + PLANE_H/2, c.z);
+      const br = project(c.ox + HALF_W, c.sy - PLANE_H/2, c.z);
+      if(px >= tl.x && px <= br.x && py >= tl.y && py <= br.y && c.z > bestZ){
+        best = c.s; bestZ = c.z;
       }
     }
     return best;
@@ -1430,57 +1439,50 @@ const WORK_PROJECTS = [
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
 
     gl.uniformMatrix4fv(uProj,false,proj);
-    gl.uniform1f(uDist,camDist); gl.uniform1f(uHalfW,HALF_W);
+    gl.uniform1f(uDist,camDist); gl.uniform1f(uAmp,ampAmt);
+    gl.uniform1f(uFreq,freqAmt); gl.uniform1f(uYAmp,yAmpAmt);
     gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
     gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
 
-    const cards = layout().sort((a,b)=> b.recede - a.recede);   // far ones first
-    for(const c of cards){
-      const it = items[c.i];
+    // upload each playing video once per frame, not once per card that shows it
+    for(const it of items){
       if(it.playing && it.videoReady && it.video.readyState >= 2){
         gl.bindTexture(gl.TEXTURE_2D, it.tex);
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,it.video);
-      } else {
-        gl.bindTexture(gl.TEXTURE_2D, it.tex);
       }
-      const h = it.hover;
+    }
+
+    const cards = layout().sort((a,b)=> a.z - b.z);     // furthest back first
+    for(const c of cards){
+      if(c.alpha <= 0.002){ labelEls[c.s].style.opacity = "0"; continue; }
+      const it = items[c.item];
+      gl.bindTexture(gl.TEXTURE_2D, it.tex);
+      const h = hoverAmt[c.s];
       gl.uniform1f(uOffsetX, c.ox);
-      gl.uniform1f(uSnake,   c.sy);
-      gl.uniform1f(uBend,    bendAmt);
-      gl.uniform1f(uRecede,  c.recede);
-      gl.uniform1f(uLift,    h * 0.34);            // hovered card steps toward you
-      gl.uniform1f(uScale,   1 + h * 0.045);
+      gl.uniform1f(uScale,   1 + h*0.04);
+      gl.uniform1f(uLift,    h*0.30);
       gl.uniform1f(uHover,   h);
       gl.uniform1f(uAlpha,   c.alpha);
-      gl.uniform1f(uFade,    1 - Math.min(0.30, c.recede * 0.22) * (1 - h));
       gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
 
-      const p = project(c.ox, c.sy - PLANE_H/2, -c.recede + h*0.34);
-      const el = labelEls[c.i];
+      const p = project(c.ox, c.sy - PLANE_H/2, c.z + h*0.30);
+      const el = labelEls[c.s];
       el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 16}px)`;
-      el.style.opacity = String(c.alpha * (0.55 + 0.45*h));
+      el.style.opacity = String(c.alpha * (0.5 + 0.5*h));
     }
-  }
-
-  function nearestToCentre(){
-    let best = 0, bd = Infinity;
-    items.forEach((it,i)=>{ const d = Math.abs(wrap(i*SPAN - scroll)); if(d < bd){ bd = d; best = i; } });
-    return best;
   }
 
   let last = performance.now();
   function frame(now){
     const dt = Math.min((now - last)/1000, 0.05); last = now;
     if(visible){
-      // frame-rate independent damping keeps the glide identical on 60 and 144 Hz
       if(!dragging){
         target += dragVel;
         dragVel *= Math.pow(0.02, dt);
         if(Math.abs(dragVel) < 0.00002) dragVel = 0;
       }
-      const k = 1 - Math.exp(-dt/0.085);
       const before = scroll;
-      scroll += (target - scroll) * k;
+      scroll += (target - scroll) * (1 - Math.exp(-dt/0.085));
 
       const nowHovered = dragging ? -1 : hitTest(pointerX, pointerY);
       if(nowHovered !== hovered){
@@ -1488,15 +1490,14 @@ const WORK_PROJECTS = [
         stage.style.cursor = hovered >= 0 ? "pointer" : "";
       }
       let hoverMoving = false;
-      items.forEach((it,i)=>{
-        const want = (i === hovered) ? 1 : 0;
-        const nh = it.hover + (want - it.hover) * (1 - Math.exp(-dt/0.13));
-        if(Math.abs(nh - it.hover) > 0.0004) hoverMoving = true;
-        it.hover = nh;
-      });
+      for(let s=0;s<hoverAmt.length;s++){
+        const want = (s === hovered) ? 1 : 0;
+        const nh = hoverAmt[s] + (want - hoverAmt[s]) * (1 - Math.exp(-dt/0.13));
+        if(Math.abs(nh - hoverAmt[s]) > 0.0004) hoverMoving = true;
+        hoverAmt[s] = nh;
+      }
 
-      playOnly(hovered >= 0 ? hovered : nearestToCentre());
-
+      startVideos(playAll);
       const moving = Math.abs(scroll - before) > 0.00005 || dragging || hoverMoving;
       const playingNow = items.some(it => it.playing && it.videoReady);
       if(moving || needsDraw || playingNow){ draw(); needsDraw = false; }
@@ -1507,7 +1508,7 @@ const WORK_PROJECTS = [
   const toWorld = px => (px/width) * (viewHalfW*2);
 
   stage.addEventListener("pointerdown", e => {
-    dragging = true; moved = 0; lastX = e.clientX; dragVel = 0;
+    dragging = true; lastX = e.clientX; dragVel = 0;
     stage.classList.add("is-dragging");
     try{ stage.setPointerCapture(e.pointerId); }catch(_){}
     if(hintEl) hintEl.classList.add("hide");
@@ -1516,9 +1517,9 @@ const WORK_PROJECTS = [
     const r = stage.getBoundingClientRect();
     pointerX = e.clientX - r.left; pointerY = e.clientY - r.top;
     if(!dragging) return;
-    const dx = e.clientX - lastX; lastX = e.clientX; moved += Math.abs(dx);
+    const dx = e.clientX - lastX; lastX = e.clientX;
     const d = toWorld(dx);
-    target -= d; scroll -= d;            // 1:1 under the finger, no lag while dragging
+    target -= d; scroll -= d;
     dragVel = -d * 0.6;
     needsDraw = true;
   });
@@ -1540,8 +1541,7 @@ const WORK_PROJECTS = [
 
   new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
-    if(visible) needsDraw = true;
-    else items.forEach(it => { if(it.video && it.playing){ it.video.pause(); it.playing = false; } });
+    if(visible) needsDraw = true; else stopVideos();
   }, { threshold:0.15 }).observe(stage);
 
   window.addEventListener("resize", resize, { passive:true });
