@@ -1206,28 +1206,41 @@ const WORK_PROJECTS = [
   const VERT = `
     attribute vec2 aPos;
     attribute vec2 aUV;
-    uniform float uOffsetX, uScale, uDist, uAmp, uFreq, uYAmp, uLift;
-    uniform mediump float uHover;
+    uniform float uOffsetX, uDist, uAmp, uFreq, uYAmp, uFall, uPull, uDrag;
+    uniform vec2  uMouse;
+    uniform mediump float uWarp;
     uniform mat4  uProj;
     varying vec2  vUV;
     varying float vShade;
+    varying float vGlow;
     void main(){
-      float wx = aPos.x * uScale + uOffsetX;
+      float wx = aPos.x + uOffsetX;
       float ph = wx * uFreq;
-      float z  = uAmp * (cos(ph) - 1.0) * (1.0 - uHover * 0.85);
-      float y  = aPos.y * uScale + uYAmp * sin(ph * 0.5);
+      float z  = uAmp * (cos(ph) - 1.0);
+      vec2  P  = vec2(wx, aPos.y + uYAmp * sin(ph * 0.5));
+
+      // cursor pulls the surface toward itself and bulges it forward,
+      // strongest at the pointer and falling off smoothly with distance
+      vec2  delta = uMouse - P;
+      float d     = length(delta);
+      float g     = exp(-(d*d) / (uFall*uFall));
+      float infl  = g * uWarp;
+      P += delta * infl * uDrag;
+      z += uPull * infl;
+
       vUV = aUV;
       vShade = z / max(uAmp, 0.0001);
-      gl_Position = uProj * vec4(wx, y, z + uLift - uDist, 1.0);
+      vGlow  = infl;
+      gl_Position = uProj * vec4(P.x, P.y, z - uDist, 1.0);
     }`;
 
   const FRAG = `
     precision mediump float;
     uniform sampler2D uTex;
     uniform float uRadius, uAspect, uAlpha;
-    uniform mediump float uHover;
     varying vec2 vUV;
     varying float vShade;
+    varying float vGlow;
     void main(){
       vec2 p = abs(vUV - 0.5) * vec2(uAspect, 1.0) * 2.0;
       vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
@@ -1236,10 +1249,9 @@ const WORK_PROJECTS = [
       float a = 1.0 - smoothstep(-0.005, 0.005, dist);
       if(a <= 0.001) discard;
       vec4 tex = texture2D(uTex, vUV);
-      // parts of the ribbon that bow away sit slightly back in the light page
-      float shade = 1.0 + vShade * 0.22 * (1.0 - uHover);
+      float shade = 1.0 + vShade * 0.22 + vGlow * 0.10;
       vec3 bg = vec3(0.984, 0.980, 0.972);
-      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * uHover);
+      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * vGlow);
       gl_FragColor = vec4(col, a * uAlpha);
     }`;
 
@@ -1261,16 +1273,22 @@ const WORK_PROJECTS = [
   }
   gl.useProgram(prog);
 
-  const SEG = 40, PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
+  const SEG_X = 30, SEG_Y = 18;
+  const PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
   const pos = [], uv = [], idx = [];
-  for(let i=0;i<=SEG;i++){
-    for(let j=0;j<=1;j++){
-      const u = i/SEG, v = j;
+  for(let iy=0; iy<=SEG_Y; iy++){
+    for(let ix=0; ix<=SEG_X; ix++){
+      const u = ix/SEG_X, v = iy/SEG_Y;
       pos.push((u-0.5)*PLANE_W, (v-0.5)*PLANE_H);
       uv.push(u, 1-v);
     }
   }
-  for(let i=0;i<SEG;i++){ const a=i*2; idx.push(a,a+1,a+2, a+2,a+1,a+3); }
+  for(let iy=0; iy<SEG_Y; iy++){
+    for(let ix=0; ix<SEG_X; ix++){
+      const a = iy*(SEG_X+1)+ix, b = a+1, c = a+(SEG_X+1), d = c+1;
+      idx.push(a,c,b, b,c,d);
+    }
+  }
   function buffer(data, target, Type){
     const b = gl.createBuffer(); gl.bindBuffer(target, b);
     gl.bufferData(target, new Type(data), gl.STATIC_DRAW); return b;
@@ -1280,10 +1298,11 @@ const WORK_PROJECTS = [
   const idxBuf = buffer(idx, gl.ELEMENT_ARRAY_BUFFER, Uint16Array);
   const aPos = gl.getAttribLocation(prog,"aPos"), aUV = gl.getAttribLocation(prog,"aUV");
   const U = n => gl.getUniformLocation(prog, n);
-  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uScale=U("uScale"), uDist=U("uDist"),
-        uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"), uLift=U("uLift"),
-        uHover=U("uHover"), uTex=U("uTex"), uRadius=U("uRadius"),
-        uAspect=U("uAspect"), uAlpha=U("uAlpha");
+  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uDist=U("uDist"),
+        uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"),
+        uMouse=U("uMouse"), uWarp=U("uWarp"), uFall=U("uFall"),
+        uPull=U("uPull"), uDrag=U("uDrag"), uTex=U("uTex"),
+        uRadius=U("uRadius"), uAspect=U("uAspect"), uAlpha=U("uAlpha");
 
   function makeTexture(){
     const t = gl.createTexture();
@@ -1341,6 +1360,7 @@ const WORK_PROJECTS = [
   let dragging = false, lastX = 0, dragVel = 0;
   let width = 0, height = 0, needsDraw = true, visible = false, hovered = -1;
   let hoverAmt = slots.map(()=>0);
+  let speed = 0;                                  // pointer speed, decays each frame
 
   const wrap = x => ((x + TOTAL/2) % TOTAL + TOTAL) % TOTAL - TOTAL/2;
   function centreItem(){
@@ -1357,7 +1377,7 @@ const WORK_PROJECTS = [
     ]);
   }
 
-  let proj, camDist, viewHalfW, ampAmt, freqAmt, yAmpAmt, playAll;
+  let proj, camDist, viewHalfW, ampAmt, freqAmt, yAmpAmt, playAll, fallAmt, pullAmt;
   function resize(){
     const r = stage.getBoundingClientRect();
     width = Math.max(1, Math.round(r.width)); height = Math.max(1, Math.round(r.height));
@@ -1374,6 +1394,8 @@ const WORK_PROJECTS = [
     ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
     freqAmt = (2*Math.PI) / (SPAN * 3.4);        // one wave per ~3.4 cards
     yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
+    fallAmt = width < 720 ? 0.42 : 0.60;         // how far the warp reaches
+    pullAmt = width < 720 ? 0.26 : 0.42;         // how far it bulges forward
     playAll = width >= 720;                      // phones keep one decode
     needsDraw = true;
   }
@@ -1397,6 +1419,14 @@ const WORK_PROJECTS = [
 
   const waveZ = wx => ampAmt * (Math.cos(wx*freqAmt) - 1);
   const waveY = wx => yAmpAmt * Math.sin(wx*freqAmt*0.5);
+
+  // screen pointer -> world position on the plane at depth z
+  function pointerWorldAt(z){
+    if(pointerX == null) return null;
+    const viewZ = camDist - z;
+    const ndcX = (pointerX/width)*2 - 1, ndcY = 1 - (pointerY/height)*2;
+    return { x: ndcX * viewZ / proj[0], y: ndcY * viewZ / proj[5] };
+  }
 
   function project(x, y, z){
     const w = proj[11]*(z-camDist) || 1e-6;
@@ -1442,6 +1472,7 @@ const WORK_PROJECTS = [
     gl.uniform1f(uDist,camDist); gl.uniform1f(uAmp,ampAmt);
     gl.uniform1f(uFreq,freqAmt); gl.uniform1f(uYAmp,yAmpAmt);
     gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
+    gl.uniform1f(uFall,fallAmt); gl.uniform1f(uDrag,0.18);
     gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
 
     // upload each playing video once per frame, not once per card that shows it
@@ -1458,14 +1489,15 @@ const WORK_PROJECTS = [
       const it = items[c.item];
       gl.bindTexture(gl.TEXTURE_2D, it.tex);
       const h = hoverAmt[c.s];
+      const m = h > 0.002 ? pointerWorldAt(c.z) : null;
       gl.uniform1f(uOffsetX, c.ox);
-      gl.uniform1f(uScale,   1 + h*0.04);
-      gl.uniform1f(uLift,    h*0.30);
-      gl.uniform1f(uHover,   h);
+      gl.uniform2f(uMouse,   m ? m.x : 1e6, m ? m.y : 1e6);
+      gl.uniform1f(uWarp,    h);
+      gl.uniform1f(uPull,    pullAmt * (1 + speed * 2.2));
       gl.uniform1f(uAlpha,   c.alpha);
       gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
 
-      const p = project(c.ox, c.sy - PLANE_H/2, c.z + h*0.30);
+      const p = project(c.ox, c.sy - PLANE_H/2, c.z);
       const el = labelEls[c.s];
       el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 16}px)`;
       el.style.opacity = String(c.alpha * (0.5 + 0.5*h));
@@ -1489,16 +1521,19 @@ const WORK_PROJECTS = [
         hovered = nowHovered;
         stage.style.cursor = hovered >= 0 ? "pointer" : "";
       }
-      let hoverMoving = false;
+      speed *= Math.pow(0.0008, dt);               // settles when the mouse stops
+      let hoverMoving = speed > 0.002;
       for(let s=0;s<hoverAmt.length;s++){
         const want = (s === hovered) ? 1 : 0;
-        const nh = hoverAmt[s] + (want - hoverAmt[s]) * (1 - Math.exp(-dt/0.13));
+        // grabs quickly, springs back a little slower
+        const tau = want ? 0.075 : 0.20;
+        const nh = hoverAmt[s] + (want - hoverAmt[s]) * (1 - Math.exp(-dt/tau));
         if(Math.abs(nh - hoverAmt[s]) > 0.0004) hoverMoving = true;
         hoverAmt[s] = nh;
       }
 
       startVideos(playAll);
-      const moving = Math.abs(scroll - before) > 0.00005 || dragging || hoverMoving;
+      const moving = Math.abs(scroll - before) > 0.00005 || dragging || hoverMoving || hovered >= 0;
       const playingNow = items.some(it => it.playing && it.videoReady);
       if(moving || needsDraw || playingNow){ draw(); needsDraw = false; }
     }
@@ -1515,8 +1550,13 @@ const WORK_PROJECTS = [
   });
   stage.addEventListener("pointermove", e => {
     const r = stage.getBoundingClientRect();
-    pointerX = e.clientX - r.left; pointerY = e.clientY - r.top;
-    if(!dragging) return;
+    const nx = e.clientX - r.left, ny = e.clientY - r.top;
+    if(pointerX != null){
+      const dpx = Math.hypot(nx - pointerX, ny - pointerY);
+      speed = Math.min(1, speed + dpx / Math.max(width, 1) * 3.0);
+    }
+    pointerX = nx; pointerY = ny;
+    if(!dragging){ needsDraw = true; return; }
     const dx = e.clientX - lastX; lastX = e.clientX;
     const d = toWorld(dx);
     target -= d; scroll -= d;
