@@ -1298,7 +1298,6 @@ const WORK_PROJECTS = [
     img.crossOrigin = "anonymous";
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, it.tex);
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
       it.posterReady = true; canvas.classList.add("ready"); needsDraw = true;
     };
@@ -1412,7 +1411,6 @@ const WORK_PROJECTS = [
       const it = items[o.i];
       if(it.video && it.videoReady && it.video.readyState >= 2){
         gl.bindTexture(gl.TEXTURE_2D, it.tex);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,it.video);
       } else {
         gl.bindTexture(gl.TEXTURE_2D, it.tex);
