@@ -1228,7 +1228,7 @@ const WORK_PROJECTS = [
   const FRAG = `
     precision mediump float;
     uniform sampler2D uTex;
-    uniform float uRadius, uAspect, uAlpha, uFall, uPull, uWarp;
+    uniform float uRadius, uAspect, uAlpha, uFall, uPull, uWarp, uRingFreq, uRingSpeed, uTime;
     uniform vec2  uMouse, uCardSize;
     varying mediump vec2  vUV;
     varying mediump vec2  vWorld;
@@ -1242,17 +1242,21 @@ const WORK_PROJECTS = [
       float a = 1.0 - smoothstep(-0.005, 0.005, edge);
       if(a <= 0.001) discard;
 
+      // a droplet meeting water: soft concentric rings drifting outward,
+      // barely moving the picture rather than dragging it one way
       vec2  delta = uMouse - vWorld;
       float d     = length(delta);
-      float g     = exp(-(d*d) / (uFall*uFall));
-      float infl  = g * uWarp;
-      vec2  duv   = vec2(delta.x / uCardSize.x, -delta.y / uCardSize.y);
-      vec2  uvw   = clamp(vUV + duv * infl * uPull, 0.0, 1.0);
+      vec2  dir   = d > 1e-4 ? delta / d : vec2(0.0);
+      float env   = smoothstep(uFall, 0.0, d);
+      float ring  = sin(d * uRingFreq - uTime * uRingSpeed);
+      float infl  = env * uWarp;
+      vec2  duv   = vec2(dir.x / uCardSize.x, -dir.y / uCardSize.y);
+      vec2  uvw   = clamp(vUV + duv * ring * infl * uPull, 0.0, 1.0);
 
       vec4 tex = texture2D(uTex, uvw);
-      float shade = 1.0 + vShade * 0.22 + infl * 0.07;
+      float shade = 1.0 + vShade * 0.22 + infl * 0.025;
       vec3 bg = vec3(0.984, 0.980, 0.972);
-      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.10 * infl);
+      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.06 * infl);
       gl_FragColor = vec4(col, a * uAlpha);
     }`;
 
@@ -1303,6 +1307,7 @@ const WORK_PROJECTS = [
         uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"),
         uMouse=U("uMouse"), uWarp=U("uWarp"), uFall=U("uFall"),
         uPull=U("uPull"), uCardSize=U("uCardSize"), uTex=U("uTex"),
+        uRingFreq=U("uRingFreq"), uRingSpeed=U("uRingSpeed"), uTime=U("uTime"),
         uRadius=U("uRadius"), uAspect=U("uAspect"), uAlpha=U("uAlpha");
 
   function makeTexture(){
@@ -1362,6 +1367,7 @@ const WORK_PROJECTS = [
   let width = 0, height = 0, needsDraw = true, visible = false, hovered = -1;
   let hoverAmt = slots.map(()=>0);
   let speed = 0;                                  // pointer speed, decays each frame
+  let clock = 0;                                  // drives the outward ring drift
 
   const wrap = x => ((x + TOTAL/2) % TOTAL + TOTAL) % TOTAL - TOTAL/2;
   function centreItem(){
@@ -1395,8 +1401,8 @@ const WORK_PROJECTS = [
     ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
     freqAmt = (2*Math.PI) / (SPAN * 3.4);        // one wave per ~3.4 cards
     yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
-    fallAmt = width < 720 ? 0.22 : 0.30;         // how far the ripple reaches
-    pullAmt = width < 720 ? 0.30 : 0.42;         // how hard it drags the picture
+    fallAmt = width < 720 ? 0.38 : 0.52;         // how far the rings reach
+    pullAmt = width < 720 ? 0.016 : 0.022;       // how far the picture actually moves
     playAll = width >= 720;                      // phones keep one decode
     needsDraw = true;
   }
@@ -1475,6 +1481,8 @@ const WORK_PROJECTS = [
     gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
     gl.uniform1f(uFall,fallAmt);
     gl.uniform2f(uCardSize, PLANE_W, PLANE_H);
+    gl.uniform1f(uRingFreq, 15.0); gl.uniform1f(uRingSpeed, 3.2);
+    gl.uniform1f(uTime, clock);
     gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
 
     // upload each playing video once per frame, not once per card that shows it
@@ -1495,7 +1503,7 @@ const WORK_PROJECTS = [
       gl.uniform1f(uOffsetX, c.ox);
       gl.uniform2f(uMouse,   m ? m.x : 1e6, m ? m.y : 1e6);
       gl.uniform1f(uWarp,    h);
-      gl.uniform1f(uPull,    pullAmt * (1 + speed * 2.2));
+      gl.uniform1f(uPull,    pullAmt * (1 + speed * 0.8));
       gl.uniform1f(uAlpha,   c.alpha);
       gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
 
@@ -1509,6 +1517,7 @@ const WORK_PROJECTS = [
   let last = performance.now();
   function frame(now){
     const dt = Math.min((now - last)/1000, 0.05); last = now;
+    clock += dt;
     if(visible){
       if(!dragging){
         target += dragVel;
