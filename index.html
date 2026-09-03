@@ -426,7 +426,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 /* ---------- Arbete: WebGL-karusell ---------- */
 .work{padding-bottom:clamp(56px,8vw,96px)}
-.work__stage{position:relative;margin-top:clamp(24px,3vw,44px);height:clamp(360px,48vw,700px);
+.work__stage{position:relative;margin-top:clamp(24px,3vw,44px);height:clamp(360px,min(92vh,62vw),1180px);
   cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .work__stage.is-dragging{cursor:grabbing}
 .work__canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;
@@ -1392,14 +1392,18 @@ const WORK_PROJECTS = [
     canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
     gl.viewport(0,0,canvas.width,canvas.height);
 
-    const aspect = width/height, fov = 45 * Math.PI/180;
-    const share = width < 720 ? 0.80 : 0.60;     // ~3 1/3 cards across, running off both edges
-    const visibleW = PLANE_W / share;
-    camDist = (visibleW / aspect) / (2*Math.tan(fov/2));
+    const aspect = width/height, fov = 45 * Math.PI/180, tanHalf = Math.tan(fov/2);
+    // size the card against BOTH axes: on a wide screen the stage height is
+    // capped, so a width-only rule made the card taller than the stage
+    const shareW = width < 720 ? 0.80 : 0.60;    // ~3 1/3 cards across
+    const shareH = width < 720 ? 0.62 : 0.56;    // leaves room for the title
+    const distFromWidth  = (PLANE_W / shareW) / (2*tanHalf*aspect);
+    const distFromHeight = (PLANE_H / shareH) / (2*tanHalf);
+    camDist = Math.max(distFromWidth, distFromHeight);
     proj = perspective(fov, aspect, 0.1, 100);
-    viewHalfW = visibleW/2;
+    viewHalfW = camDist * tanHalf * aspect;
     ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
-    freqAmt = (2*Math.PI) / (SPAN * 3.4);        // one wave per ~3.4 cards
+    freqAmt = (2*Math.PI) / (SPAN * 2.2);        // short enough that every card bows
     yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
     fallAmt = width < 720 ? 0.38 : 0.52;         // how far the rings reach
     pullAmt = width < 720 ? 0.016 : 0.022;       // how far the picture actually moves
@@ -1478,7 +1482,7 @@ const WORK_PROJECTS = [
     gl.uniformMatrix4fv(uProj,false,proj);
     gl.uniform1f(uDist,camDist); gl.uniform1f(uAmp,ampAmt);
     gl.uniform1f(uFreq,freqAmt); gl.uniform1f(uYAmp,yAmpAmt);
-    gl.uniform1f(uRadius,0.05); gl.uniform1f(uAspect,ASPECT);
+    gl.uniform1f(uRadius,0.12); gl.uniform1f(uAspect,ASPECT);
     gl.uniform1f(uFall,fallAmt);
     gl.uniform2f(uCardSize, PLANE_W, PLANE_H);
     gl.uniform1f(uRingFreq, 15.0); gl.uniform1f(uRingSpeed, 3.2);
