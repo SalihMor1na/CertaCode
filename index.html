@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>CertaCode — Annonsering, hemsidor & AI-assistenter</title>
+<title>CertaCode — Digital marknadsföring, SEO & AI-automation</title>
 
 <!-- Favicon / app icons -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" type="image/png" href="/brand/favicon/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/png" href="/brand/favicon/favicon-512.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/brand/favicon/favicon-180.png">
-<meta name="description" content="CertaCode ger ditt företag fler kunder: annonser på Meta, TikTok, Google & YouTube, konverterande hemsidor och AI-assistenter (chattbot & telefonsvarare). Boka ett förutsättningslöst möte." />
+<meta name="description" content="CertaCode hjälper företag att växa med digital marknadsföring, SEO och AI-automation. Webbplatser som syns och konverterar, Meta-annonser som ger leads och AI-receptionister som svarar dygnet runt. Boka ett kostnadsfritt möte." />
 <meta name="theme-color" content="#FBFAF8" />
 
 <!-- Fonts: Fraunces (display serif) + Inter (body) -->
@@ -231,7 +231,38 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .svc__icon svg{width:28px;height:28px}
 .svc h3{font-size:clamp(22px,1.3vw,27px);margin-bottom:12px}
 .svc p{color:var(--ink-soft);font-size:clamp(15.5px,.92vw,17.5px)}
+.svc__tag{font-weight:600;color:var(--ink);margin:-2px 0 10px;font-size:clamp(15px,.95vw,17px)}
 .svc__list{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
+/* SEO block under the service cards */
+.seo{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center;margin-top:clamp(44px,5vw,72px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line)}
+.seo__title{font-size:clamp(24px,2vw,38px);margin:12px 0 14px;letter-spacing:-.02em}
+.seo p{color:var(--ink-soft);font-size:clamp(15.5px,.98vw,18px)}
+.seo__chips{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.seo__chip{display:flex;align-items:center;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-weight:500;font-size:15px}
+.seo__chip svg{width:18px;height:18px;color:var(--accent);flex:none}
+/* AI receptionist showcase */
+.ai{padding-bottom:clamp(32px,4vw,56px)}
+.ai__inner{padding:clamp(40px,5vw,64px) clamp(28px,4vw,56px) clamp(16px,2vw,28px)}
+.ai .sec-head h2,.ai .sec-head .lead{color:#fff}
+.ai .sec-head .lead{color:rgba(255,255,255,.72)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 clamp(20px,3vw,44px)}
+.flow__step{position:relative;padding:22px 14px;text-align:center;border-radius:var(--radius-lg);background:rgba(255,255,255,.05)}
+.flow__step .ic{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;margin:0 auto 14px;color:#9db0ff}
+.flow__step .ic svg{width:24px;height:24px}
+.flow__step b{display:block;font-size:14.5px;line-height:1.35;color:#fff;font-weight:600}
+.flow__step+.flow__step::before{content:"";position:absolute;left:-9px;top:46px;width:0;height:0;border:5px solid transparent;border-left:7px solid rgba(255,255,255,.4)}
+.ai__cta{padding:clamp(24px,3vw,40px) clamp(28px,4vw,56px) 0}
+/* before / after */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.ba__col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(24px,2.6vw,36px)}
+.ba__col h3{font-size:clamp(19px,1.3vw,24px);margin:0}
+.ba__col.is-after{background:var(--accent-soft);border-color:transparent}
+.ba ul{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:12px}
+.ba li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.ba li svg{width:18px;height:18px;flex:none;margin-top:3px;color:var(--muted)}
+.ba .is-after li svg{color:var(--accent)}
+.faq__link{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent)}
+.opt-grid .opt:nth-child(7){grid-column:1/-1}
 .svc__list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft)}
 .svc__list li svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:2px}
 
@@ -479,6 +510,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    RESPONSIVE
    ============================================================ */
 @media (max-width:1024px){
+  .flow{grid-template-columns:1fr;gap:6px}
+  .flow__step{display:flex;align-items:center;gap:16px;text-align:left;padding:14px 16px}
+  .flow__step .ic{margin:0;flex:none}
+  .flow__step+.flow__step::before{left:36px;top:-8px;border:5px solid transparent;border-top:7px solid rgba(255,255,255,.4)}
   .hero__grid{grid-template-columns:1fr;gap:48px}
   .hero__copy{max-width:72%}
   .services,.quotes{grid-template-columns:1fr 1fr}
@@ -503,6 +538,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav__burger{display:flex}
   .services,.quotes,.steps,.results{grid-template-columns:1fr}
   .opt-grid{grid-template-columns:1fr}
+  .seo{grid-template-columns:1fr}
+  .ba{grid-template-columns:1fr}
   .field.two{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
   .hero__meta{gap:18px}
@@ -567,9 +604,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
     <nav class="nav__links" aria-label="Huvudmeny">
       <a class="nav__link" href="#tjanster" data-i18n="nav.services">Tjänster</a>
-      <a class="nav__link" href="#arbete" data-i18n="nav.work">Arbete</a>
-      <a class="nav__link" href="#process" data-i18n="nav.process">Process</a>
-      <a class="nav__link" href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
+      <a class="nav__link" href="#ai" data-i18n="nav.ai">AI &amp; Automation</a>
+      <a class="nav__link" href="#arbete" data-i18n="nav.work">Case</a>
+      <a class="nav__link" href="#varfor" data-i18n="nav.about">Om oss</a>
+      <a class="nav__link" href="#faq" data-i18n="nav.faq">FAQ</a>
     </nav>
 
     <div class="nav__right">
@@ -588,9 +626,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <!-- mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#tjanster" data-i18n="nav.services">Tjänster</a>
-  <a href="#arbete" data-i18n="nav.work">Arbete</a>
-  <a href="#process" data-i18n="nav.process">Process</a>
-  <a href="#faq" data-i18n="nav.faq">Vanliga frågor</a>
+  <a href="#ai" data-i18n="nav.ai">AI &amp; Automation</a>
+  <a href="#arbete" data-i18n="nav.work">Case</a>
+  <a href="#varfor" data-i18n="nav.about">Om oss</a>
+  <a href="#faq" data-i18n="nav.faq">FAQ</a>
   <a href="#boka" data-i18n="nav.cta" style="color:var(--accent)">Boka möte</a>
 </div>
 
@@ -608,20 +647,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="hero__grid">
       <div class="hero__copy">
         <span class="eyebrow reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
-        <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi ger ditt företag <em>fler kunder</em> — med annonser, hemsidor & AI.</h1>
-        <p class="lead reveal" data-delay="2" data-i18n="hero.lead">CertaCode hjälper företag att växa: annonser på Meta, TikTok, Google och YouTube, hemsidor som säljer, och AI-assistenter som tar hand om dina kunder dygnet runt.</p>
+        <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.</h1>
+        <p class="lead reveal" data-delay="2" data-i18n="hero.lead">Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.</p>
         <div class="hero__cta reveal" data-delay="3">
-          <a href="#boka" class="btn btn-primary btn-lg" data-i18n="hero.ctaPrimary">Boka ett möte
+          <a href="#boka" class="btn btn-primary btn-lg" data-i18n="hero.ctaPrimary">Boka kostnadsfritt möte
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a href="#tjanster" class="btn btn-ghost btn-lg" data-i18n="hero.ctaSecondary">Se vad vi gör</a>
-        </div>
-        <div class="hero__meta reveal" data-delay="4">
-          <div class="stat"><b>5</b><span data-i18n="hero.stat1">Annonskanaler</span></div>
-          <div class="divider"></div>
-          <div class="stat"><b>24/7</b><span data-i18n="hero.stat2">AI som svarar</span></div>
-          <div class="divider"></div>
-          <div class="stat"><b>2–6</b><span data-i18n="hero.stat3">Veckor till lansering</span></div>
+          <a href="#tjanster" class="btn btn-ghost btn-lg" data-i18n="hero.ctaSecondary">Se våra tjänster</a>
         </div>
       </div>
 
@@ -634,52 +666,125 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow" data-i18n="svc.eyebrow">Vad vi gör</span>
-      <h2 data-i18n="svc.title">Tre sätt att få fler kunder.</h2>
-      <p class="lead" data-i18n="svc.lead">Vi hjälper ditt företag att växa — från att fånga uppmärksamhet till att ta hand om varje kund som hör av sig.</p>
+      <h2 data-i18n="svc.title">Tre tjänster som får företag att växa.</h2>
+      <p class="lead" data-i18n="svc.lead">Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.</p>
     </div>
 
     <div class="services">
-      <!-- Ads -->
       <article class="svc reveal" data-delay="1">
-        <div class="svc__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
-        </div>
-        <h3 data-i18n="svc.1.title">Annonsering</h3>
-        <p data-i18n="svc.1.desc">Fler kunder med annonser som konverterar — på Meta, TikTok, Google och YouTube. Vi sköter allt från strategi till optimering.</p>
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div>
+        <h3 data-i18n="svc.1.title">Webb &amp; SEO</h3>
+        <p class="svc__tag" data-i18n="svc.1.tag">Webbplatser byggda för att synas och konvertera.</p>
+        <p data-i18n="svc.1.desc">Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.</p>
         <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f1">Facebook, Instagram &amp; TikTok</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f2">Google- &amp; YouTube-annonser</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f3">Löpande optimering &amp; rapporter</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f1">SEO</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f2">Webbdesign</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f3">Utveckling</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f4">Konverteringsoptimering</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f5">Lokal SEO</span></li>
         </ul>
       </article>
 
-      <!-- Websites -->
       <article class="svc reveal" data-delay="2">
-        <div class="svc__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg>
-        </div>
-        <h3 data-i18n="svc.2.title">Hemsidor</h3>
-        <p data-i18n="svc.2.desc">Snabba, snygga sajter byggda för att sälja. Modern teknik och SEO från grunden.</p>
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></div>
+        <h3 data-i18n="svc.2.title">Meta Ads</h3>
+        <p class="svc__tag" data-i18n="svc.2.tag">Annonser som når rätt människor.</p>
+        <p data-i18n="svc.2.desc">Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.</p>
         <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f1">Design &amp; UX i världsklass</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f2">Byggd för konvertering</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f3">Snabb &amp; mobilanpassad</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f1">Facebook Ads</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f2">Instagram Ads</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f3">Annonsdesign</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f4">Copywriting</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f5">A/B-testning</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f6">Kampanjoptimering</span></li>
         </ul>
       </article>
 
-      <!-- AI assistants -->
       <article class="svc reveal" data-delay="3">
-        <div class="svc__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>
-        </div>
-        <h3 data-i18n="svc.3.title">AI-assistenter</h3>
-        <p data-i18n="svc.3.desc">Låt AI ta hand om dina kunder dygnet runt — en chattbot på hemsidan och en AI-telefonsvarare som svarar när du inte kan.</p>
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>
+        <h3 data-i18n="svc.3.title">AI &amp; automation</h3>
+        <p class="svc__tag" data-i18n="svc.3.tag">Låt systemen göra det repetitiva arbetet.</p>
+        <p data-i18n="svc.3.desc">Vi bygger skräddarsydda AI- och automationslösningar som minskar administration och gör verksamheten effektivare.</p>
         <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f1">AI-chattbot på hemsidan</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f2">AI-telefonsvarare dygnet runt</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f3">Fångar leads du annars missar</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f1">AI-receptionist</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f2">Automatiserad lead-hantering</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f3">Bokningssystem</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f4">CRM-automation</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f5">E-postautomation</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f6">AI-agenter</span></li>
         </ul>
       </article>
+    </div>
+
+    <!-- SEO is its own value proposition, not a feature bullet -->
+    <div class="seo reveal">
+      <div>
+        <span class="eyebrow" data-i18n="seo.eyebrow">SEO</span>
+        <h3 class="seo__title" data-i18n="seo.title">Synas när kunderna söker.</h3>
+        <p data-i18n="seo.lead">Vi förbättrar förutsättningarna för att ditt företag ska synas när potentiella kunder söker efter era tjänster. Vi lovar inga placeringar — det kan ingen seriöst garantera — men vi gör arbetet som ger resultat över tid.</p>
+      </div>
+      <div class="seo__chips">
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.1">Teknisk SEO</span></div>
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.2">On-page SEO</span></div>
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.3">Lokal SEO</span></div>
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.4">Google Business Profile</span></div>
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.5">Sökordsanalys</span></div>
+        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.6">Innehåll</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI RECEPTIONIST ================= -->
+<section class="section" id="ai" style="padding-top:0">
+  <div class="wrap">
+    <div class="process ai reveal">
+      <div class="ai__inner">
+        <div class="sec-head" style="margin-bottom:0">
+          <span class="eyebrow" data-i18n="ai.eyebrow">AI-receptionist</span>
+          <h2 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h2>
+          <p class="lead" data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
+        </div>
+      </div>
+      <div class="flow" aria-label="Så fungerar AI-receptionisten">
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></div><b data-i18n="ai.f1">Kund ringer</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div><b data-i18n="ai.f2">AI svarar</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></div><b data-i18n="ai.f3">Förstår ärendet</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><b data-i18n="ai.f4">Svarar, bokar eller vidarebefordrar</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><b data-i18n="ai.f5">Information skickas till CRM</b></div>
+      </div>
+      <div class="ai__cta">
+        <a href="#boka" class="btn btn-primary btn-lg" data-i18n="ai.cta">Boka ett kostnadsfritt möte</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AUTOMATION: BEFORE / AFTER ================= -->
+<section class="section" id="automation" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="auto.eyebrow">Automationsexempel</span>
+      <h2 data-i18n="auto.title">Före och efter.</h2>
+      <p class="lead" data-i18n="auto.lead">Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.</p>
+    </div>
+    <div class="ba reveal">
+      <div class="ba__col">
+        <h3 data-i18n="auto.before">Före</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b1">Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b2">Förfrågningar landar i inkorgen och glöms bort.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b3">Samma uppgifter skrivs in i flera olika system.</span></li>
+        </ul>
+      </div>
+      <div class="ba__col is-after">
+        <h3 data-i18n="auto.after">Efter</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a1">AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a2">Varje förfrågan registreras och följs upp automatiskt.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a3">Informationen hamnar i ert CRM — en gång, på rätt ställe.</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -718,17 +823,83 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="process">
       <div style="padding:clamp(40px,5vw,64px) clamp(28px,4vw,56px) clamp(24px,3vw,40px)">
         <div class="sec-head reveal" style="margin-bottom:8px">
-          <span class="eyebrow" data-i18n="proc.eyebrow">Hur vi jobbar</span>
-          <h2 data-i18n="proc.title">En process byggd på tydlighet</h2>
-          <p class="lead" data-i18n="proc.lead">Inga överraskningar. Du vet alltid vad som händer, vad det kostar och när det är klart.</p>
+          <span class="eyebrow" data-i18n="proc.eyebrow">Så arbetar vi</span>
+          <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
+          <p class="lead" data-i18n="proc.lead">Vi börjar med er verksamhet — inte med tekniken.</p>
         </div>
       </div>
       <div class="steps reveal">
-        <div class="step"><div class="step__num">01</div><h3 data-i18n="proc.1.t">Upptäck</h3><p data-i18n="proc.1.d">Vi lyssnar på mål, målgrupp och utmaningar. Du får en tydlig plan och offert.</p></div>
-        <div class="step"><div class="step__num">02</div><h3 data-i18n="proc.2.t">Design</h3><p data-i18n="proc.2.d">Vi formger gränssnitt och flöden. Du ser och godkänner allt innan en rad kod skrivs.</p></div>
-        <div class="step"><div class="step__num">03</div><h3 data-i18n="proc.3.t">Bygg</h3><p data-i18n="proc.3.d">Vi utvecklar i korta cykler med löpande demos. Snabb, testad och skalbar kod.</p></div>
-        <div class="step"><div class="step__num">04</div><h3 data-i18n="proc.4.t">Lansera</h3><p data-i18n="proc.4.d">Vi driftsätter, mäter och finslipar. Sen finns vi kvar för support och tillväxt.</p></div>
+        <div class="step"><div class="step__num">01</div><h3 data-i18n="proc.1.t">Första mötet</h3><p data-i18n="proc.1.d">Vi går igenom er verksamhet, era mål och var det finns störst potential.</p></div>
+        <div class="step"><div class="step__num">02</div><h3 data-i18n="proc.2.t">Strategi</h3><p data-i18n="proc.2.d">Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.</p></div>
+        <div class="step"><div class="step__num">03</div><h3 data-i18n="proc.3.t">Produktion</h3><p data-i18n="proc.3.d">Vi designar, bygger, implementerar och testar lösningen.</p></div>
+        <div class="step"><div class="step__num">04</div><h3 data-i18n="proc.4.t">Lansering &amp; optimering</h3><p data-i18n="proc.4.d">Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.</p></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY CERTACODE ================= -->
+<section class="section" id="varfor">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="why.eyebrow">Varför CertaCode?</span>
+      <h2 data-i18n="why.title">Tre skäl att välja oss.</h2>
+    </div>
+    <div class="services">
+      <article class="svc reveal" data-delay="1">
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M5 17l.9 2.1L8 20l-2.1.9L5 23l-.9-2.1L2 20l2.1-.9z"/></svg></div>
+        <h3 data-i18n="why.1.t">Skräddarsytt</h3>
+        <p data-i18n="why.1.d">Inga generiska paket. Lösningen byggs efter verksamheten.</p>
+      </article>
+      <article class="svc reveal" data-delay="2">
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <h3 data-i18n="why.2.t">Resultatfokuserat</h3>
+        <p data-i18n="why.2.d">Vi börjar inte med tekniken. Vi börjar med problemet vi ska lösa.</p>
+      </article>
+      <article class="svc reveal" data-delay="3">
+        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 11.5a3 3 0 1 0 0-6M21.5 20a6 6 0 0 0-4.5-5.8"/></svg></div>
+        <h3 data-i18n="why.3.t">En partner</h3>
+        <p data-i18n="why.3.d">Webb, marknadsföring och automation fungerar tillsammans — istället för att hanteras av tre olika leverantörer.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head sec-head--center reveal">
+      <span class="eyebrow" data-i18n="faq.eyebrow">Vanliga frågor</span>
+      <h2 data-i18n="faq.title">Vanliga frågor</h2>
+    </div>
+    <div class="faq">
+      <details class="faq__item reveal">
+        <summary class="faq__q"><span data-i18n="faq.1.q">Vad kostar ett projekt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq__a"><span data-i18n="faq.1.a">Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.</span> <a href="#boka" class="faq__link" data-i18n="faq.1.cta">Boka ett kostnadsfritt möte</a></div>
+      </details>
+      <details class="faq__item reveal">
+        <summary class="faq__q"><span data-i18n="faq.2.q">Hur lång tid tar det?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.</div>
+      </details>
+      <details class="faq__item reveal">
+        <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq__a" data-i18n="faq.3.a">Ja. När projektet är betalt äger du all kod, design och allt innehåll till 100 %. Inga inlåsningar.</div>
+      </details>
+      <details class="faq__item reveal">
+        <summary class="faq__q"><span data-i18n="faq.4.q">Erbjuder ni support efteråt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq__a" data-i18n="faq.4.a">Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA BANNER ================= -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-banner reveal">
+      <h2 data-i18n="cta.title">Redo att se vad CertaCode kan göra för ert företag?</h2>
+      <p data-i18n="cta.lead">Ett första möte är kostnadsfritt och utan förpliktelser.</p>
+      <a href="#boka" class="btn btn-primary btn-lg" data-i18n="cta.btn">Boka ett möte</a>
     </div>
   </div>
 </section>
@@ -741,10 +912,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <aside class="booking__aside">
         <span class="eyebrow" data-i18n="book.eyebrow">Boka möte</span>
         <h2 data-i18n="book.title">Ett kostnadsfritt samtal på 30 minuter</h2>
-        <p data-i18n="book.lead">Berätta om ditt projekt så återkommer vi med idéer, tidsplan och en tydlig prisbild. Ingen bindning.</p>
+        <p data-i18n="book.lead">Berätta om er verksamhet så går vi igenom mål och behov — och återkommer med ett tydligt förslag. Ingen bindning.</p>
         <ul class="booking__perks">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p1">Konkreta råd redan på första mötet</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p2">Fast pris — inga överraskningar</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p2">Ett tydligt förslag efter första mötet</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p3">Svar inom 24 timmar</span></li>
         </ul>
         <div class="booking__contact">
@@ -769,21 +940,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             <h3 data-i18n="book.s1.title">Vad kan vi hjälpa dig med?</h3>
             <p class="sub" data-i18n="book.s1.sub">Välj det som passar bäst — du kan berätta mer sen.</p>
             <div class="opt-grid" id="serviceOpts">
-              <button type="button" class="opt" data-value="Annonsering" data-value-en="Advertising">
+              <button type="button" class="opt" data-value="Ny webbplats" data-value-en="New website">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
+                <span><b data-i18n="book.s1.o1t">Ny webbplats</b><span data-i18n="book.s1.o1d">Från idé till lansering</span></span>
+              </button>
+              <button type="button" class="opt" data-value="Förnya befintlig webbplats" data-value-en="Renew existing website">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
+                <span><b data-i18n="book.s1.o2t">Förnya befintlig webbplats</b><span data-i18n="book.s1.o2d">Design, hastighet &amp; konvertering</span></span>
+              </button>
+              <button type="button" class="opt" data-value="SEO / Google" data-value-en="SEO / Google">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+                <span><b data-i18n="book.s1.o3t">SEO / Google</b><span data-i18n="book.s1.o3d">Synas när kunder söker</span></span>
+              </button>
+              <button type="button" class="opt" data-value="Facebook &amp; Instagram Ads" data-value-en="Facebook &amp; Instagram Ads">
                 <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></span>
-                <span><b data-i18n="book.s1.o1t">Annonsering</b><span data-i18n="book.s1.o1d">Ads på Meta, TikTok &amp; Google</span></span>
+                <span><b data-i18n="book.s1.o4t">Facebook &amp; Instagram Ads</b><span data-i18n="book.s1.o4d">Annonser som ger leads</span></span>
               </button>
-              <button type="button" class="opt" data-value="Hemsida" data-value-en="Website">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18"/></svg></span>
-                <span><b data-i18n="book.s1.o2t">Hemsida</b><span data-i18n="book.s1.o2d">Ny sajt eller redesign</span></span>
-              </button>
-              <button type="button" class="opt" data-value="AI-assistent" data-value-en="AI assistant">
+              <button type="button" class="opt" data-value="AI &amp; automation" data-value-en="AI &amp; automation">
                 <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
-                <span><b data-i18n="book.s1.o3t">AI-assistent</b><span data-i18n="book.s1.o3d">Chattbot &amp; telefonsvarare</span></span>
+                <span><b data-i18n="book.s1.o5t">AI &amp; automation</b><span data-i18n="book.s1.o5d">Mindre manuellt arbete</span></span>
               </button>
-              <button type="button" class="opt" data-value="Rådgivning" data-value-en="Consulting">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></span>
-                <span><b data-i18n="book.s1.o4t">Rådgivning</b><span data-i18n="book.s1.o4d">Vet inte riktigt än</span></span>
+              <button type="button" class="opt" data-value="AI-receptionist" data-value-en="AI receptionist">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></span>
+                <span><b data-i18n="book.s1.o6t">AI-receptionist</b><span data-i18n="book.s1.o6d">Svarar när ni inte kan</span></span>
+              </button>
+              <button type="button" class="opt" data-value="Jag vet inte ännu" data-value-en="I don't know yet">
+                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></span>
+                <span><b data-i18n="book.s1.o7t">Jag vet inte ännu</b><span data-i18n="book.s1.o7d">Vi hjälper er hitta rätt</span></span>
               </button>
             </div>
             <div class="bstep__actions">
@@ -839,7 +1022,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
             </div>
             <div class="field">
               <label data-i18n="book.f.msg">Berätta kort om projektet</label>
-              <textarea name="message" data-i18n-attr="placeholder|book.f.msgPh" placeholder="Vad vill du bygga? Har du en budget eller deadline?"></textarea>
+              <textarea name="message" data-i18n-attr="placeholder|book.f.msgPh" placeholder="Berätta kort om er verksamhet och vad ni vill uppnå."></textarea>
             </div>
             <div class="bstep__actions">
               <button type="button" class="btn btn-ghost" data-prev data-i18n="book.back">Tillbaka</button>
@@ -874,45 +1057,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div>
 </section>
 
-<!-- ================= FAQ ================= -->
-<section class="section" id="faq" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head sec-head--center reveal">
-      <span class="eyebrow" data-i18n="faq.eyebrow">Vanliga frågor</span>
-      <h2 data-i18n="faq.title">Bra att veta</h2>
-    </div>
-    <div class="faq">
-      <details class="faq__item reveal">
-        <summary class="faq__q"><span data-i18n="faq.1.q">Vad kostar ett projekt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.1.a">Det beror på tjänst. Annonsering körs oftast som ett månadspris plus din annonsbudget, medan hemsidor och AI-lösningar sätts till fast pris. Du får alltid en tydlig prisbild innan vi börjar.</div>
-      </details>
-      <details class="faq__item reveal">
-        <summary class="faq__q"><span data-i18n="faq.2.q">Hur lång tid tar det?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.</div>
-      </details>
-      <details class="faq__item reveal">
-        <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.3.a">Ja. När projektet är betalt äger du all kod, design och allt innehåll till 100 %. Inga inlåsningar.</div>
-      </details>
-      <details class="faq__item reveal">
-        <summary class="faq__q"><span data-i18n="faq.4.q">Erbjuder ni support efteråt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.4.a">Absolut. Vi erbjuder löpande drift, uppdateringar och vidareutveckling. Många kunder stannar hos oss i åratal.</div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CTA BANNER ================= -->
-<section class="section" style="padding-top:0">
-  <div class="wrap">
-    <div class="cta-banner reveal">
-      <h2 data-i18n="cta.title">Redo att få fler kunder?</h2>
-      <p data-i18n="cta.lead">Boka ett förutsättningslöst samtal idag. Vi lovar konkreta idéer — inte säljsnack.</p>
-      <a href="#boka" class="btn btn-primary btn-lg" data-i18n="cta.btn">Boka ditt möte</a>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <!-- ================= FOOTER ================= -->
@@ -924,21 +1068,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <img class="brand__mark" src="/brand/favicon/mark-160.png" alt="" width="160" height="160" decoding="async">
           <span>CertaCode</span>
         </a>
-        <p data-i18n="foot.tagline">Vi ger företag fler kunder — med annonser, hemsidor och AI-assistenter.</p>
+        <p data-i18n="foot.tagline">Digital marknadsföring, SEO och AI-automation för företag som vill växa.</p>
       </div>
       <div>
         <h4 data-i18n="foot.services">Tjänster</h4>
         <ul>
-          <li><a href="#tjanster" data-i18n="svc.1.title">Annonsering</a></li>
-          <li><a href="#tjanster" data-i18n="svc.2.title">Hemsidor</a></li>
-          <li><a href="#tjanster" data-i18n="svc.3.title">AI-assistenter</a></li>
+          <li><a href="#tjanster" data-i18n="svc.1.title">Webb &amp; SEO</a></li>
+          <li><a href="#tjanster" data-i18n="svc.2.title">Meta Ads</a></li>
+          <li><a href="#ai" data-i18n="svc.3.title">AI &amp; automation</a></li>
         </ul>
       </div>
       <div>
         <h4 data-i18n="foot.company">Företag</h4>
         <ul>
-          <li><a href="#process" data-i18n="nav.process">Process</a></li>
-          <li><a href="#faq" data-i18n="nav.faq">Vanliga frågor</a></li>
+          <li><a href="#process" data-i18n="proc.eyebrow">Så arbetar vi</a></li>
+          <li><a href="#varfor" data-i18n="nav.about">Om oss</a></li>
+          <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="integritetspolicy.html" data-i18n="foot.privacy">Integritetspolicy</a></li>
         </ul>
       </div>
       <div>
@@ -946,17 +1092,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <ul>
           <li><a href="mailto:info.certacode@gmail.com">info.certacode@gmail.com</a></li>
           <li><a href="tel:+46704442942">070 444 29 42</a></li>
+          <li><span data-i18n="foot.location">Sverige</span></li>
           <li><a href="#boka" data-i18n="nav.cta">Boka möte</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__bottom">
       <span>© <span id="year">2026</span> CertaCode. <span data-i18n="foot.rights">Alla rättigheter förbehållna.</span></span>
-      <div class="footer__social">
-        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.43-2.1 2.9V21H9z"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.2-3.37-1.2-.46-1.18-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.9 1.56 2.34 1.1 2.91.85.09-.66.35-1.1.63-1.36-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
-      </div>
     </div>
   </div>
 </footer>
@@ -967,126 +1109,156 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 const I18N = {
   sv:{
-    "nav.services":"Tjänster","nav.process":"Process","nav.work":"Resultat","nav.faq":"Vanliga frågor","nav.cta":"Boka möte",
+    "nav.services":"Tjänster","nav.ai":"AI & Automation","nav.work":"Case","nav.about":"Om oss","nav.faq":"FAQ","nav.cta":"Boka möte",
     "hero.eyebrow":"Digital byrå · Sverige",
-    "hero.title":"Vi ger ditt företag <em>fler kunder</em> — med annonser, hemsidor & AI.",
-    "hero.lead":"CertaCode hjälper företag att växa: annonser på Meta, TikTok, Google och YouTube, hemsidor som säljer, och AI-assistenter som tar hand om dina kunder dygnet runt.",
-    "hero.ctaPrimary":"Boka ett möte","hero.ctaSecondary":"Se vad vi gör",
-    "hero.stat1":"Annonskanaler","hero.stat2":"AI som svarar","hero.stat3":"Veckor till lansering",
-    "hero.badge1":"Systemet är live","hero.stackLabel":"Vi bygger med",
-    "work.eyebrow":"Portfölj","work.title":"Sajter vi byggt.",
+    "hero.title":"Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.",
+    "hero.lead":"Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.",
+    "hero.ctaPrimary":"Boka kostnadsfritt möte","hero.ctaSecondary":"Se våra tjänster",
+    "svc.eyebrow":"Vad vi gör","svc.title":"Tre tjänster som får företag att växa.",
+    "svc.lead":"Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.",
+    "svc.1.title":"Webb & SEO","svc.1.tag":"Webbplatser byggda för att synas och konvertera.",
+    "svc.1.desc":"Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.",
+    "svc.1.f1":"SEO","svc.1.f2":"Webbdesign","svc.1.f3":"Utveckling","svc.1.f4":"Konverteringsoptimering","svc.1.f5":"Lokal SEO",
+    "svc.2.title":"Meta Ads","svc.2.tag":"Annonser som når rätt människor.",
+    "svc.2.desc":"Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.",
+    "svc.2.f1":"Facebook Ads","svc.2.f2":"Instagram Ads","svc.2.f3":"Annonsdesign","svc.2.f4":"Copywriting","svc.2.f5":"A/B-testning","svc.2.f6":"Kampanjoptimering",
+    "svc.3.title":"AI & automation","svc.3.tag":"Låt systemen göra det repetitiva arbetet.",
+    "svc.3.desc":"Vi bygger skräddarsydda AI- och automationslösningar som minskar administration och gör verksamheten effektivare.",
+    "svc.3.f1":"AI-receptionist","svc.3.f2":"Automatiserad lead-hantering","svc.3.f3":"Bokningssystem","svc.3.f4":"CRM-automation","svc.3.f5":"E-postautomation","svc.3.f6":"AI-agenter",
+    "seo.eyebrow":"SEO","seo.title":"Synas när kunderna söker.",
+    "seo.lead":"Vi förbättrar förutsättningarna för att ditt företag ska synas när potentiella kunder söker efter era tjänster. Vi lovar inga placeringar — det kan ingen seriöst garantera — men vi gör arbetet som ger resultat över tid.",
+    "seo.1":"Teknisk SEO","seo.2":"On-page SEO","seo.3":"Lokal SEO","seo.4":"Google Business Profile","seo.5":"Sökordsanalys","seo.6":"Innehåll",
+    "ai.eyebrow":"AI-receptionist","ai.title":"Missa aldrig ett kundsamtal igen.",
+    "ai.lead":"En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.",
+    "ai.f1":"Kund ringer","ai.f2":"AI svarar","ai.f3":"Förstår ärendet","ai.f4":"Svarar, bokar eller vidarebefordrar","ai.f5":"Information skickas till CRM",
+    "ai.cta":"Boka ett kostnadsfritt möte",
+    "auto.eyebrow":"Automationsexempel","auto.title":"Före och efter.",
+    "auto.lead":"Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.",
+    "auto.before":"Före","auto.after":"Efter",
+    "auto.b1":"Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.",
+    "auto.b2":"Förfrågningar landar i inkorgen och glöms bort.",
+    "auto.b3":"Samma uppgifter skrivs in i flera olika system.",
+    "auto.a1":"AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.",
+    "auto.a2":"Varje förfrågan registreras och följs upp automatiskt.",
+    "auto.a3":"Informationen hamnar i ert CRM — en gång, på rätt ställe.",
+    "work.eyebrow":"Case","work.title":"Sajter vi byggt.",
     "work.lead":"Dra i sidled för att bläddra. Varje sajt är byggd från grunden — design, kod och animationer.",
-    "work.hint":"Dra för att bläddra","nav.work":"Arbete",
-    "svc.eyebrow":"Vad vi gör","svc.title":"Tre sätt att få fler kunder.",
-    "svc.lead":"Vi hjälper ditt företag att växa — från att fånga uppmärksamhet till att ta hand om varje kund som hör av sig.",
-    "svc.1.title":"Annonsering","svc.1.desc":"Fler kunder med annonser som konverterar — på Meta, TikTok, Google och YouTube. Vi sköter allt från strategi till optimering.",
-    "svc.1.f1":"Facebook, Instagram & TikTok","svc.1.f2":"Google- & YouTube-annonser","svc.1.f3":"Löpande optimering & rapporter",
-    "svc.2.title":"Hemsidor","svc.2.desc":"Snabba, snygga sajter byggda för att sälja. Modern teknik och SEO från grunden.",
-    "svc.2.f1":"Design & UX i världsklass","svc.2.f2":"Byggd för konvertering","svc.2.f3":"Snabb & mobilanpassad",
-    "svc.3.title":"AI-assistenter","svc.3.desc":"Låt AI ta hand om dina kunder dygnet runt — en chattbot på hemsidan och en AI-telefonsvarare som svarar när du inte kan.",
-    "svc.3.f1":"AI-chattbot på hemsidan","svc.3.f2":"AI-telefonsvarare dygnet runt","svc.3.f3":"Fångar leads du annars missar",
-    "proc.eyebrow":"Hur vi jobbar","proc.title":"En process byggd på tydlighet",
-    "proc.lead":"Inga överraskningar. Du vet alltid vad som händer, vad det kostar och när det är klart.",
-    "proc.1.t":"Upptäck","proc.1.d":"Vi lyssnar på mål, målgrupp och utmaningar. Du får en tydlig plan och offert.",
-    "proc.2.t":"Design","proc.2.d":"Vi formger gränssnitt och flöden. Du ser och godkänner allt innan en rad kod skrivs.",
-    "proc.3.t":"Bygg","proc.3.d":"Vi utvecklar i korta cykler med löpande demos. Snabb, testad och skalbar kod.",
-    "proc.4.t":"Lansera","proc.4.d":"Vi driftsätter, mäter och finslipar. Sen finns vi kvar för support och tillväxt.",
-    "res.eyebrow":"Resultat som räknas","res.title":"Siffror från riktiga projekt",
-    "res.1":"Fler bokningar efter ny sajt","res.2":"Mindre manuellt arbete","res.3":"Genomsnittlig laddtid","res.4":"Aktiva app-användare",
-    "tst.eyebrow":"Vad kunder säger","tst.title":"Förtroende byggs över tid",
-    "tst.1.q":"\"CertaCode byggde om vår sajt och kopplade ihop den med vårt bokningssystem. Bokningarna mer än tredubblades på ett kvartal.\"",
-    "tst.1.r":"VD, Nordiska Kliniken",
-    "tst.2.q":"\"Automationen de byggde sparar oss två arbetsdagar i veckan. Fakturor, CRM och e-post pratar äntligen med varandra.\"",
-    "tst.2.r":"Grundare, Fältström AB",
-    "tst.3.q":"\"Vår app gick från idé till App Store på sex veckor. Proffsigt, snabbt och alltid ett steg före.\"",
-    "tst.3.r":"Produktchef, Kvist Retail",
+    "work.hint":"Dra för att bläddra",
+    "proc.eyebrow":"Så arbetar vi","proc.title":"Fyra steg från första mötet till resultat.",
+    "proc.lead":"Vi börjar med er verksamhet — inte med tekniken.",
+    "proc.1.t":"Första mötet","proc.1.d":"Vi går igenom er verksamhet, era mål och var det finns störst potential.",
+    "proc.2.t":"Strategi","proc.2.d":"Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.",
+    "proc.3.t":"Produktion","proc.3.d":"Vi designar, bygger, implementerar och testar lösningen.",
+    "proc.4.t":"Lansering & optimering","proc.4.d":"Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.",
+    "why.eyebrow":"Varför CertaCode?","why.title":"Tre skäl att välja oss.",
+    "why.1.t":"Skräddarsytt","why.1.d":"Inga generiska paket. Lösningen byggs efter verksamheten.",
+    "why.2.t":"Resultatfokuserat","why.2.d":"Vi börjar inte med tekniken. Vi börjar med problemet vi ska lösa.",
+    "why.3.t":"En partner","why.3.d":"Webb, marknadsföring och automation fungerar tillsammans — istället för att hanteras av tre olika leverantörer.",
     "book.eyebrow":"Boka möte","book.title":"Ett kostnadsfritt samtal på 30 minuter",
-    "book.lead":"Berätta om ditt projekt så återkommer vi med idéer, tidsplan och en tydlig prisbild. Ingen bindning.",
-    "book.p1":"Konkreta råd redan på första mötet","book.p2":"Fast pris — inga överraskningar","book.p3":"Svar inom 24 timmar",
+    "book.lead":"Berätta om er verksamhet så går vi igenom mål och behov — och återkommer med ett tydligt förslag. Ingen bindning.",
+    "book.p1":"Konkreta råd redan på första mötet","book.p2":"Ett tydligt förslag efter första mötet","book.p3":"Svar inom 24 timmar",
     "book.s1.title":"Vad kan vi hjälpa dig med?","book.s1.sub":"Välj det som passar bäst — du kan berätta mer sen.",
-    "book.s1.o1t":"Annonsering","book.s1.o1d":"Ads på Meta, TikTok & Google",
-    "book.s1.o2t":"Hemsida","book.s1.o2d":"Ny sajt eller redesign",
-    "book.s1.o3t":"AI-assistent","book.s1.o3d":"Chattbot & telefonsvarare",
-    "book.s1.o4t":"Rådgivning","book.s1.o4d":"Vet inte riktigt än",
+    "book.s1.o1t":"Ny webbplats","book.s1.o1d":"Från idé till lansering",
+    "book.s1.o2t":"Förnya befintlig webbplats","book.s1.o2d":"Design, hastighet & konvertering",
+    "book.s1.o3t":"SEO / Google","book.s1.o3d":"Synas när kunder söker",
+    "book.s1.o4t":"Facebook & Instagram Ads","book.s1.o4d":"Annonser som ger leads",
+    "book.s1.o5t":"AI & automation","book.s1.o5d":"Mindre manuellt arbete",
+    "book.s1.o6t":"AI-receptionist","book.s1.o6d":"Svarar när ni inte kan",
+    "book.s1.o7t":"Jag vet inte ännu","book.s1.o7d":"Vi hjälper er hitta rätt",
     "book.s2.title":"Välj en tid som passar","book.s2.sub":"Alla tider är i svensk tid (CET). Vardagar.","book.s2.slots":"Lediga tider",
     "book.s3.title":"Dina uppgifter","book.s3.sub":"Så vi vet vem vi ska prata med.",
     "book.f.name":"Namn","book.f.nameErr":"Fyll i ditt namn","book.f.company":"Företag",
     "book.f.email":"E-post","book.f.emailErr":"Ange en giltig e-postadress","book.f.phone":"Telefon",
-    "book.f.msg":"Berätta kort om projektet","book.f.msgPh":"Vad vill du bygga? Har du en budget eller deadline?",
+    "book.f.msg":"Berätta kort om er verksamhet","book.f.msgPh":"Berätta kort om er verksamhet och vad ni vill uppnå.",
     "book.s4.title":"Ser detta rätt ut?","book.s4.sub":"Kontrollera och skicka in din förfrågan.",
     "book.next":"Nästa steg","book.back":"Tillbaka","book.review":"Granska bokning","book.confirm":"Bekräfta bokning","book.sending":"Skickar…","book.error":"Något gick fel när förfrågan skulle skickas. Försök igen om en stund, eller mejla oss direkt på","book.errorMail":"öppna e-post",
     "book.done.title":"Tack — vi hörs snart!","book.done.msg":"Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.","book.done.again":"Boka en till tid",
     "sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
-    "faq.eyebrow":"Vanliga frågor","faq.title":"Bra att veta",
-    "faq.1.q":"Vad kostar det?","faq.1.a":"Det beror på tjänst. Annonsering körs oftast som ett månadspris plus din annonsbudget, medan hemsidor och AI-lösningar sätts till fast pris. Du får alltid en tydlig prisbild innan vi börjar.",
-    "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.",
+    "faq.eyebrow":"Vanliga frågor","faq.title":"Vanliga frågor",
+    "faq.1.q":"Vad kostar det?","faq.1.a":"Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.","faq.1.cta":"Boka ett kostnadsfritt möte",
+    "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-lösningar sätts upp på 1–3 veckor.",
     "faq.3.q":"Äger jag allt vi tar fram?","faq.3.a":"Ja. När det är betalt äger du all kod, design, annonskonton och allt innehåll till 100 %. Inga inlåsningar.",
-    "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling. Många kunder stannar hos oss i åratal.",
-    "cta.title":"Redo att få fler kunder?","cta.lead":"Boka ett förutsättningslöst samtal idag. Vi lovar konkreta idéer — inte säljsnack.","cta.btn":"Boka ditt möte",
-    "foot.tagline":"Vi ger företag fler kunder — med annonser, hemsidor och AI-assistenter.",
-    "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.rights":"Alla rättigheter förbehållna.",
+    "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.",
+    "cta.title":"Redo att se vad CertaCode kan göra för ert företag?","cta.lead":"Ett första möte är kostnadsfritt och utan förpliktelser.","cta.btn":"Boka ett möte",
+    "foot.tagline":"Digital marknadsföring, SEO och AI-automation för företag som vill växa.",
+    "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.privacy":"Integritetspolicy","foot.location":"Sverige","foot.rights":"Alla rättigheter förbehållna.",
     "months":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
     "dow":["Mån","Tis","Ons","Tor","Fre","Lör","Sön"]
   },
   en:{
-    "nav.services":"Services","nav.process":"Process","nav.work":"Results","nav.faq":"FAQ","nav.cta":"Book a call",
+    "nav.services":"Services","nav.ai":"AI & Automation","nav.work":"Case","nav.about":"About","nav.faq":"FAQ","nav.cta":"Book a call",
     "hero.eyebrow":"Digital agency · Sweden",
-    "hero.title":"We bring your business <em>more customers</em> — with ads, websites & AI.",
-    "hero.lead":"CertaCode helps businesses grow: ads on Meta, TikTok, Google and YouTube, websites that sell, and AI assistants that take care of your customers around the clock.",
-    "hero.ctaPrimary":"Book a call","hero.ctaSecondary":"See what we do",
-    "hero.stat1":"Ad channels","hero.stat2":"AI that answers","hero.stat3":"Weeks to launch",
-    "hero.badge1":"System is live","hero.stackLabel":"We build with",
-    "work.eyebrow":"Portfolio","work.title":"Sites we've built.",
+    "hero.title":"We help businesses <em>grow</em> with digital marketing, SEO and AI automation.",
+    "hero.lead":"From more leads and better visibility on Google to AI systems that automate repetitive work. CertaCode builds digital solutions that save time and create growth.",
+    "hero.ctaPrimary":"Book a free call","hero.ctaSecondary":"See our services",
+    "svc.eyebrow":"What we do","svc.title":"Three services that help businesses grow.",
+    "svc.lead":"Web, advertising and automation — working together instead of across three different suppliers.",
+    "svc.1.title":"Web & SEO","svc.1.tag":"Websites built to be found and to convert.",
+    "svc.1.desc":"We create and renew modern websites with a focus on user experience, speed, conversion and visibility on Google.",
+    "svc.1.f1":"SEO","svc.1.f2":"Web design","svc.1.f3":"Development","svc.1.f4":"Conversion optimisation","svc.1.f5":"Local SEO",
+    "svc.2.title":"Meta Ads","svc.2.tag":"Ads that reach the right people.",
+    "svc.2.desc":"We create, test and optimise ads for Facebook and Instagram with a focus on leads, bookings and sales.",
+    "svc.2.f1":"Facebook Ads","svc.2.f2":"Instagram Ads","svc.2.f3":"Ad design","svc.2.f4":"Copywriting","svc.2.f5":"A/B testing","svc.2.f6":"Campaign optimisation",
+    "svc.3.title":"AI & automation","svc.3.tag":"Let the systems do the repetitive work.",
+    "svc.3.desc":"We build tailored AI and automation solutions that reduce admin and make the business more efficient.",
+    "svc.3.f1":"AI receptionist","svc.3.f2":"Automated lead handling","svc.3.f3":"Booking systems","svc.3.f4":"CRM automation","svc.3.f5":"Email automation","svc.3.f6":"AI agents",
+    "seo.eyebrow":"SEO","seo.title":"Be found when customers search.",
+    "seo.lead":"We improve the conditions for your business to be found when potential customers search for your services. We don't promise rankings — nobody seriously can — but we do the work that pays off over time.",
+    "seo.1":"Technical SEO","seo.2":"On-page SEO","seo.3":"Local SEO","seo.4":"Google Business Profile","seo.5":"Keyword research","seo.6":"Content",
+    "ai.eyebrow":"AI receptionist","ai.title":"Never miss a customer call again.",
+    "ai.lead":"An AI receptionist can answer customers around the clock, handle common questions, qualify leads and help with bookings — without staff having to interrupt their work.",
+    "ai.f1":"Customer calls","ai.f2":"AI answers","ai.f3":"Understands the request","ai.f4":"Answers, books or forwards","ai.f5":"Information sent to CRM",
+    "ai.cta":"Book a free call",
+    "auto.eyebrow":"Automation example","auto.title":"Before and after.",
+    "auto.lead":"An example of how the day-to-day can change when the repetitive work is handled by systems.",
+    "auto.before":"Before","auto.after":"After",
+    "auto.b1":"A customer calls while you're busy. Nobody answers — and they call the next company.",
+    "auto.b2":"Enquiries land in the inbox and get forgotten.",
+    "auto.b3":"The same details are typed into several different systems.",
+    "auto.a1":"The AI receptionist answers immediately, around the clock, and books the customer in.",
+    "auto.a2":"Every enquiry is logged and followed up automatically.",
+    "auto.a3":"The information lands in your CRM — once, in the right place.",
+    "work.eyebrow":"Case","work.title":"Sites we've built.",
     "work.lead":"Drag sideways to browse. Every site is built from scratch — design, code and animation.",
-    "work.hint":"Drag to browse","nav.work":"Work",
-    "svc.eyebrow":"What we do","svc.title":"Three ways to get more customers.",
-    "svc.lead":"We help your business grow — from capturing attention to taking care of every customer who reaches out.",
-    "svc.1.title":"Advertising","svc.1.desc":"More customers with ads that convert — on Meta, TikTok, Google and YouTube. We handle everything from strategy to optimization.",
-    "svc.1.f1":"Facebook, Instagram & TikTok","svc.1.f2":"Google & YouTube ads","svc.1.f3":"Ongoing optimization & reports",
-    "svc.2.title":"Websites","svc.2.desc":"Fast, beautiful sites built to sell. Modern tech and SEO from the ground up.",
-    "svc.2.f1":"World-class design & UX","svc.2.f2":"Built for conversion","svc.2.f3":"Fast & mobile-friendly",
-    "svc.3.title":"AI assistants","svc.3.desc":"Let AI take care of your customers around the clock — a chatbot on your website and an AI phone answering service for when you can't pick up.",
-    "svc.3.f1":"AI chatbot on your website","svc.3.f2":"24/7 AI phone answering","svc.3.f3":"Captures leads you'd otherwise miss",
-    "proc.eyebrow":"How we work","proc.title":"A process built on clarity",
-    "proc.lead":"No surprises. You always know what's happening, what it costs and when it's done.",
-    "proc.1.t":"Discover","proc.1.d":"We listen to your goals, audience and challenges. You get a clear plan and quote.",
-    "proc.2.t":"Design","proc.2.d":"We shape interfaces and flows. You see and approve everything before a line of code is written.",
-    "proc.3.t":"Build","proc.3.d":"We develop in short cycles with ongoing demos. Fast, tested and scalable code.",
-    "proc.4.t":"Launch","proc.4.d":"We deploy, measure and refine. Then we stick around for support and growth.",
-    "res.eyebrow":"Results that count","res.title":"Numbers from real projects",
-    "res.1":"More bookings after new site","res.2":"Less manual work","res.3":"Average load time","res.4":"Active app users",
-    "tst.eyebrow":"What clients say","tst.title":"Trust is built over time",
-    "tst.1.q":"\"CertaCode rebuilt our site and connected it to our booking system. Bookings more than tripled in a quarter.\"",
-    "tst.1.r":"CEO, Nordiska Kliniken",
-    "tst.2.q":"\"The automation they built saves us two working days a week. Invoices, CRM and email finally talk to each other.\"",
-    "tst.2.r":"Founder, Fältström AB",
-    "tst.3.q":"\"Our app went from idea to the App Store in six weeks. Professional, fast and always one step ahead.\"",
-    "tst.3.r":"Product Lead, Kvist Retail",
+    "work.hint":"Drag to browse",
+    "proc.eyebrow":"How we work","proc.title":"Four steps from the first meeting to results.",
+    "proc.lead":"We start with your business — not the technology.",
+    "proc.1.t":"The first meeting","proc.1.d":"We go through your business, your goals and where the biggest potential is.",
+    "proc.2.t":"Strategy","proc.2.d":"We work out the solution and a clear plan based on your needs.",
+    "proc.3.t":"Production","proc.3.d":"We design, build, implement and test the solution.",
+    "proc.4.t":"Launch & optimisation","proc.4.d":"We launch, measure the results and keep improving where needed.",
+    "why.eyebrow":"Why CertaCode?","why.title":"Three reasons to choose us.",
+    "why.1.t":"Tailored","why.1.d":"No generic packages. The solution is built around your business.",
+    "why.2.t":"Results first","why.2.d":"We don't start with the technology. We start with the problem to solve.",
+    "why.3.t":"One partner","why.3.d":"Web, marketing and automation work together — instead of being handled by three different suppliers.",
     "book.eyebrow":"Book a call","book.title":"A free 30-minute call",
-    "book.lead":"Tell us about your project and we'll come back with ideas, a timeline and clear pricing. No commitment.",
-    "book.p1":"Concrete advice on the first call","book.p2":"Fixed price — no surprises","book.p3":"Reply within 24 hours",
+    "book.lead":"Tell us about your business and we'll go through goals and needs — then come back with a clear proposal. No commitment.",
+    "book.p1":"Concrete advice on the first call","book.p2":"A clear proposal after the first meeting","book.p3":"Reply within 24 hours",
     "book.s1.title":"How can we help you?","book.s1.sub":"Pick what fits best — you can tell us more later.",
-    "book.s1.o1t":"Advertising","book.s1.o1d":"Ads on Meta, TikTok & Google",
-    "book.s1.o2t":"Website","book.s1.o2d":"New site or redesign",
-    "book.s1.o3t":"AI assistant","book.s1.o3d":"Chatbot & phone answering",
-    "book.s1.o4t":"Consulting","book.s1.o4d":"Not quite sure yet",
+    "book.s1.o1t":"New website","book.s1.o1d":"From idea to launch",
+    "book.s1.o2t":"Renew existing website","book.s1.o2d":"Design, speed & conversion",
+    "book.s1.o3t":"SEO / Google","book.s1.o3d":"Be found when customers search",
+    "book.s1.o4t":"Facebook & Instagram Ads","book.s1.o4d":"Ads that generate leads",
+    "book.s1.o5t":"AI & automation","book.s1.o5d":"Less manual work",
+    "book.s1.o6t":"AI receptionist","book.s1.o6d":"Answers when you can't",
+    "book.s1.o7t":"I don't know yet","book.s1.o7d":"We'll help you figure it out",
     "book.s2.title":"Pick a time that works","book.s2.sub":"All times are in Swedish time (CET). Weekdays.","book.s2.slots":"Available times",
     "book.s3.title":"Your details","book.s3.sub":"So we know who to talk to.",
     "book.f.name":"Name","book.f.nameErr":"Please enter your name","book.f.company":"Company",
     "book.f.email":"Email","book.f.emailErr":"Enter a valid email address","book.f.phone":"Phone",
-    "book.f.msg":"Tell us briefly about the project","book.f.msgPh":"What do you want to build? Any budget or deadline?",
+    "book.f.msg":"Tell us briefly about your business","book.f.msgPh":"Tell us briefly about your business and what you want to achieve.",
     "book.s4.title":"Does this look right?","book.s4.sub":"Check and submit your request.",
     "book.next":"Next step","book.back":"Back","book.review":"Review booking","book.confirm":"Confirm booking","book.sending":"Sending…","book.error":"Something went wrong while sending your request. Please try again shortly, or email us directly at","book.errorMail":"open email",
     "book.done.title":"Thanks — talk soon!","book.done.msg":"Your request has been received. We'll confirm your time by email within 24 hours.","book.done.again":"Book another time",
     "sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
-    "faq.eyebrow":"FAQ","faq.title":"Good to know",
-    "faq.1.q":"What does it cost?","faq.1.a":"It depends on the service. Advertising usually runs as a monthly fee plus your ad budget, while websites and AI solutions are fixed-price. You always get clear pricing before we start.",
-    "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within 2–4 weeks. Ad campaigns can be live within days, and AI assistants are set up in 1–3 weeks.",
+    "faq.eyebrow":"FAQ","faq.title":"Frequently asked questions",
+    "faq.1.q":"What does it cost?","faq.1.a":"Every business and project has different needs, so we don't work with fixed standard packages. In a free first meeting we go through your goals and needs, then put together a clear proposal.","faq.1.cta":"Book a free call",
+    "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within 2–4 weeks. Ad campaigns can be live within days, and AI solutions are set up in 1–3 weeks.",
     "faq.3.q":"Do I own everything we create?","faq.3.a":"Yes. Once it's paid, you own all code, design, ad accounts and content 100%. No lock-in.",
-    "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development. Many clients stay with us for years.",
-    "cta.title":"Ready to get more customers?","cta.lead":"Book a no-strings call today. We promise concrete ideas — not a sales pitch.","cta.btn":"Book your call",
-    "foot.tagline":"We bring businesses more customers — with ads, websites and AI assistants.",
-    "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.rights":"All rights reserved.",
+    "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development whenever you want it.",
+    "cta.title":"Ready to see what CertaCode can do for your business?","cta.lead":"A first meeting is free and without obligation.","cta.btn":"Book a call",
+    "foot.tagline":"Digital marketing, SEO and AI automation for businesses that want to grow.",
+    "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.privacy":"Privacy policy","foot.location":"Sweden","foot.rights":"All rights reserved.",
     "months":["January","February","March","April","May","June","July","August","September","October","November","December"],
     "dow":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
   }
