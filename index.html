@@ -164,84 +164,91 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    HERO
    ============================================================ */
-.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:calc(var(--nav-h) + clamp(28px,4vw,56px));padding-bottom:clamp(40px,5vw,72px);overflow:hidden}
-.hero__shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-/* Hero intro: zoom into a screen where a site builds itself (see initIntro) */
-/* ---------- Hero intro ---------- */
-.intro{position:absolute;inset:0;z-index:0;overflow:hidden;
-  background:radial-gradient(120% 90% at 72% 18%, #fff 0%, var(--bg) 52%, #EDEBE3 100%)}
-.intro__scene{position:absolute;inset:0;transition:transform 1.75s cubic-bezier(.74,0,.16,1)}
-.intro__device{position:absolute;left:50%;top:50%;width:min(64vw,1080px);aspect-ratio:16/10;
-  transform:translate(-50%,-53%);background:#1E1C19;border-radius:16px;padding:12px 12px 20px;
-  box-shadow:0 48px 100px -34px rgba(20,22,26,.5),inset 0 0 0 1px rgba(255,255,255,.07)}
-.intro__device::after{content:"";position:absolute;left:50%;bottom:-14px;width:116%;height:14px;transform:translateX(-50%);
-  background:linear-gradient(#302C27,#17150F);border-radius:0 0 12px 12px}
-.intro__screen{position:relative;width:100%;height:100%;background:#fff;border-radius:6px;overflow:hidden;container-type:inline-size}
-/* the fictional site, sized in container units so it scales with the screen */
-.mock{position:absolute;inset:0;padding:3cqw 4.4cqw;color:#1B1A17;font-family:var(--font-body)}
-.mock__nav{display:flex;align-items:center;gap:2.4cqw;height:3.4cqw}
-.mock__logo{font-weight:800;font-size:1.9cqw;letter-spacing:-.02em}
-.mock__links{display:flex;gap:2.2cqw;margin-left:auto;font-size:1.15cqw;font-weight:500;color:#6F6B63}
-.mock__btn{font-size:1.15cqw;font-weight:700;color:#1B1A17;background:var(--accent);padding:.9cqw 1.9cqw;border-radius:3cqw}
-.mock__hero{display:grid;grid-template-columns:1.05fr 1fr;gap:4cqw;align-items:center;margin-top:5.2cqw}
-.mock__eyebrow{display:block;font-size:1cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.mock__h1{font-size:6cqw;line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:1.4cqw 0 1.6cqw}
-.mock__h1 em{font-style:normal;color:var(--accent)}
-.mock__p{font-size:1.45cqw;line-height:1.5;color:#6F6B63;margin:0;max-width:34cqw}
-.mock__ctas{display:flex;gap:1.2cqw;margin-top:2.6cqw}
-.mock__cta{font-size:1.15cqw;font-weight:700;color:#fff;background:#1B1A17;padding:1.15cqw 2.2cqw;border-radius:3cqw}
-.mock__cta.ghost{background:transparent;color:#1B1A17;box-shadow:inset 0 0 0 .12cqw #D9D7D1}
-.mock__img{position:relative;aspect-ratio:4/3.1;border-radius:1.6cqw;overflow:hidden;
-  background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
-.mock__img i{position:absolute;left:18%;top:22%;width:22%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 40% 40%,#FFF6DF,#F5C976 70%,rgba(245,201,118,0) 72%);filter:blur(.4cqw)}
-.mock__img::after{content:"";position:absolute;inset:auto 0 0;height:34%;
-  background:linear-gradient(180deg,rgba(24,46,74,0),rgba(24,46,74,.55))}
-.mock__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw;margin-top:4.2cqw}
-.mock__cards div{padding:1.7cqw 1.8cqw;border-radius:1.2cqw;background:#F6F5F2;border:.1cqw solid #ECEAE5}
-.mock__cards b{display:block;font-size:1.35cqw;font-weight:800;margin-bottom:.4cqw}
-.mock__cards span{font-size:1.05cqw;color:#6F6B63;line-height:1.45}
-/* everything waits, then springs into place */
-.mock [data-pop]{opacity:0;transform:translateY(1.8cqw) scale(.94)}
-.mock [data-pop].on{animation:mockPop .72s cubic-bezier(.34,1.56,.64,1) forwards}
-.mock .mock__img[data-pop].on{animation-name:mockImg;animation-duration:.85s}
-@keyframes mockPop{from{opacity:0;transform:translateY(1.8cqw) scale(.92)}to{opacity:1;transform:none}}
-@keyframes mockImg{from{opacity:0;transform:scale(.84) rotate(-1.5deg)}to{opacity:1;transform:none}}
-/* skipping: land on the end state with no motion */
-.intro.is-skip .intro__scene{transition:none}
-.intro.is-skip .mock [data-pop].on{animation-duration:0s}
-/* the copy is hidden until the intro has settled, then re-staggers in */
-.hero.is-intro .hero__copy{opacity:0;visibility:hidden}
-.hero.is-intro .hero__scrim{opacity:0}
-.hero.is-done .hero__copy{opacity:1;visibility:visible}
-.hero.is-done .hero__scrim{opacity:1;transition:opacity 1s var(--ease)}
-/* keeps the headline readable on top of the footage */
-.hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
-  /* keeps the copy readable over the built site on the right */
-  background:linear-gradient(100deg, rgba(248,247,241,.94) 0%, rgba(248,247,241,.88) 28%, rgba(248,247,241,.58) 42%, rgba(248,247,241,.18) 51%, rgba(248,247,241,0) 57%);}
-.hero.shader-on .hero__glow{display:none}
-.hero__glow{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero__glow::before{
-  content:"";position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;max-width:760px;max-height:760px;
-  background:radial-gradient(circle at center, var(--accent-glow), transparent 62%);
-  filter:blur(20px);
-}
-.hero__glow::after{
-  content:"";position:absolute;bottom:-30%;left:-15%;width:52vw;height:52vw;max-width:620px;max-height:620px;
-  background:radial-gradient(circle at center, rgba(14,159,110,.10), transparent 65%);
-  filter:blur(20px);
-}
-.hero__grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;align-items:center}
-.hero__copy{max-width:min(56%,1020px)}
-.hero h1{font-size:clamp(40px,4.6vw,90px);font-weight:800;letter-spacing:-.022em}
+/* ---------- Hero: copy left, lead form right, on a faint dot grid ---------- */
+.hero{position:relative;padding-top:calc(var(--nav-h) + clamp(44px,6vw,92px));padding-bottom:clamp(36px,5vw,72px);overflow:hidden;
+  background-color:var(--bg);background-image:radial-gradient(rgba(27,26,23,.11) 1px,transparent 1.3px);background-size:22px 22px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(248,247,241,0) 0%,var(--bg) 100%)}
+.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(32px,5vw,84px);align-items:center}
+.hero h1{font-size:clamp(38px,4.2vw,72px);font-weight:800;letter-spacing:-.022em;line-height:1.04}
 .hero h1 em{font-style:italic;color:var(--accent)}
 .hero .lead{margin-top:22px}
-.hero__cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
-.hero__meta{margin-top:36px;display:flex;gap:clamp(28px,3vw,44px);flex-wrap:wrap;align-items:center}
-.hero__meta .stat{display:flex;flex-direction:column;gap:2px}
-.hero__meta .stat b{font-family:var(--font-display);font-size:clamp(28px,2.4vw,38px);font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
-.hero__meta .stat span{font-size:13.5px;color:var(--muted)}
-.hero__meta .divider{width:1px;height:42px;background:var(--line-strong)}
+.checks{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:12px}
+.checks li{display:flex;gap:12px;align-items:center;font-weight:600;font-size:clamp(15px,1vw,17px);color:var(--ink)}
+.checks li i{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;flex:none}
+.checks li i svg{width:14px;height:14px}
+.hero__alt{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-weight:600;color:var(--accent-ink)}
+.hero__alt svg{width:16px;height:16px;transition:transform .25s var(--ease)}
+.hero__alt:hover svg{transform:translateX(4px)}
+/* the lead form */
+.hform{position:relative;background:var(--surface);border-radius:24px;padding:clamp(26px,2.6vw,38px);box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.hform h2{font-size:clamp(22px,1.7vw,28px);letter-spacing:-.015em;padding-right:56px}
+.hform > p{color:var(--ink-soft);font-size:15px;line-height:1.55;margin:10px 0 22px}
+.hform .field{margin-bottom:14px}
+.hform label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink-soft)}
+.hform input{width:100%;padding:13px 15px;border:1px solid var(--line-strong);border-radius:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);transition:border-color .2s,box-shadow .2s,background .2s}
+.hform input::placeholder{color:var(--muted)}
+.hform input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);background:#fff}
+.hform .btn{width:100%;margin-top:6px}
+.hform__note{font-size:12.5px;color:var(--muted);text-align:center;margin:12px 0 0}
+.hform__err{display:none;font-size:13.5px;color:var(--accent-ink);margin:0 0 10px;font-weight:600}
+.hform.is-error .hform__err{display:block}
+.hform__ok{display:none;text-align:center;padding:20px 0 8px}
+.hform__ok .ic{width:54px;height:54px;border-radius:50%;background:var(--accent);color:var(--ink);display:grid;place-items:center;margin:0 auto 14px}
+.hform__ok .ic svg{width:26px;height:26px}
+.hform__ok h3{font-size:22px}
+.hform__ok p{color:var(--ink-soft);margin-top:8px}
+.hform.is-done form{display:none}
+.hform.is-done .hform__ok{display:block}
+/* round sticker on the form's corner */
+.sticker{position:absolute;top:-24px;right:-16px;width:112px;height:112px;border-radius:50%;background:var(--accent);color:var(--ink);
+  display:grid;place-items:center;text-align:center;font-weight:800;font-size:13px;line-height:1.15;letter-spacing:-.01em;padding:14px;
+  transform:rotate(-10deg);box-shadow:0 14px 30px -10px rgba(239,91,78,.55);animation:stickerIn .9s cubic-bezier(.34,1.56,.64,1) .5s both}
+@keyframes stickerIn{from{opacity:0;transform:rotate(-32deg) scale(.5)}to{opacity:1;transform:rotate(-10deg) scale(1)}}
+/* ---------- Strip: two rows of site shots drifting in opposite directions ---------- */
+.strip{position:relative;padding:clamp(24px,3vw,44px) 0 clamp(48px,6vw,88px);overflow:hidden;background:var(--bg)}
+.strip__row{display:flex;gap:20px;width:max-content;will-change:transform}
+.strip__row+.strip__row{margin-top:20px}
+.strip__row.to-left{animation:stripLeft 72s linear infinite}
+.strip__row.to-right{animation:stripRight 72s linear infinite}
+.strip:hover .strip__row{animation-play-state:paused}
+.strip__row img{width:clamp(220px,22vw,320px);aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block;box-shadow:var(--shadow-sm);background:var(--bg-tint)}
+@keyframes stripLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes stripRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){.strip__row{animation:none}.sticker{animation:none}}
+/* ---------- Service rows: a big rounded picture beside the text, alternating ---------- */
+.row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,88px);align-items:center}
+.row+.row{margin-top:clamp(64px,9vw,120px)}
+.row--flip .row__media{order:2}
+.row__media{position:relative;border-radius:24px;overflow:hidden;background:var(--bg-tint);aspect-ratio:5/4;box-shadow:var(--shadow-md)}
+.row__media>img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.row h2{font-size:clamp(30px,2.9vw,54px);margin-top:14px;letter-spacing:-.02em}
+.row .lead{margin-top:16px}
+.row .checks{margin-top:22px}
+.row .btn{margin-top:28px}
+/* a coded ad card for the Meta row: crisp, on-brand, no stock */
+.row__media.is-ad{background:linear-gradient(160deg,var(--accent-soft),var(--bg-tint))}
+.adcard{position:absolute;left:50%;top:50%;width:min(76%,330px);transform:translate(-50%,-50%) rotate(-2.5deg);background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px}
+.adcard__head{display:flex;align-items:center;gap:10px}
+.adcard__avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2F5D8C,#7FA4CB);flex:none}
+.adcard__head b{display:block;font-weight:800;font-size:13.5px}
+.adcard__head small{display:block;color:var(--muted);font-size:11.5px}
+.adcard__img{margin:12px -14px;aspect-ratio:4/3;position:relative;overflow:hidden;background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
+.adcard__img i{position:absolute;left:16%;top:20%;width:24%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFF6DF,#F5C976 70%,rgba(245,201,118,0) 72%);filter:blur(3px)}
+.adcard__cta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--bg-tint)}
+.adcard__cta b{display:block;font-size:13.5px;font-weight:800}
+.adcard__cta span{display:block;font-size:12px;color:var(--muted)}
+.adcard__btn{padding:8px 14px;border-radius:100px;background:var(--accent);color:var(--ink);font-weight:700;font-size:12.5px;white-space:nowrap}
+.adcard__actions{display:flex;gap:16px;margin-top:12px;color:var(--ink-soft)}
+.adcard__actions svg{width:20px;height:20px}
+/* the AI row shows the call flow as a stacked list */
+.row__media.is-flow{aspect-ratio:auto;padding:clamp(16px,2vw,26px);background:var(--surface);border:1px solid var(--line)}
+.flow{display:flex;flex-direction:column;gap:8px}
+.flow__step{position:relative;display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:var(--bg-tint)}
+.flow__step .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.flow__step .ic svg{width:22px;height:22px}
+.flow__step b{font-size:14.5px;font-weight:700;color:var(--ink)}
+.flow__step+.flow__step::before{content:"";position:absolute;left:35px;top:-8px;border:5px solid transparent;border-top:7px solid var(--line-strong)}
 
 /* Hero visual card */
 
@@ -290,17 +297,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .seo__chip{display:flex;align-items:center;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-weight:500;font-size:15px}
 .seo__chip svg{width:18px;height:18px;color:var(--accent);flex:none}
 /* AI receptionist showcase */
-.ai{padding-bottom:clamp(32px,4vw,56px)}
-.ai__inner{padding:clamp(40px,5vw,64px) clamp(28px,4vw,56px) clamp(16px,2vw,28px)}
-.ai .sec-head h2,.ai .sec-head .lead{color:#fff}
-.ai .sec-head .lead{color:rgba(255,255,255,.72)}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 clamp(20px,3vw,44px)}
-.flow__step{position:relative;padding:22px 14px;text-align:center;border-radius:var(--radius-lg);background:rgba(255,255,255,.05)}
-.flow__step .ic{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.08);display:grid;place-items:center;margin:0 auto 14px;color:var(--accent-on-dark)}
-.flow__step .ic svg{width:24px;height:24px}
-.flow__step b{display:block;font-size:14.5px;line-height:1.35;color:#fff;font-weight:600}
-.flow__step+.flow__step::before{content:"";position:absolute;left:-9px;top:46px;width:0;height:0;border:5px solid transparent;border-left:7px solid rgba(255,255,255,.4)}
-.ai__cta{padding:clamp(24px,3vw,40px) clamp(28px,4vw,56px) 0}
 /* before / after */
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .ba__col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(24px,2.6vw,36px)}
@@ -318,17 +314,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    PROCESS
    ============================================================ */
-.process{background:var(--ink);color:#fff;border-radius:clamp(24px,4vw,40px)}
-.process .eyebrow{color:var(--accent-on-dark)}
-.process .eyebrow::before{background:var(--accent-on-dark)}
-.process h2{color:#fff}
-.process .lead{color:rgba(255,255,255,.72)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:12px;background:rgba(255,255,255,.09);border-radius:var(--radius-lg);overflow:hidden}
-.step{background:var(--ink);padding:34px 26px;transition:background .4s}
-.step:hover{background:#26231F}
-.step__num{font-family:var(--font-display);font-size:15px;color:var(--accent-on-dark);font-weight:600;letter-spacing:.05em}
-.step h3{font-size:clamp(21px,1.15vw,24px);margin:16px 0 10px;color:#fff}
-.step p{font-size:clamp(14.5px,.85vw,16.5px);color:rgba(255,255,255,.62);line-height:1.6}
+.process{background:transparent;color:var(--ink)}
+.process .eyebrow{color:var(--accent-ink)}
+.process .eyebrow::before{background:var(--accent-ink)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:12px}
+.step{background:var(--surface);padding:30px 26px 32px;border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.step:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.step__num{font-family:var(--font-display);font-size:clamp(34px,3vw,48px);color:var(--accent);font-weight:800;letter-spacing:-.03em;line-height:1}
+.step h3{font-size:clamp(20px,1.15vw,23px);margin:14px 0 8px;color:var(--ink)}
+.step p{font-size:clamp(14.5px,.85vw,16px);color:var(--ink-soft);line-height:1.6}
 
 /* ============================================================
    WORK / RESULTS
@@ -361,18 +355,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   background:var(--surface);border:1px solid var(--line);border-radius:clamp(24px,4vw,36px);
   box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-columns:.85fr 1.15fr;
 }
-.booking__aside{background:linear-gradient(160deg,var(--ink),#2A2622);color:#fff;padding:clamp(34px,4vw,52px);display:flex;flex-direction:column}
-.booking__aside .eyebrow{color:var(--accent-on-dark)}
-.booking__aside .eyebrow::before{background:var(--accent-on-dark)}
-.booking__aside h2{color:#fff;font-size:clamp(28px,3.4vw,38px);margin-top:16px}
-.booking__aside p{color:rgba(255,255,255,.72);margin-top:18px;font-size:15.5px}
+.booking__aside{background:var(--accent-soft);color:var(--ink);padding:clamp(34px,4vw,52px);display:flex;flex-direction:column}
+.booking__aside .eyebrow{color:var(--ink)}
+.booking__aside .eyebrow::before{background:var(--accent-ink)}
+.booking__aside h2{color:var(--ink);font-size:clamp(28px,3.4vw,38px);margin-top:16px}
+.booking__aside p{color:var(--ink-soft);margin-top:18px;font-size:15.5px}
 .booking__perks{list-style:none;padding:0;margin:32px 0 0;display:flex;flex-direction:column;gap:16px}
-.booking__perks li{display:flex;gap:13px;align-items:flex-start;font-size:15px;color:rgba(255,255,255,.9)}
-.booking__perks svg{width:22px;height:22px;color:var(--accent-on-dark);flex:none}
-.booking__contact{margin-top:auto;padding-top:32px;display:flex;flex-direction:column;gap:10px;font-size:14.5px;color:rgba(255,255,255,.72)}
+.booking__perks li{display:flex;gap:13px;align-items:flex-start;font-size:15px;color:var(--ink)}
+.booking__perks svg{width:22px;height:22px;color:var(--accent-ink);flex:none}
+.booking__contact{margin-top:auto;padding-top:32px;display:flex;flex-direction:column;gap:10px;font-size:14.5px;color:var(--ink-soft)}
 .booking__contact a{display:flex;gap:10px;align-items:center;transition:color .2s}
-.booking__contact a:hover{color:#fff}
-.booking__contact svg{width:18px;height:18px;color:var(--accent-on-dark)}
+.booking__contact a:hover{color:var(--ink)}
+.booking__contact svg{width:18px;height:18px;color:var(--accent-ink)}
 
 .booking__form{padding:clamp(30px,3.6vw,46px)}
 /* progress */
@@ -477,13 +471,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    CTA BANNER
    ============================================================ */
-.cta-banner{position:relative;overflow:hidden;background:var(--ink);border-radius:clamp(24px,4vw,40px);padding:clamp(48px,7vw,86px) clamp(28px,5vw,64px);text-align:center;color:#fff}
+.cta-banner{position:relative;overflow:hidden;background:var(--accent-soft);border-radius:clamp(24px,4vw,40px);padding:clamp(48px,7vw,86px) clamp(28px,5vw,64px);text-align:center;color:#fff}
 .cta-banner::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:80%;height:120%;background:radial-gradient(ellipse at center,rgba(239,91,78,.4),transparent 60%);filter:blur(30px)}
 .cta-banner > *{position:relative;z-index:1}
-.cta-banner h2{color:#fff;font-size:clamp(30px,4.6vw,52px)}
-.cta-banner p{color:rgba(255,255,255,.72);max-width:50ch;margin:18px auto 34px}
-.cta-banner .btn-primary{background:#fff;color:var(--ink)}
-.cta-banner .btn-primary:hover{background:#fff;transform:translateY(-2px)}
+.cta-banner h2{color:var(--ink);font-size:clamp(30px,4.6vw,52px)}
+.cta-banner p{color:var(--ink-soft);max-width:50ch;margin:18px auto 34px}
+.cta-banner .btn-primary{background:var(--accent);color:var(--ink)}
+.cta-banner .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
 
 /* ============================================================
    FOOTER
@@ -559,12 +553,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    RESPONSIVE
    ============================================================ */
 @media (max-width:1024px){
-  .flow{grid-template-columns:1fr;gap:6px}
-  .flow__step{display:flex;align-items:center;gap:16px;text-align:left;padding:14px 16px}
-  .flow__step .ic{margin:0;flex:none}
-  .flow__step+.flow__step::before{left:36px;top:-8px;border:5px solid transparent;border-top:7px solid rgba(255,255,255,.4)}
-  .hero__grid{grid-template-columns:1fr;gap:48px}
-  .hero__copy{max-width:72%}
+  .hero__grid{grid-template-columns:1fr;gap:40px}
+  .hform{max-width:520px}
+  .row,.row--flip{grid-template-columns:1fr;gap:28px}
+  .row--flip .row__media{order:0}
   .services,.quotes{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
   .results{grid-template-columns:1fr 1fr}
@@ -572,32 +564,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .footer__grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:720px){
-  .hero__scrim{background:linear-gradient(180deg, rgba(248,247,241,.72) 0%, rgba(248,247,241,.68) 58%, rgba(248,247,241,.52) 82%, rgba(248,247,241,.42) 100%)}
-  /* phones zoom into a phone, and the mock collapses to one column */
-  .intro__device{width:min(60vw,300px);aspect-ratio:9/19;border-radius:26px;padding:9px;transform:translate(-50%,-50%)}
-  .intro__device::after{display:none}
-  .intro__screen{border-radius:18px}
-  .mock{padding:6cqw 6cqw}
-  .mock__nav{height:7cqw}
-  .mock__logo{font-size:4.6cqw}
-  .mock__links{display:none}
-  .mock__btn{font-size:3cqw;padding:2cqw 4cqw;margin-left:auto}
-  .mock__hero{grid-template-columns:1fr;gap:5cqw;margin-top:9cqw}
-  .mock__eyebrow{font-size:2.4cqw}
-  .mock__h1{font-size:12cqw;margin:2.4cqw 0 3cqw}
-  .mock__p{font-size:3.4cqw;max-width:none}
-  .mock__ctas{margin-top:5cqw;gap:2.4cqw}
-  .mock__cta{font-size:2.9cqw;padding:2.6cqw 4.6cqw}
-  .mock__img{aspect-ratio:4/3}
-  .mock__cards{grid-template-columns:1fr;gap:3cqw;margin-top:7cqw}
-  .mock__cards div{padding:3.6cqw 4cqw}
-  .mock__cards b{font-size:3.3cqw}
-  .mock__cards span{font-size:2.7cqw}
-  .hero__copy{max-width:100%;text-align:center}
-  .hero__copy .lead{margin-inline:auto}
-  .hero .eyebrow::before{display:none}
-  .hero__cta{justify-content:center}
-  .hero__meta{justify-content:center}
+  .hero{padding-top:calc(var(--nav-h) + 28px)}
+  .hform{max-width:none;padding:22px}
+  .sticker{width:92px;height:92px;font-size:11.5px;top:-18px;right:-8px}
+  .strip__row img{width:200px}
+  .strip__row{gap:12px}
   .nav__links{display:none}
   .nav__right .btn{display:none}
   .nav__burger{display:flex}
@@ -607,19 +578,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .ba{grid-template-columns:1fr}
   .field.two{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
-  .hero__meta{gap:18px}
   body{font-size:16px}
 }
 @media (max-width:480px){
   .footer__grid{grid-template-columns:1fr}
-}
-/* Short desktop windows: keep the whole hero on one screen */
-@media (min-width:721px) and (max-height:820px){
-  .hero h1{font-size:clamp(38px,3.9vw,70px)}
-  .hero .lead{margin-top:18px;font-size:clamp(16px,.95vw,18px)}
-  .hero__cta{margin-top:26px}
-  .hero__meta{margin-top:26px}
-  .hero__meta .stat b{font-size:clamp(24px,1.9vw,30px)}
 }
 /* Large desktops: widen container + scale spacing so content fills the screen */
 @media (min-width:1500px){
@@ -701,58 +663,46 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <main id="top">
 
 <!-- ================= HERO ================= -->
-<section class="hero">
-  <!-- Intro: the camera zooms into a laptop, a site builds itself on the
-       screen, then the real copy settles in. Pure CSS/JS, no video. The
-       mock is a fictional brand, not a client. -->
-  <div class="intro" id="intro" aria-hidden="true">
-    <div class="intro__scene" id="introScene">
-      <div class="intro__device">
-        <div class="intro__screen" id="introScreen">
-          <div class="mock">
-            <header class="mock__nav">
-              <span class="mock__logo" data-pop="logo">Nordlys</span>
-              <nav class="mock__links" data-pop="links"><span>Rummen</span><span>Bastun</span><span>Köket</span><span>Hitta hit</span></nav>
-              <span class="mock__btn" data-pop="btn">Boka</span>
-            </header>
-            <div class="mock__hero">
-              <div class="mock__copy">
-                <span class="mock__eyebrow" data-pop="eyebrow">Boutiquehotell · Höga Kusten</span>
-                <div class="mock__h1" data-pop="h1">Rum för <em>lugn</em>.</div>
-                <p class="mock__p" data-pop="p1">Sju rum, en vedeldad bastu och ett hav som aldrig är riktigt tyst.</p>
-                <div class="mock__ctas" data-pop="ctas"><span class="mock__cta">Se rummen</span><span class="mock__cta ghost">Boka bord</span></div>
-              </div>
-              <div class="mock__img" data-pop="img"><i></i></div>
-            </div>
-            <div class="mock__cards">
-              <div data-pop="c1"><b>Rummen</b><span>Ek, ull och utsikt över viken.</span></div>
-              <div data-pop="c2"><b>Bastun</b><span>Ved, kallbad och bryggan.</span></div>
-              <div data-pop="c3"><b>Köket</b><span>Lokalt, säsong, sju rätter.</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="hero__scrim" aria-hidden="true"></div>
-  <div class="hero__glow" aria-hidden="true"></div>
+<section class="hero" id="hero">
   <div class="wrap">
     <div class="hero__grid">
       <div class="hero__copy">
         <span class="eyebrow reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
         <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.</h1>
         <p class="lead reveal" data-delay="2" data-i18n="hero.lead">Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.</p>
-        <div class="hero__cta reveal" data-delay="3">
-          <a href="#boka" class="btn btn-primary btn-lg" data-i18n="hero.ctaPrimary">Boka kostnadsfritt möte
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="#tjanster" class="btn btn-ghost btn-lg" data-i18n="hero.ctaSecondary">Se våra tjänster</a>
-        </div>
+        <ul class="checks reveal" data-delay="3">
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c1">Gratis designförslag, anpassat för er</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c2">Inga förpliktelser</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c3">Svar inom 24 timmar</span></li>
+        </ul>
+        <a href="#boka" class="hero__alt reveal" data-delay="4"><span data-i18n="hero.alt">Eller boka ett kostnadsfritt möte</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
 
+      <!-- lead form: posts to the same backend as the booking, so it really arrives -->
+      <div class="hform reveal" data-delay="2" id="hform">
+        <div class="sticker" aria-hidden="true" data-i18n-html="hero.sticker">Gratis<br>design­förslag</div>
+        <h2 data-i18n="hf.title">Få ett gratis designförslag</h2>
+        <p data-i18n="hf.sub">Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut — utan kostnad.</p>
+        <form id="heroForm" novalidate>
+          <div class="field"><label for="hf-name" data-i18n="hf.name">Namn</label><input id="hf-name" name="name" type="text" autocomplete="name"></div>
+          <div class="field"><label for="hf-email" data-i18n="hf.email">E-post</label><input id="hf-email" name="email" type="email" autocomplete="email" inputmode="email"></div>
+          <div class="field"><label for="hf-site" data-i18n="hf.site">Nuvarande hemsida (valfritt)</label><input id="hf-site" name="site" type="text" inputmode="url" placeholder="www.dittforetag.se"></div>
+          <p class="hform__err" role="alert" data-i18n="hf.err">Fyll i namn och en giltig e-postadress.</p>
+          <button type="submit" class="btn btn-primary btn-lg" data-i18n="hf.btn">Få mitt designförslag</button>
+          <p class="hform__note" data-i18n="hf.note">Inga förpliktelser. Vi hör av oss inom 24 timmar.</p>
+        </form>
+        <div class="hform__ok"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></div><h3 data-i18n="hf.okTitle">Tack — vi hör av oss!</h3><p data-i18n="hf.okMsg">Vi återkommer inom 24 timmar med nästa steg.</p></div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ================= STRIP ================= -->
+<!-- Our own concept sites drifting past; two rows, opposite directions, paused on hover -->
+<div class="strip" aria-hidden="true">
+    <div class="strip__row to-left"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"></div>
+    <div class="strip__row to-right"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"></div>
+</div>
 
 <!-- ================= SERVICES ================= -->
 <section class="section" id="tjanster">
@@ -763,50 +713,75 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <p class="lead" data-i18n="svc.lead">Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.</p>
     </div>
 
-    <div class="services">
-      <article class="svc reveal" data-delay="1">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div>
-        <h3 data-i18n="svc.1.title">Webb &amp; SEO</h3>
-        <p class="svc__tag" data-i18n="svc.1.tag">Webbplatser byggda för att synas och konvertera.</p>
-        <p data-i18n="svc.1.desc">Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.</p>
-        <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f1">SEO</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f2">Webbdesign</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f3">Utveckling</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f4">Konverteringsoptimering</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.1.f5">Lokal SEO</span></li>
+    <!-- Webb & SEO -->
+    <div class="row reveal">
+      <div class="row__media"><img src="assets/strip/bageri-1.jpg" alt="Exempel på en webbplats vi designat" width="640" height="360" loading="lazy" decoding="async"></div>
+      <div>
+        <span class="eyebrow" data-i18n="svc.1.title">Webb &amp; SEO</span>
+        <h2 data-i18n="svc.1.tag">Webbplatser byggda för att synas och konvertera.</h2>
+        <p class="lead" data-i18n="svc.1.desc">Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.</p>
+        <ul class="checks">
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f1">SEO</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f2">Webbdesign</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f3">Utveckling</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f4">Konverteringsoptimering</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f5">Lokal SEO</span></li>
         </ul>
-      </article>
+        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
+      </div>
+    </div>
 
-      <article class="svc reveal" data-delay="2">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></div>
-        <h3 data-i18n="svc.2.title">Meta Ads</h3>
-        <p class="svc__tag" data-i18n="svc.2.tag">Annonser som når rätt människor.</p>
-        <p data-i18n="svc.2.desc">Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.</p>
-        <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f1">Facebook Ads</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f2">Instagram Ads</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f3">Annonsdesign</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f4">Copywriting</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f5">A/B-testning</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.2.f6">Kampanjoptimering</span></li>
+    <!-- Meta Ads -->
+    <div class="row row--flip reveal">
+      <div class="row__media is-ad" aria-hidden="true">
+        <div class="adcard">
+          <div class="adcard__head"><span class="adcard__avatar"></span><div><b>Nordlys</b><small>Sponsrad</small></div></div>
+          <div class="adcard__img"><i></i></div>
+          <div class="adcard__cta"><div><b>Boka ditt rum vid havet</b><span>nordlys.se</span></div><span class="adcard__btn">Läs mer</span></div>
+          <div class="adcard__actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 15V3M7 8l5-5 5 5"/></svg></div>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow" data-i18n="svc.2.title">Meta Ads</span>
+        <h2 data-i18n="svc.2.tag">Annonser som når rätt människor.</h2>
+        <p class="lead" data-i18n="svc.2.desc">Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.</p>
+        <ul class="checks">
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f1">Facebook Ads</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f2">Instagram Ads</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f3">Annonsdesign</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f4">Copywriting</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f5">A/B-testning</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f6">Kampanjoptimering</span></li>
         </ul>
-      </article>
+        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
+      </div>
+    </div>
 
-      <article class="svc reveal" data-delay="3">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div>
-        <h3 data-i18n="svc.3.title">AI &amp; automation</h3>
-        <p class="svc__tag" data-i18n="svc.3.tag">Låt systemen göra det repetitiva arbetet.</p>
-        <p data-i18n="svc.3.desc">Vi bygger skräddarsydda AI- och automationslösningar som minskar administration och gör verksamheten effektivare.</p>
-        <ul class="svc__list">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f1">AI-receptionist</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f2">Automatiserad lead-hantering</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f3">Bokningssystem</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f4">CRM-automation</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f5">E-postautomation</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="svc.3.f6">AI-agenter</span></li>
+    <!-- AI & automation, led by the receptionist -->
+    <div class="row reveal" id="ai">
+      <div class="row__media is-flow">
+      <div class="flow" aria-label="Så fungerar AI-receptionisten">
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></div><b data-i18n="ai.f1">Kund ringer</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div><b data-i18n="ai.f2">AI svarar</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></div><b data-i18n="ai.f3">Förstår ärendet</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><b data-i18n="ai.f4">Svarar, bokar eller vidarebefordrar</b></div>
+        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><b data-i18n="ai.f5">Information skickas till CRM</b></div>
+      </div>
+      </div>
+      <div>
+        <span class="eyebrow" data-i18n="svc.3.title">AI &amp; automation</span>
+        <h2 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h2>
+        <p class="lead" data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
+        <ul class="checks">
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f1">AI-receptionist</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f2">Automatiserad lead-hantering</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f3">Bokningssystem</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f4">CRM-automation</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f5">E-postautomation</span></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f6">AI-agenter</span></li>
         </ul>
-      </article>
+        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
+      </div>
     </div>
 
     <!-- SEO is its own value proposition, not a feature bullet -->
@@ -823,31 +798,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.4">Google Business Profile</span></div>
         <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.5">Sökordsanalys</span></div>
         <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.6">Innehåll</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= AI RECEPTIONIST ================= -->
-<section class="section" id="ai" style="padding-top:0">
-  <div class="wrap">
-    <div class="process ai reveal">
-      <div class="ai__inner">
-        <div class="sec-head" style="margin-bottom:0">
-          <span class="eyebrow" data-i18n="ai.eyebrow">AI-receptionist</span>
-          <h2 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h2>
-          <p class="lead" data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
-        </div>
-      </div>
-      <div class="flow" aria-label="Så fungerar AI-receptionisten">
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></div><b data-i18n="ai.f1">Kund ringer</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div><b data-i18n="ai.f2">AI svarar</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></div><b data-i18n="ai.f3">Förstår ärendet</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><b data-i18n="ai.f4">Svarar, bokar eller vidarebefordrar</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><b data-i18n="ai.f5">Information skickas till CRM</b></div>
-      </div>
-      <div class="ai__cta">
-        <a href="#boka" class="btn btn-primary btn-lg" data-i18n="ai.cta">Boka ett kostnadsfritt möte</a>
       </div>
     </div>
   </div>
@@ -914,8 +864,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section" id="process">
   <div class="wrap">
     <div class="process">
-      <div style="padding:clamp(40px,5vw,64px) clamp(28px,4vw,56px) clamp(24px,3vw,40px)">
-        <div class="sec-head reveal" style="margin-bottom:8px">
+      <div>
+        <div class="sec-head reveal">
           <span class="eyebrow" data-i18n="proc.eyebrow">Så arbetar vi</span>
           <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
           <p class="lead" data-i18n="proc.lead">Vi börjar med er verksamhet — inte med tekniken.</p>
@@ -1206,7 +1156,13 @@ const I18N = {
     "hero.eyebrow":"Digital byrå · Sverige",
     "hero.title":"Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.",
     "hero.lead":"Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.",
-    "hero.ctaPrimary":"Boka kostnadsfritt möte","hero.ctaSecondary":"Se våra tjänster",
+    "hero.c1":"Gratis designförslag, anpassat för er","hero.c2":"Inga förpliktelser","hero.c3":"Svar inom 24 timmar",
+    "hero.alt":"Eller boka ett kostnadsfritt möte","hero.sticker":"Gratis<br>design&shy;förslag",
+    "hf.title":"Få ett gratis designförslag","hf.sub":"Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut — utan kostnad.",
+    "hf.name":"Namn","hf.email":"E-post","hf.site":"Nuvarande hemsida (valfritt)","hf.err":"Fyll i namn och en giltig e-postadress.",
+    "hf.btn":"Få mitt designförslag","hf.note":"Inga förpliktelser. Vi hör av oss inom 24 timmar.",
+    "hf.okTitle":"Tack — vi hör av oss!","hf.okMsg":"Vi återkommer inom 24 timmar med nästa steg.",
+    "svc.cta":"Boka kostnadsfritt möte",
     "svc.eyebrow":"Vad vi gör","svc.title":"Tre tjänster som får företag att växa.",
     "svc.lead":"Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.",
     "svc.1.title":"Webb & SEO","svc.1.tag":"Webbplatser byggda för att synas och konvertera.",
@@ -1283,7 +1239,13 @@ const I18N = {
     "hero.eyebrow":"Digital agency · Sweden",
     "hero.title":"We help businesses <em>grow</em> with digital marketing, SEO and AI automation.",
     "hero.lead":"From more leads and better visibility on Google to AI systems that automate repetitive work. CertaCode builds digital solutions that save time and create growth.",
-    "hero.ctaPrimary":"Book a free call","hero.ctaSecondary":"See our services",
+    "hero.c1":"A free design proposal, made for you","hero.c2":"No obligations","hero.c3":"Reply within 24 hours",
+    "hero.alt":"Or book a free call","hero.sticker":"Free<br>design proposal",
+    "hf.title":"Get a free design proposal","hf.sub":"Tell us where to find you today and we'll show what your new site could look like — at no cost.",
+    "hf.name":"Name","hf.email":"Email","hf.site":"Current website (optional)","hf.err":"Enter your name and a valid email address.",
+    "hf.btn":"Get my design proposal","hf.note":"No obligations. We'll be in touch within 24 hours.",
+    "hf.okTitle":"Thanks — we'll be in touch!","hf.okMsg":"We'll get back to you within 24 hours with the next step.",
+    "svc.cta":"Book a free call",
     "svc.eyebrow":"What we do","svc.title":"Three services that help businesses grow.",
     "svc.lead":"Web, advertising and automation — working together instead of across three different suppliers.",
     "svc.1.title":"Web & SEO","svc.1.tag":"Websites built to be found and to convert.",
@@ -1863,78 +1825,39 @@ const WORK_PROJECTS = [
   requestAnimationFrame(frame);
 })();
 
-(function initIntro(){
-  const hero  = document.querySelector(".hero");
-  const intro = document.getElementById("intro");
-  const scene = document.getElementById("introScene");
-  const screen = document.getElementById("introScreen");
-  if(!hero || !intro || !scene || !screen) return;
-  const pops = [...intro.querySelectorAll("[data-pop]")];
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let done = false, timers = [];
-  hero.classList.add("is-intro");
-
-  // the transform that makes the laptop screen exactly fill the viewport
-  function zoomTransform(){
-    const prevT = scene.style.transform, prevTr = scene.style.transition;
-    scene.style.transition = "none"; scene.style.transform = "none";
-    const r = screen.getBoundingClientRect();
-    // push the mock's own menu bar up behind the real nav, so the settled
-    // hero never shows two navbars and two "book" buttons. Measured in the
-    // same unscaled pass as the screen, or it comes back in zoomed pixels.
-    const mockNav = screen.querySelector(".mock__nav");
-    const navBottomU = mockNav ? (mockNav.getBoundingClientRect().bottom - r.top) : 0;
-    scene.style.transform = prevT;
-    void scene.offsetWidth; scene.style.transition = prevTr;
-    // two passes: the scale depends on how much we hide, and vice versa
-    let sc = Math.max(innerWidth / r.width, innerHeight / r.height) * 1.03;
-    let hide = navBottomU * sc + 12;
-    sc = Math.max(innerWidth / r.width, (innerHeight + hide) / r.height) * 1.03;
-    hide = navBottomU * sc + 12;
-    const cx = r.left + r.width/2, cy = r.top + r.height/2;
-    scene.style.transformOrigin = cx + "px " + cy + "px";
-    const targetCy = -hide + (r.height * sc) / 2;
-    return "translate(" + (innerWidth/2 - cx) + "px," + (targetCy - cy) + "px) scale(" + sc.toFixed(4) + ")";
-  }
-
-  const skipEvents = ["wheel","touchstart","keydown","pointerdown"];
-  function finish(instant){
-    if(done) return; done = true;
-    timers.forEach(clearTimeout);
-    skipEvents.forEach(ev => window.removeEventListener(ev, skip));
-    if(instant) intro.classList.add("is-skip");
-    scene.style.transform = zoomTransform();
-    pops.forEach(p => p.classList.add("on"));
-    hero.classList.remove("is-intro"); hero.classList.add("is-done");
-    // the copy was hidden while the site built; run its stagger now
-    hero.querySelectorAll(".hero__copy .reveal").forEach(el => {
-      el.classList.remove("in"); void el.offsetWidth; el.classList.add("in");
-    });
-  }
-  function skip(){ finish(true); }
-
-  if(reduce){ finish(true); return; }
-  skipEvents.forEach(ev => window.addEventListener(ev, skip, { passive:true }));
-
-  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
-  at(380, () => { scene.style.transform = zoomTransform(); });
-  // build order; the headline and the picture get a beat of their own
-  const order = ["logo","links","btn","eyebrow","h1","p1","ctas","img","c1","c2","c3"];
-  let t = 1500;
-  order.forEach(k => {
-    const el = intro.querySelector('[data-pop="' + k + '"]');
-    if(!el) return;
-    at(t, () => el.classList.add("on"));
-    t += (k === "h1" || k === "img") ? 340 : 170;
+(function initHeroForm(){
+  const box = document.getElementById("hform"), form = document.getElementById("heroForm");
+  if(!box || !form) return;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = form.name.value.trim(), email = form.email.value.trim(), site = form.site.value.trim();
+    const ok = !!name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    box.classList.toggle("is-error", !ok);
+    if(!ok){ (name ? form.email : form.name).focus(); return; }
+    const btn = form.querySelector('button[type="submit"]'), label = btn.textContent;
+    btn.disabled = true; btn.textContent = t("book.sending");
+    const subject = "Gratis designförslag – CertaCode";
+    const payload = { subject, replyto: email,
+      fields: { "Typ": "Designförslag (hero)", "Namn": name, "E-post": email, "Nuvarande hemsida": site || "-" } };
+    try{
+      const res = await fetch(BOOKING_ENDPOINT, { method:"POST",
+        headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) });
+      let data = null; try{ data = await res.json(); }catch(_){ data = null; }
+      if(data && data.success){ box.classList.add("is-done"); return; }
+      if(!data){
+        // no backend here (static preview): hand it to the mail client instead
+        const body = `Namn: ${name}\nE-post: ${email}\nNuvarande hemsida: ${site || "-"}`;
+        location.href = "mailto:info.certacode@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        box.classList.add("is-done"); return;
+      }
+      throw new Error(data.message || "delivery failed");
+    }catch(err){
+      box.classList.add("is-error");
+      box.querySelector(".hform__err").textContent = t("book.error") + " info.certacode@gmail.com";
+    }finally{
+      btn.disabled = false; btn.textContent = label;
+    }
   });
-  at(t + 650, () => finish(false));
-
-  let rt = null;
-  window.addEventListener("resize", () => {
-    if(!done) return;
-    clearTimeout(rt);
-    rt = setTimeout(() => { scene.style.transition = "none"; scene.style.transform = zoomTransform(); }, 80);
-  }, { passive:true });
 })();
 
 /* ============================================================
