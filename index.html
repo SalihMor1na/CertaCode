@@ -164,7 +164,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:calc(var(--nav-h) + clamp(28px,4vw,56px));padding-bottom:clamp(40px,5vw,72px);overflow:hidden}
 .hero__shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
-/* Hero background video (robot turns to face the visitor) */
+/* Hero intro: zoom into a screen where a site builds itself (see initIntro) */
 /* ---------- Hero intro ---------- */
 .intro{position:absolute;inset:0;z-index:0;overflow:hidden;
   background:radial-gradient(120% 90% at 72% 18%, #fff 0%, var(--bg) 52%, #EFEDE8 100%)}
@@ -1423,12 +1423,6 @@ const countIO = new IntersectionObserver((entries)=>{
 },{threshold:0.6});
 document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(el));
 
-/* ============================================================
-   HERO BACKGROUND VIDEO
-   The robot starts in profile and turns to face the visitor, then
-   holds on the last frame. Only loaded on larger screens (phones keep
-   the still poster) and skipped entirely for reduced-motion users.
-   ============================================================ */
 /* ============ ARBETE: curved WebGL carousel ============
    To add a project later: drop the three files in assets/portfolio/
    and add one entry here. Nothing else needs touching. */
