@@ -165,12 +165,57 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:calc(var(--nav-h) + clamp(28px,4vw,56px));padding-bottom:clamp(40px,5vw,72px);overflow:hidden}
 .hero__shader{position:absolute;inset:0;z-index:0;width:100%;height:100%;display:block;pointer-events:none}
 /* Hero background video (robot turns to face the visitor) */
-.hero__media{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--bg)}
-.hero__video{width:100%;height:100%;object-fit:cover;object-position:55% top;display:block;opacity:0;transition:opacity .9s var(--ease)}
-.hero__video.ready{opacity:1}
+/* ---------- Hero intro ---------- */
+.intro{position:absolute;inset:0;z-index:0;overflow:hidden;
+  background:radial-gradient(120% 90% at 72% 18%, #fff 0%, var(--bg) 52%, #EFEDE8 100%)}
+.intro__scene{position:absolute;inset:0;transition:transform 1.75s cubic-bezier(.74,0,.16,1)}
+.intro__device{position:absolute;left:50%;top:50%;width:min(64vw,1080px);aspect-ratio:16/10;
+  transform:translate(-50%,-53%);background:#1A1C21;border-radius:16px;padding:12px 12px 20px;
+  box-shadow:0 48px 100px -34px rgba(20,22,26,.5),inset 0 0 0 1px rgba(255,255,255,.07)}
+.intro__device::after{content:"";position:absolute;left:50%;bottom:-14px;width:116%;height:14px;transform:translateX(-50%);
+  background:linear-gradient(#2B2E36,#15171B);border-radius:0 0 12px 12px}
+.intro__screen{position:relative;width:100%;height:100%;background:#fff;border-radius:6px;overflow:hidden;container-type:inline-size}
+/* the fictional site, sized in container units so it scales with the screen */
+.mock{position:absolute;inset:0;padding:3cqw 4.4cqw;color:#1B1D22;font-family:var(--font-body)}
+.mock__nav{display:flex;align-items:center;gap:2.4cqw;height:3.4cqw}
+.mock__logo{font-weight:800;font-size:1.9cqw;letter-spacing:-.02em}
+.mock__links{display:flex;gap:2.2cqw;margin-left:auto;font-size:1.15cqw;font-weight:500;color:#5B606A}
+.mock__btn{font-size:1.15cqw;font-weight:700;color:#fff;background:#2547F0;padding:.9cqw 1.9cqw;border-radius:3cqw}
+.mock__hero{display:grid;grid-template-columns:1.05fr 1fr;gap:4cqw;align-items:center;margin-top:5.2cqw}
+.mock__eyebrow{display:block;font-size:1cqw;letter-spacing:.14em;text-transform:uppercase;color:#2547F0;font-weight:700}
+.mock__h1{font-size:6cqw;line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:1.4cqw 0 1.6cqw}
+.mock__h1 em{font-style:normal;color:#2547F0}
+.mock__p{font-size:1.45cqw;line-height:1.5;color:#5B606A;margin:0;max-width:34cqw}
+.mock__ctas{display:flex;gap:1.2cqw;margin-top:2.6cqw}
+.mock__cta{font-size:1.15cqw;font-weight:700;color:#fff;background:#1B1D22;padding:1.15cqw 2.2cqw;border-radius:3cqw}
+.mock__cta.ghost{background:transparent;color:#1B1D22;box-shadow:inset 0 0 0 .12cqw #D9D7D1}
+.mock__img{position:relative;aspect-ratio:4/3.1;border-radius:1.6cqw;overflow:hidden;
+  background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
+.mock__img i{position:absolute;left:18%;top:22%;width:22%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%,#FFF6DF,#F5C976 70%,rgba(245,201,118,0) 72%);filter:blur(.4cqw)}
+.mock__img::after{content:"";position:absolute;inset:auto 0 0;height:34%;
+  background:linear-gradient(180deg,rgba(24,46,74,0),rgba(24,46,74,.55))}
+.mock__cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw;margin-top:4.2cqw}
+.mock__cards div{padding:1.7cqw 1.8cqw;border-radius:1.2cqw;background:#F6F5F2;border:.1cqw solid #ECEAE5}
+.mock__cards b{display:block;font-size:1.35cqw;font-weight:800;margin-bottom:.4cqw}
+.mock__cards span{font-size:1.05cqw;color:#5B606A;line-height:1.45}
+/* everything waits, then springs into place */
+.mock [data-pop]{opacity:0;transform:translateY(1.8cqw) scale(.94)}
+.mock [data-pop].on{animation:mockPop .72s cubic-bezier(.34,1.56,.64,1) forwards}
+.mock .mock__img[data-pop].on{animation-name:mockImg;animation-duration:.85s}
+@keyframes mockPop{from{opacity:0;transform:translateY(1.8cqw) scale(.92)}to{opacity:1;transform:none}}
+@keyframes mockImg{from{opacity:0;transform:scale(.84) rotate(-1.5deg)}to{opacity:1;transform:none}}
+/* skipping: land on the end state with no motion */
+.intro.is-skip .intro__scene{transition:none}
+.intro.is-skip .mock [data-pop].on{animation-duration:0s}
+/* the copy is hidden until the intro has settled, then re-staggers in */
+.hero.is-intro .hero__copy{opacity:0;visibility:hidden}
+.hero.is-intro .hero__scrim{opacity:0}
+.hero.is-done .hero__copy{opacity:1;visibility:visible}
+.hero.is-done .hero__scrim{opacity:1;transition:opacity 1s var(--ease)}
 /* keeps the headline readable on top of the footage */
 .hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
-  /* fades out before the robot starts (~56%) so its colours stay true */
+  /* keeps the copy readable over the built site on the right */
   background:linear-gradient(100deg, rgba(251,250,248,.94) 0%, rgba(251,250,248,.88) 28%, rgba(251,250,248,.58) 42%, rgba(251,250,248,.18) 51%, rgba(251,250,248,0) 57%);}
 .hero.shader-on .hero__glow{display:none}
 .hero__glow{position:absolute;inset:0;z-index:0;pointer-events:none}
@@ -525,11 +570,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .footer__grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:720px){
-  /* phones: no video is loaded, and iOS will not paint a <video> poster
-     without a source — so show the still as a real background image */
-  .hero__media{background-image:url("assets/robot-poster-mobile.jpg");background-size:cover;background-position:77% center;background-repeat:no-repeat}
-  .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.62) 0%, rgba(251,250,248,.60) 58%, rgba(251,250,248,.46) 82%, rgba(251,250,248,.38) 100%)}
-  .hero__video{object-position:77% center}
+  .hero__scrim{background:linear-gradient(180deg, rgba(251,250,248,.72) 0%, rgba(251,250,248,.68) 58%, rgba(251,250,248,.52) 82%, rgba(251,250,248,.42) 100%)}
+  /* phones zoom into a phone, and the mock collapses to one column */
+  .intro__device{width:min(60vw,300px);aspect-ratio:9/19;border-radius:26px;padding:9px;transform:translate(-50%,-50%)}
+  .intro__device::after{display:none}
+  .intro__screen{border-radius:18px}
+  .mock{padding:6cqw 6cqw}
+  .mock__nav{height:7cqw}
+  .mock__logo{font-size:4.6cqw}
+  .mock__links{display:none}
+  .mock__btn{font-size:3cqw;padding:2cqw 4cqw;margin-left:auto}
+  .mock__hero{grid-template-columns:1fr;gap:5cqw;margin-top:9cqw}
+  .mock__eyebrow{font-size:2.4cqw}
+  .mock__h1{font-size:12cqw;margin:2.4cqw 0 3cqw}
+  .mock__p{font-size:3.4cqw;max-width:none}
+  .mock__ctas{margin-top:5cqw;gap:2.4cqw}
+  .mock__cta{font-size:2.9cqw;padding:2.6cqw 4.6cqw}
+  .mock__img{aspect-ratio:4/3}
+  .mock__cards{grid-template-columns:1fr;gap:3cqw;margin-top:7cqw}
+  .mock__cards div{padding:3.6cqw 4cqw}
+  .mock__cards b{font-size:3.3cqw}
+  .mock__cards span{font-size:2.7cqw}
   .hero__copy{max-width:100%;text-align:center}
   .hero__copy .lead{margin-inline:auto}
   .hero .eyebrow::before{display:none}
@@ -639,9 +700,37 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <!-- ================= HERO ================= -->
 <section class="hero">
-  <div class="hero__media" aria-hidden="true">
-    <video class="hero__video" id="heroVideo" poster="assets/robot-poster.jpg"
-           muted playsinline preload="none" disablepictureinpicture></video>
+  <!-- Intro: the camera zooms into a laptop, a site builds itself on the
+       screen, then the real copy settles in. Pure CSS/JS, no video. The
+       mock is a fictional brand, not a client. -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__scene" id="introScene">
+      <div class="intro__device">
+        <div class="intro__screen" id="introScreen">
+          <div class="mock">
+            <header class="mock__nav">
+              <span class="mock__logo" data-pop="logo">Nordlys</span>
+              <nav class="mock__links" data-pop="links"><span>Rummen</span><span>Bastun</span><span>Köket</span><span>Hitta hit</span></nav>
+              <span class="mock__btn" data-pop="btn">Boka</span>
+            </header>
+            <div class="mock__hero">
+              <div class="mock__copy">
+                <span class="mock__eyebrow" data-pop="eyebrow">Boutiquehotell · Höga Kusten</span>
+                <div class="mock__h1" data-pop="h1">Rum för <em>lugn</em>.</div>
+                <p class="mock__p" data-pop="p1">Sju rum, en vedeldad bastu och ett hav som aldrig är riktigt tyst.</p>
+                <div class="mock__ctas" data-pop="ctas"><span class="mock__cta">Se rummen</span><span class="mock__cta ghost">Boka bord</span></div>
+              </div>
+              <div class="mock__img" data-pop="img"><i></i></div>
+            </div>
+            <div class="mock__cards">
+              <div data-pop="c1"><b>Rummen</b><span>Ek, ull och utsikt över viken.</span></div>
+              <div data-pop="c2"><b>Bastun</b><span>Ved, kallbad och bryggan.</span></div>
+              <div data-pop="c3"><b>Köket</b><span>Lokalt, säsong, sju rätter.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="hero__scrim" aria-hidden="true"></div>
   <div class="hero__glow" aria-hidden="true"></div>
@@ -1778,43 +1867,78 @@ const WORK_PROJECTS = [
   requestAnimationFrame(frame);
 })();
 
-(function initHeroVideo(){
-  const v = document.getElementById("heroVideo");
-  if(!v) return;
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const wide   = window.matchMedia("(min-width: 768px)");
-  let loaded = false;
+(function initIntro(){
+  const hero  = document.querySelector(".hero");
+  const intro = document.getElementById("intro");
+  const scene = document.getElementById("introScene");
+  const screen = document.getElementById("introScreen");
+  if(!hero || !intro || !scene || !screen) return;
+  const pops = [...intro.querySelectorAll("[data-pop]")];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let done = false, timers = [];
+  hero.classList.add("is-intro");
 
-  function maybeLoad(){
-    if(loaded) return;
-    // honour an explicit data-saver choice; the effectiveType estimate is
-    // unreliable during page load, so it is not used to gate the video
-    const saveData = (navigator.connection || {}).saveData === true;
-    if(reduce.matches || saveData) return;   // the still image stays as the background
-    loaded = true;
-
-    // phones get a much lighter cut of the same clip
-    const base = wide.matches ? "assets/robot" : "assets/robot-mobile";
-    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
-    v.src = base + ((canWebm === "probably" || canWebm === "maybe") ? ".webm" : ".mp4");
-    v.addEventListener("loadeddata", ()=> v.classList.add("ready"), { once:true });
-    v.addEventListener("ended", ()=> v.pause(), { once:true });   // hold on the final frame
-    v.load();
-    const start = ()=>{ const p = v.play(); if(p && p.catch) p.catch(()=> v.classList.add("ready")); };
-    if(v.readyState >= 2) start(); else v.addEventListener("canplay", start, { once:true });
+  // the transform that makes the laptop screen exactly fill the viewport
+  function zoomTransform(){
+    const prevT = scene.style.transform, prevTr = scene.style.transition;
+    scene.style.transition = "none"; scene.style.transform = "none";
+    const r = screen.getBoundingClientRect();
+    // push the mock's own menu bar up behind the real nav, so the settled
+    // hero never shows two navbars and two "book" buttons. Measured in the
+    // same unscaled pass as the screen, or it comes back in zoomed pixels.
+    const mockNav = screen.querySelector(".mock__nav");
+    const navBottomU = mockNav ? (mockNav.getBoundingClientRect().bottom - r.top) : 0;
+    scene.style.transform = prevT;
+    void scene.offsetWidth; scene.style.transition = prevTr;
+    // two passes: the scale depends on how much we hide, and vice versa
+    let sc = Math.max(innerWidth / r.width, innerHeight / r.height) * 1.03;
+    let hide = navBottomU * sc + 12;
+    sc = Math.max(innerWidth / r.width, (innerHeight + hide) / r.height) * 1.03;
+    hide = navBottomU * sc + 12;
+    const cx = r.left + r.width/2, cy = r.top + r.height/2;
+    scene.style.transformOrigin = cx + "px " + cy + "px";
+    const targetCy = -hide + (r.height * sc) / 2;
+    return "translate(" + (innerWidth/2 - cx) + "px," + (targetCy - cy) + "px) scale(" + sc.toFixed(4) + ")";
   }
 
-  const onChange = ()=> maybeLoad();
-  maybeLoad();
-  // retry when the viewport grows, motion preference flips, or the
-  // connection estimate settles (it can report "slow-2g" for a moment on load)
-  wide.addEventListener ? wide.addEventListener("change", onChange) : wide.addListener(onChange);
-  reduce.addEventListener ? reduce.addEventListener("change", onChange) : reduce.addListener(onChange);
-  window.addEventListener("resize", onChange, { passive:true });
-  window.addEventListener("load", onChange, { once:true });
-  if(navigator.connection && navigator.connection.addEventListener){
-    navigator.connection.addEventListener("change", onChange);
+  const skipEvents = ["wheel","touchstart","keydown","pointerdown"];
+  function finish(instant){
+    if(done) return; done = true;
+    timers.forEach(clearTimeout);
+    skipEvents.forEach(ev => window.removeEventListener(ev, skip));
+    if(instant) intro.classList.add("is-skip");
+    scene.style.transform = zoomTransform();
+    pops.forEach(p => p.classList.add("on"));
+    hero.classList.remove("is-intro"); hero.classList.add("is-done");
+    // the copy was hidden while the site built; run its stagger now
+    hero.querySelectorAll(".hero__copy .reveal").forEach(el => {
+      el.classList.remove("in"); void el.offsetWidth; el.classList.add("in");
+    });
   }
+  function skip(){ finish(true); }
+
+  if(reduce){ finish(true); return; }
+  skipEvents.forEach(ev => window.addEventListener(ev, skip, { passive:true }));
+
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  at(380, () => { scene.style.transform = zoomTransform(); });
+  // build order; the headline and the picture get a beat of their own
+  const order = ["logo","links","btn","eyebrow","h1","p1","ctas","img","c1","c2","c3"];
+  let t = 1500;
+  order.forEach(k => {
+    const el = intro.querySelector('[data-pop="' + k + '"]');
+    if(!el) return;
+    at(t, () => el.classList.add("on"));
+    t += (k === "h1" || k === "img") ? 340 : 170;
+  });
+  at(t + 650, () => finish(false));
+
+  let rt = null;
+  window.addEventListener("resize", () => {
+    if(!done) return;
+    clearTimeout(rt);
+    rt = setTimeout(() => { scene.style.transition = "none"; scene.style.transform = zoomTransform(); }, 80);
+  }, { passive:true });
 })();
 
 /* ============================================================
