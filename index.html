@@ -217,38 +217,101 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @keyframes stripRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @media (prefers-reduced-motion:reduce){.strip__row{animation:none}.sticker{animation:none}}
 /* ---------- Service rows: a big rounded picture beside the text, alternating ---------- */
-.row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,88px);align-items:center}
-.row+.row{margin-top:clamp(64px,9vw,120px)}
-.row--flip .row__media{order:2}
-.row__media{position:relative;border-radius:24px;overflow:hidden;background:var(--bg-tint);aspect-ratio:5/4;box-shadow:var(--shadow-md)}
-.row__media>img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.row h2{font-size:clamp(30px,2.9vw,54px);margin-top:14px;letter-spacing:-.02em}
-.row .lead{margin-top:16px}
-.row .checks{margin-top:22px}
-.row .btn{margin-top:28px}
-/* a coded ad card for the Meta row: crisp, on-brand, no stock */
-.row__media.is-ad{background:linear-gradient(160deg,var(--accent-soft),var(--bg-tint))}
-.adcard{position:absolute;left:50%;top:50%;width:min(76%,330px);transform:translate(-50%,-50%) rotate(-2.5deg);background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px}
+/* Three colour tiles: mesh-gradient ground, a mockup up top, copy at the bottom */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px)}
+.tile{
+  --tile-ink:#1B1A17;--tile-soft:rgba(27,26,23,.86);--tag-bg:rgba(27,26,23,.09);
+  position:relative;display:flex;flex-direction:column;min-height:560px;border-radius:28px;overflow:hidden;
+  color:var(--tile-ink);scroll-margin-top:calc(var(--nav-h) + 24px);isolation:isolate;
+  box-shadow:var(--shadow-md);
+}
+/* grain so the gradients don't read as flat vector fills */
+.tile::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* The blobs live in the upper part; the copy zone at the bottom sits on the plain vertical gradient
+   so its contrast can be reasoned about (see the audit). */
+.tile--amber{background:
+  radial-gradient(300px 240px at 16% 10%,#FFE97A 0%,rgba(255,233,122,0) 70%),
+  radial-gradient(260px 230px at 90% 20%,#FF4F8B 0%,rgba(255,79,139,0) 70%),
+  radial-gradient(320px 200px at 52% 48%,#FFB21E 0%,rgba(255,178,30,0) 70%),
+  linear-gradient(180deg,#FFC531 0%,#FF8A1F 55%,#FF6A2A 100%)}
+.tile--indigo{--tile-ink:#fff;--tile-soft:rgba(255,255,255,.86);--tag-bg:rgba(255,255,255,.16);background:
+  radial-gradient(280px 240px at 8% 10%,#B455F5 0%,rgba(180,85,245,0) 70%),
+  radial-gradient(240px 220px at 94% 6%,#35D07F 0%,rgba(53,208,127,0) 70%),
+  radial-gradient(200px 160px at 62% 34%,#FF6A3D 0%,rgba(255,106,61,0) 70%),
+  radial-gradient(180px 160px at 90% 32%,#F5D142 0%,rgba(245,209,66,0) 70%),
+  linear-gradient(180deg,#5B2BE0 0%,#2B1FD6 50%,#1A12B0 100%)}
+.tile--coral{--tile-ink:#fff;--tile-soft:rgba(255,255,255,.94);--tag-bg:rgba(0,0,0,.2);background:
+  radial-gradient(280px 220px at 14% 8%,#FFC74D 0%,rgba(255,199,77,0) 70%),
+  radial-gradient(260px 220px at 90% 14%,#FF3D9A 0%,rgba(255,61,154,0) 70%),
+  radial-gradient(220px 260px at 6% 42%,#4F46E5 0%,rgba(79,70,229,0) 70%),
+  radial-gradient(200px 160px at 92% 30%,#FF9A62 0%,rgba(255,154,98,0) 70%),
+  linear-gradient(180deg,#FF7A45 0%,#EF5B4E 30%,#C2301F 48%,#A8210F 100%)}
+/* fixed art height: the mockups are px-sized, so the zone fits them at every viewport */
+.tile__art{position:relative;height:360px;flex:none}
+.tile__body{position:relative;padding:22px 28px 32px}
+.tile__label{display:block;font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tile-soft);margin-bottom:10px}
+.tile__body h3{font-size:clamp(21px,1.45vw,25px);letter-spacing:-.015em;color:var(--tile-ink)}
+.tile__body p{margin-top:12px;font-size:15.5px;line-height:1.55;color:var(--tile-soft);font-weight:500}
+.tile__tags{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.tile__tags li{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:100px;background:var(--tag-bg);color:var(--tile-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.tiles .tile{transition:opacity .8s var(--ease),transform .5s var(--ease),box-shadow .5s}
+.tiles .tile:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.tile:hover .mock{--lift:-8px}
+
+/* mockups: centred horizontally, tilted, lift on hover */
+.mock{position:absolute;left:50%;top:var(--top,28px);width:var(--w,300px);
+  transform:translateX(-50%) rotate(var(--r,0deg)) translateY(var(--lift,0px));transition:transform .6s var(--ease)}
+
+/* 1 · browser window with a design-tool selection on top */
+.mock-browser{--w:min(94%,380px);--r:-4deg;--top:42px;left:56%;background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden}
+.mock-browser__bar{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;background:#F1EFE7}
+.mock-browser__bar i{width:8px;height:8px;border-radius:50%;background:#D9D4C7}
+.mock-browser__bar span{flex:1;height:14px;margin-left:8px;border-radius:7px;background:#fff}
+.mock-browser>img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top}
+.mock-browser__sel{position:absolute;left:14%;top:38%;width:58%;height:36%;border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.28),inset 0 0 0 1px rgba(0,0,0,.28);
+  background:linear-gradient(#fff,#fff) 0 0/7px 7px no-repeat,linear-gradient(#fff,#fff) 100% 0/7px 7px no-repeat,
+             linear-gradient(#fff,#fff) 0 100%/7px 7px no-repeat,linear-gradient(#fff,#fff) 100% 100%/7px 7px no-repeat;background-origin:border-box}
+.mock-browser__sel b{position:absolute;left:50%;bottom:-24px;transform:translateX(-50%);background:var(--accent);color:var(--ink);font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.mock-cursor{position:absolute;left:58%;top:60%;display:flex;align-items:flex-start;gap:2px;transform:translateY(var(--lift,0px));transition:transform .6s var(--ease)}
+.mock-cursor svg{width:20px;height:20px;color:#1B1A17;filter:drop-shadow(0 1px 1px rgba(255,255,255,.7))}
+.mock-cursor span{margin-top:12px;background:#1B1A17;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;box-shadow:var(--shadow-md);white-space:nowrap}
+
+/* 2 · social ad card (the Meta tile) */
+.adcard{--w:min(78%,272px);--r:-3deg;--top:10px;background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px;color:var(--ink)}
 .adcard__head{display:flex;align-items:center;gap:10px}
 .adcard__avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2F5D8C,#7FA4CB);flex:none}
 .adcard__head b{display:block;font-weight:800;font-size:13.5px}
 .adcard__head small{display:block;color:var(--muted);font-size:11.5px}
-.adcard__img{margin:12px -14px;aspect-ratio:4/3;position:relative;overflow:hidden;background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
+.adcard__img{margin:12px -14px;aspect-ratio:16/9;position:relative;overflow:hidden;background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
 .adcard__img i{position:absolute;left:16%;top:20%;width:24%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFF6DF,#F5C976 70%,rgba(245,201,118,0) 72%);filter:blur(3px)}
-.adcard__cta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--bg-tint)}
+.adcard__cta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--bg-tint)}
 .adcard__cta b{display:block;font-size:13.5px;font-weight:800}
 .adcard__cta span{display:block;font-size:12px;color:var(--muted)}
 .adcard__btn{padding:8px 14px;border-radius:100px;background:var(--accent);color:var(--ink);font-weight:700;font-size:12.5px;white-space:nowrap}
 .adcard__actions{display:flex;gap:16px;margin-top:12px;color:var(--ink-soft)}
 .adcard__actions svg{width:20px;height:20px}
-/* the AI row shows the call flow as a stacked list */
-.row__media.is-flow{aspect-ratio:auto;padding:clamp(16px,2vw,26px);background:var(--surface);border:1px solid var(--line)}
-.flow{display:flex;flex-direction:column;gap:8px}
-.flow__step{position:relative;display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:var(--bg-tint)}
-.flow__step .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;flex:none}
-.flow__step .ic svg{width:22px;height:22px}
-.flow__step b{font-size:14.5px;font-weight:700;color:var(--ink)}
-.flow__step+.flow__step::before{content:"";position:absolute;left:35px;top:-8px;border:5px solid transparent;border-top:7px solid var(--line-strong)}
+
+/* 3 · the receptionist taking a call (the AI tile); a ghost card behind it fans the stack */
+.aichat{--w:min(84%,300px);--r:3deg;--top:44px;display:flex;flex-direction:column;gap:10px;background:#fff;border-radius:20px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px;color:var(--ink)}
+.aichat::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:rgba(255,255,255,.55);transform:rotate(-8deg) translate(-16px,12px)}
+.aichat__call,.aichat__done{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px}
+.aichat__call{background:var(--bg-tint)}
+.aichat__done{border:1px solid var(--line)}
+.aichat__call i,.aichat__done i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;background:var(--ok)}
+.aichat__call i svg,.aichat__done i svg{width:16px;height:16px}
+.aichat b{display:block;font-size:13px;font-weight:800;line-height:1.25}
+.aichat small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}
+.aichat__live{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;padding:4px 9px;border-radius:100px;background:var(--accent-soft);color:var(--accent-ink);white-space:nowrap}
+.aichat__live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);animation:livePulse 1.6s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.aichat__msg{max-width:88%;padding:9px 12px;border-radius:14px;line-height:1.4;font-weight:500}
+.aichat__msg.is-ai{align-self:flex-start;background:var(--bg-tint);border-bottom-left-radius:4px}
+.aichat__msg.is-me{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+
+/* shared CTA pill floating over the bottom edge of the tiles */
+.tiles__cta{position:relative;z-index:2;display:flex;align-items:center;gap:22px;width:max-content;max-width:100%;
+  margin:-32px auto 0;padding:8px 8px 8px 28px;background:#fff;border-radius:100px;box-shadow:var(--shadow-lg);font-weight:700;font-size:17px;color:var(--ink)}
 
 /* Hero visual card */
 
@@ -268,6 +331,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .sec-head p{margin-top:18px}
 .sec-head--center{margin-inline:auto;text-align:center}
 .sec-head--center .eyebrow::before{display:none}
+.sec-head--center .lead{margin-inline:auto}
 
 /* ============================================================
    SERVICES
@@ -555,8 +619,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media (max-width:1024px){
   .hero__grid{grid-template-columns:1fr;gap:40px}
   .hform{max-width:520px}
-  .row,.row--flip{grid-template-columns:1fr;gap:28px}
-  .row--flip .row__media{order:0}
+  .tiles{grid-template-columns:1fr}
+  .tile{width:100%;max-width:560px;justify-self:center;min-height:0}
   .services,.quotes{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
   .results{grid-template-columns:1fr 1fr}
@@ -575,6 +639,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .services,.quotes,.steps,.results{grid-template-columns:1fr}
   .opt-grid{grid-template-columns:1fr}
   .seo{grid-template-columns:1fr}
+  .tile{border-radius:22px}
+  .tile__body{padding:18px 20px 26px}
+  .tiles__cta{flex-direction:column;gap:12px;width:100%;margin-top:18px;padding:18px 18px 14px;border-radius:26px;text-align:center}
+  .tiles__cta .btn{width:100%}
   .ba{grid-template-columns:1fr}
   .field.two{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
@@ -707,81 +775,93 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <!-- ================= SERVICES ================= -->
 <section class="section" id="tjanster">
   <div class="wrap">
-    <div class="sec-head reveal">
+    <div class="sec-head sec-head--center reveal">
       <span class="eyebrow" data-i18n="svc.eyebrow">Vad vi gör</span>
       <h2 data-i18n="svc.title">Tre tjänster som får företag att växa.</h2>
       <p class="lead" data-i18n="svc.lead">Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.</p>
     </div>
 
-    <!-- Webb & SEO -->
-    <div class="row reveal">
-      <div class="row__media"><img src="assets/strip/bageri-1.jpg" alt="Exempel på en webbplats vi designat" width="640" height="360" loading="lazy" decoding="async"></div>
-      <div>
-        <span class="eyebrow" data-i18n="svc.1.title">Webb &amp; SEO</span>
-        <h2 data-i18n="svc.1.tag">Webbplatser byggda för att synas och konvertera.</h2>
-        <p class="lead" data-i18n="svc.1.desc">Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.</p>
-        <ul class="checks">
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f1">SEO</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f2">Webbdesign</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f3">Utveckling</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f4">Konverteringsoptimering</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.1.f5">Lokal SEO</span></li>
-        </ul>
-        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
-      </div>
-    </div>
+    <!-- Three services as colour tiles: mockup up top, copy at the bottom, one shared CTA floating over the edge -->
+    <div class="tiles">
 
-    <!-- Meta Ads -->
-    <div class="row row--flip reveal">
-      <div class="row__media is-ad" aria-hidden="true">
-        <div class="adcard">
-          <div class="adcard__head"><span class="adcard__avatar"></span><div><b>Nordlys</b><small>Sponsrad</small></div></div>
-          <div class="adcard__img"><i></i></div>
-          <div class="adcard__cta"><div><b>Boka ditt rum vid havet</b><span>nordlys.se</span></div><span class="adcard__btn">Läs mer</span></div>
-          <div class="adcard__actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 15V3M7 8l5-5 5 5"/></svg></div>
+      <!-- Webb & SEO: a site in a browser window, with a design-tool selection over it -->
+      <article class="tile tile--amber reveal" data-delay="1">
+        <div class="tile__art" aria-hidden="true">
+          <div class="mock mock-browser">
+            <div class="mock-browser__bar"><i></i><i></i><i></i><span></span></div>
+            <img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="lazy" decoding="async">
+            <div class="mock-browser__sel"><b>1440 × 900</b></div>
+          </div>
+          <div class="mock-cursor"><svg viewBox="0 0 24 24" fill="currentColor" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"><path d="M4 2l16 9.5-7.2 1.6L9.5 20z"/></svg><span>CertaCode</span></div>
         </div>
-      </div>
-      <div>
-        <span class="eyebrow" data-i18n="svc.2.title">Meta Ads</span>
-        <h2 data-i18n="svc.2.tag">Annonser som når rätt människor.</h2>
-        <p class="lead" data-i18n="svc.2.desc">Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.</p>
-        <ul class="checks">
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f1">Facebook Ads</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f2">Instagram Ads</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f3">Annonsdesign</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f4">Copywriting</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f5">A/B-testning</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.2.f6">Kampanjoptimering</span></li>
-        </ul>
-        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
-      </div>
+        <div class="tile__body">
+          <span class="tile__label" data-i18n="svc.1.title">Webb &amp; SEO</span>
+          <h3 data-i18n="svc.1.tag">Webbplatser byggda för att synas och konvertera.</h3>
+          <p data-i18n="svc.1.desc">Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.</p>
+          <ul class="tile__tags">
+            <li data-i18n="svc.1.f1">SEO</li>
+            <li data-i18n="svc.1.f2">Webbdesign</li>
+            <li data-i18n="svc.1.f3">Utveckling</li>
+            <li data-i18n="svc.1.f4">Konverteringsoptimering</li>
+            <li data-i18n="svc.1.f5">Lokal SEO</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Meta Ads: a sponsored post -->
+      <article class="tile tile--indigo reveal" data-delay="2">
+        <div class="tile__art" aria-hidden="true">
+          <div class="mock adcard">
+            <div class="adcard__head"><span class="adcard__avatar"></span><div><b>Nordlys</b><small data-i18n="mock.ad.sp">Sponsrad</small></div></div>
+            <div class="adcard__img"><i></i></div>
+            <div class="adcard__cta"><div><b data-i18n="mock.ad.t">Boka rum vid havet</b><span>nordlys.se</span></div><span class="adcard__btn" data-i18n="mock.ad.btn">Läs mer</span></div>
+            <div class="adcard__actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 15V3M7 8l5-5 5 5"/></svg></div>
+          </div>
+        </div>
+        <div class="tile__body">
+          <span class="tile__label" data-i18n="svc.2.title">Meta Ads</span>
+          <h3 data-i18n="svc.2.tag">Annonser som når rätt människor.</h3>
+          <p data-i18n="svc.2.desc">Vi skapar, testar och optimerar annonser för Facebook och Instagram med fokus på leads, bokningar och försäljning.</p>
+          <ul class="tile__tags">
+            <li data-i18n="svc.2.f1">Facebook Ads</li>
+            <li data-i18n="svc.2.f2">Instagram Ads</li>
+            <li data-i18n="svc.2.f3">Annonsdesign</li>
+            <li data-i18n="svc.2.f4">Copywriting</li>
+            <li data-i18n="svc.2.f5">A/B-testning</li>
+            <li data-i18n="svc.2.f6">Kampanjoptimering</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- AI & automation: the receptionist taking a call and booking it -->
+      <article class="tile tile--coral reveal" data-delay="3" id="ai">
+        <div class="tile__art" aria-hidden="true">
+          <div class="mock aichat">
+            <div class="aichat__call"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></i><div><b data-i18n="mock.ai.call">Inkommande samtal</b><small data-i18n="mock.ai.sub">Okänt nummer · 14:32</small></div><span class="aichat__live" data-i18n="mock.ai.live">AI svarar</span></div>
+            <div class="aichat__msg is-ai" data-i18n="mock.ai.m1">Hej! Du har nått Nordlys. Hur kan jag hjälpa dig?</div>
+            <div class="aichat__msg is-me" data-i18n="mock.ai.m2">Jag vill boka ett rum till helgen.</div>
+            <div class="aichat__done"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><div><b data-i18n="mock.ai.done">Bokat: lör 19 sep, 2 nätter</b><small data-i18n="mock.ai.crm">Skickat till CRM</small></div></div>
+          </div>
+        </div>
+        <div class="tile__body">
+          <span class="tile__label" data-i18n="svc.3.title">AI &amp; automation</span>
+          <h3 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h3>
+          <p data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
+          <ul class="tile__tags">
+            <li data-i18n="svc.3.f1">AI-receptionist</li>
+            <li data-i18n="svc.3.f2">Automatiserad lead-hantering</li>
+            <li data-i18n="svc.3.f3">Bokningssystem</li>
+            <li data-i18n="svc.3.f4">CRM-automation</li>
+            <li data-i18n="svc.3.f5">E-postautomation</li>
+            <li data-i18n="svc.3.f6">AI-agenter</li>
+          </ul>
+        </div>
+      </article>
     </div>
 
-    <!-- AI & automation, led by the receptionist -->
-    <div class="row reveal" id="ai">
-      <div class="row__media is-flow">
-      <div class="flow" aria-label="Så fungerar AI-receptionisten">
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></div><b data-i18n="ai.f1">Kund ringer</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></div><b data-i18n="ai.f2">AI svarar</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h8M8 14h5M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg></div><b data-i18n="ai.f3">Förstår ärendet</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg></div><b data-i18n="ai.f4">Svarar, bokar eller vidarebefordrar</b></div>
-        <div class="flow__step"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><b data-i18n="ai.f5">Information skickas till CRM</b></div>
-      </div>
-      </div>
-      <div>
-        <span class="eyebrow" data-i18n="svc.3.title">AI &amp; automation</span>
-        <h2 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h2>
-        <p class="lead" data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
-        <ul class="checks">
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f1">AI-receptionist</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f2">Automatiserad lead-hantering</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f3">Bokningssystem</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f4">CRM-automation</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f5">E-postautomation</span></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="svc.3.f6">AI-agenter</span></li>
-        </ul>
-        <a href="#boka" class="btn btn-primary" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
-      </div>
+    <div class="tiles__cta reveal">
+      <span data-i18n="svc.ctaLead">Redo att komma igång?</span>
+      <a href="#boka" class="btn btn-primary btn-lg" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
     </div>
 
     <!-- SEO is its own value proposition, not a feature bullet -->
@@ -1162,7 +1242,11 @@ const I18N = {
     "hf.name":"Namn","hf.email":"E-post","hf.site":"Nuvarande hemsida (valfritt)","hf.err":"Fyll i namn och en giltig e-postadress.",
     "hf.btn":"Få mitt designförslag","hf.note":"Inga förpliktelser. Vi hör av oss inom 24 timmar.",
     "hf.okTitle":"Tack — vi hör av oss!","hf.okMsg":"Vi återkommer inom 24 timmar med nästa steg.",
-    "svc.cta":"Boka kostnadsfritt möte",
+    "svc.cta":"Boka kostnadsfritt möte","svc.ctaLead":"Redo att komma igång?",
+    "mock.ad.sp":"Sponsrad","mock.ad.t":"Boka rum vid havet","mock.ad.btn":"Läs mer",
+    "mock.ai.call":"Inkommande samtal","mock.ai.sub":"Okänt nummer · 14:32","mock.ai.live":"AI svarar",
+    "mock.ai.m1":"Hej! Du har nått Nordlys. Hur kan jag hjälpa dig?","mock.ai.m2":"Jag vill boka ett rum till helgen.",
+    "mock.ai.done":"Bokat: lör 19 sep, 2 nätter","mock.ai.crm":"Skickat till CRM",
     "svc.eyebrow":"Vad vi gör","svc.title":"Tre tjänster som får företag att växa.",
     "svc.lead":"Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.",
     "svc.1.title":"Webb & SEO","svc.1.tag":"Webbplatser byggda för att synas och konvertera.",
@@ -1245,7 +1329,11 @@ const I18N = {
     "hf.name":"Name","hf.email":"Email","hf.site":"Current website (optional)","hf.err":"Enter your name and a valid email address.",
     "hf.btn":"Get my design proposal","hf.note":"No obligations. We'll be in touch within 24 hours.",
     "hf.okTitle":"Thanks — we'll be in touch!","hf.okMsg":"We'll get back to you within 24 hours with the next step.",
-    "svc.cta":"Book a free call",
+    "svc.cta":"Book a free call","svc.ctaLead":"Ready to get started?",
+    "mock.ad.sp":"Sponsored","mock.ad.t":"Book a room by the sea","mock.ad.btn":"Learn more",
+    "mock.ai.call":"Incoming call","mock.ai.sub":"Unknown number · 14:32","mock.ai.live":"AI answering",
+    "mock.ai.m1":"Hi! You've reached Nordlys. How can I help?","mock.ai.m2":"I'd like to book a room for the weekend.",
+    "mock.ai.done":"Booked: Sat 19 Sep, 2 nights","mock.ai.crm":"Sent to CRM",
     "svc.eyebrow":"What we do","svc.title":"Three services that help businesses grow.",
     "svc.lead":"Web, advertising and automation — working together instead of across three different suppliers.",
     "svc.1.title":"Web & SEO","svc.1.tag":"Websites built to be found and to convert.",
