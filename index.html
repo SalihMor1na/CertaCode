@@ -165,7 +165,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    HERO
    ============================================================ */
 /* ---------- Hero: copy left, lead form right, on a faint dot grid ---------- */
-.hero{position:relative;padding-top:calc(var(--nav-h) + clamp(44px,6vw,92px));padding-bottom:clamp(36px,5vw,72px);overflow:hidden;
+/* fills the first screen: the case grid and everything after start below the fold */
+.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:calc(var(--nav-h) + clamp(24px,4vw,64px));padding-bottom:clamp(36px,5vw,72px);overflow:hidden;
   background-color:var(--bg);background-image:radial-gradient(rgba(27,26,23,.11) 1px,transparent 1.3px);background-size:22px 22px}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(248,247,241,0) 0%,var(--bg) 100%)}
@@ -183,7 +185,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* the lead form */
 .hform{position:relative;background:var(--surface);border-radius:24px;padding:clamp(26px,2.6vw,38px);box-shadow:var(--shadow-lg);border:1px solid var(--line)}
 .hform h2{font-size:clamp(22px,1.7vw,28px);letter-spacing:-.015em;padding-right:56px}
-.hform > p{color:var(--ink-soft);font-size:15px;line-height:1.55;margin:10px 0 22px}
+.hform > p{color:var(--ink-soft);font-size:15px;line-height:1.55;margin:10px 0 22px;padding-right:64px}  /* clears the sticker */
 .hform .field{margin-bottom:14px}
 .hform label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink-soft)}
 .hform input{width:100%;padding:13px 15px;border:1px solid var(--line-strong);border-radius:12px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink);transition:border-color .2s,box-shadow .2s,background .2s}
@@ -206,16 +208,48 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:rotate(-10deg);box-shadow:0 14px 30px -10px rgba(239,91,78,.55);animation:stickerIn .9s cubic-bezier(.34,1.56,.64,1) .5s both}
 @keyframes stickerIn{from{opacity:0;transform:rotate(-32deg) scale(.5)}to{opacity:1;transform:rotate(-10deg) scale(1)}}
 /* ---------- Strip: two rows of site shots drifting in opposite directions ---------- */
-.strip{position:relative;padding:clamp(24px,3vw,44px) 0 clamp(48px,6vw,88px);overflow:hidden;background:var(--bg)}
-.strip__row{display:flex;gap:20px;width:max-content;will-change:transform}
-.strip__row+.strip__row{margin-top:20px}
-.strip__row.to-left{animation:stripLeft 72s linear infinite}
-.strip__row.to-right{animation:stripRight 72s linear infinite}
-.strip:hover .strip__row{animation-play-state:paused}
-.strip__row img{width:clamp(220px,22vw,320px);aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block;box-shadow:var(--shadow-sm);background:var(--bg-tint)}
-@keyframes stripLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes stripRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-@media (prefers-reduced-motion:reduce){.strip__row{animation:none}.sticker{animation:none}}
+/* Case grid under the hero: square cards, a CSS-built device showing the site clip, scrim, name bottom-left */
+.cases__grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(18px,2.4vw,32px)}
+.case{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:28px;isolation:isolate;
+  background:linear-gradient(180deg,#F3F1EA 0%,#E6E3D8 100%);box-shadow:var(--shadow-md)}
+.case__scene{position:absolute;inset:0}
+/* scrim is strongest where the copy sits; the audit reads these stops */
+.case__scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(27,26,23,.9) 0%,rgba(27,26,23,.62) 22%,rgba(27,26,23,0) 56%)}
+.case__meta{position:absolute;left:clamp(22px,3.4vw,44px);bottom:clamp(20px,3vw,40px);right:clamp(22px,3.4vw,44px);z-index:1;color:#fff}
+.case__name{font-size:clamp(24px,2.5vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#fff}
+.case__text{margin-top:8px;font-size:clamp(15px,1.1vw,18px);color:rgba(255,255,255,.92);font-weight:500}
+.case__text b{font-weight:800;color:#fff}
+
+/* devices */
+.dev{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%)}
+.dev__screen{position:relative;overflow:hidden;background:#0D0D10;aspect-ratio:16/10}
+.dev__screen>video,.dev__screen>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.dev--laptop{width:86%}
+.dev--laptop .dev__screen{border:10px solid #17171B;border-radius:16px 16px 6px 6px;box-shadow:0 30px 60px rgba(27,26,23,.28)}
+.dev--laptop .dev__base{position:relative;height:16px;margin:0 -5%;border-radius:0 0 16px 16px;background:linear-gradient(#DADAE0,#A9A9B1);box-shadow:0 18px 30px rgba(27,26,23,.18)}
+.dev--laptop .dev__base::before{content:"";position:absolute;left:50%;top:0;width:18%;height:5px;transform:translateX(-50%);background:#8C8C95;border-radius:0 0 6px 6px}
+.dev--monitor{width:76%;transform:translate(-50%,-50%)}
+.dev--monitor .dev__screen{border:12px solid #17171B;border-bottom-width:34px;border-radius:14px;box-shadow:0 30px 60px rgba(27,26,23,.28)}
+.dev--monitor .dev__stand{width:22%;height:56px;margin:0 auto;background:linear-gradient(90deg,#B9B9C1,#DCDCE1 50%,#B9B9C1)}
+.dev--monitor .dev__foot{width:46%;height:10px;margin:0 auto;border-radius:6px 6px 0 0;background:#B0B0B8}
+/* a browser window, tilted and bleeding off the edge */
+.dev--window{width:108%;left:58%;top:52%;transform:translate(-50%,-50%) rotate(-6deg);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(27,26,23,.3)}
+.dev--window .dev__bar{display:flex;align-items:center;gap:7px;height:34px;padding:0 14px;background:#F1EFE7}
+.dev--window .dev__bar i{width:9px;height:9px;border-radius:50%;background:#D5D0C3}
+.dev--window .dev__bar span{flex:1;height:16px;margin-left:8px;border-radius:8px;background:#fff}
+.dev--window .dev__screen{aspect-ratio:16/9;background:#fff}
+/* CTA card */
+.case--cta{background:linear-gradient(160deg,#FF8A7A 0%,var(--accent) 70%);box-shadow:var(--shadow-md);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(24px,3.4vw,44px);color:var(--ink)}
+.case--cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(27,26,23,.14) 1px,transparent 1.3px);background-size:22px 22px;opacity:.7}
+.case--cta>*{position:relative}
+.case--cta .eyebrow{color:var(--ink)}
+.case--cta .eyebrow::before{background:var(--ink)}
+.case--cta h3{font-size:clamp(26px,2.8vw,42px);font-weight:800;letter-spacing:-.02em;margin-top:14px}
+.case--cta p{margin-top:12px;font-size:clamp(15.5px,1.1vw,18px);max-width:34ch;color:var(--ink)}
+.case--cta .btn{margin-top:22px;align-self:flex-start;background:var(--ink);color:#fff;box-shadow:0 10px 26px rgba(27,26,23,.25)}
+.case--cta .btn:hover{background:#000;transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.sticker{animation:none}}
 /* ---------- Service rows: a big rounded picture beside the text, alternating ---------- */
 /* Three colour tiles: mesh-gradient ground, a mockup up top, copy at the bottom */
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px)}
@@ -631,8 +665,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .hero{padding-top:calc(var(--nav-h) + 28px)}
   .hform{max-width:none;padding:22px}
   .sticker{width:92px;height:92px;font-size:11.5px;top:-18px;right:-8px}
-  .strip__row img{width:200px}
-  .strip__row{gap:12px}
+  .cases__grid{grid-template-columns:1fr}
+  .case{border-radius:22px}
+  .dev--laptop{width:90%}
   .nav__links{display:none}
   .nav__right .btn{display:none}
   .nav__burger{display:flex}
@@ -665,6 +700,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .brand__mark{width:38px;height:38px}
   .nav__links{gap:40px}
   .nav__link{font-size:16.5px}
+  .hero h1{font-size:min(4vw,92px)}
+  .hero .lead{font-size:22px;max-width:60ch}
+  .checks li{font-size:19px}
+  .checks li i{width:30px;height:30px}
+  .hero__alt{font-size:18px}
+  .hform{padding:44px;border-radius:28px}
+  .hform h2{font-size:32px}
+  .hform > p{font-size:17px}
+  .hform label{font-size:15px}
+  .hform input{padding:16px 18px;font-size:17px}
+  .hform .btn{font-size:17px;padding:18px 30px}
+  .sticker{width:132px;height:132px;font-size:15px;top:-30px;right:-22px}
 }
 @media (min-width:2200px){
   :root{--maxw:2000px;--gutter:56px;--nav-h:88px}
@@ -673,6 +720,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav__links{gap:44px}
   .nav__link{font-size:17.5px}
   .nav .btn{font-size:16px;padding:15px 28px}
+  .hero h1{font-size:min(4vw,108px)}
+  .hero .lead{font-size:24px}
+  .checks li{font-size:21px}
+  .hform h2{font-size:36px}
+  .hform input{padding:18px 20px;font-size:18px}
 }
 @media (min-width:2600px){
   :root{--maxw:2280px;--gutter:64px;--nav-h:94px}
@@ -765,12 +817,46 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div>
 </section>
 
-<!-- ================= STRIP ================= -->
-<!-- Our own concept sites drifting past; two rows, opposite directions, paused on hover -->
-<div class="strip" aria-hidden="true">
-    <div class="strip__row to-left"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"></div>
-    <div class="strip__row to-right"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-4.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/tarnvik-2.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/bageri-3.jpg" alt="" width="640" height="360" loading="eager" decoding="async"><img src="assets/strip/dagett-1.jpg" alt="" width="640" height="360" loading="eager" decoding="async"></div>
-</div>
+<!-- ================= CASES ================= -->
+<!-- Our own concept sites in CSS-built devices; the clips play only while the card is on screen -->
+<section class="section cases" id="sajter">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="cases.eyebrow">Case</span>
+      <h2 data-i18n="cases.title">Några hemsidor vi gjort.</h2>
+      <p class="lead" data-i18n="cases.lead">Byggda från grunden — design, kod och animationer.</p>
+    </div>
+    <ul class="cases__grid">
+      <li class="case reveal" data-delay="1">
+        <div class="case__scene" aria-hidden="true">
+          <div class="dev dev--laptop"><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/bageri.jpg"><source src="assets/portfolio/bageri.webm" type="video/webm"><source src="assets/portfolio/bageri.mp4" type="video/mp4"></video></div><div class="dev__base"></div></div>
+        </div>
+        <span class="case__scrim" aria-hidden="true"></span>
+        <div class="case__meta"><h3 class="case__name">Bageri Bohuslän</h3><p class="case__text" data-i18n-html="cases.1.t"><b>Bageri</b> · Hantverk · Hitta hit</p></div>
+      </li>
+      <li class="case reveal" data-delay="2">
+        <div class="case__scene" aria-hidden="true">
+          <div class="dev dev--monitor"><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/dagett.jpg"><source src="assets/portfolio/dagett.webm" type="video/webm"><source src="assets/portfolio/dagett.mp4" type="video/mp4"></video></div><div class="dev__stand"></div><div class="dev__foot"></div></div>
+        </div>
+        <span class="case__scrim" aria-hidden="true"></span>
+        <div class="case__meta"><h3 class="case__name">dag ett</h3><p class="case__text" data-i18n-html="cases.2.t"><b>Löpning</b> · Community · Event</p></div>
+      </li>
+      <li class="case reveal" data-delay="1">
+        <div class="case__scene" aria-hidden="true">
+          <div class="dev dev--window"><div class="dev__bar"><i></i><i></i><i></i><span></span></div><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/tarnvik.jpg"><source src="assets/portfolio/tarnvik.webm" type="video/webm"><source src="assets/portfolio/tarnvik.mp4" type="video/mp4"></video></div></div>
+        </div>
+        <span class="case__scrim" aria-hidden="true"></span>
+        <div class="case__meta"><h3 class="case__name">Tärnvik Bad</h3><p class="case__text" data-i18n-html="cases.3.t"><b>Kallbad</b> · Bastu · Bokning</p></div>
+      </li>
+      <li class="case case--cta reveal" data-delay="2">
+        <span class="eyebrow" data-i18n="cases.cta.eyebrow">Nästa?</span>
+        <h3 data-i18n="cases.cta.title">Er sajt kan vara nästa.</h3>
+        <p data-i18n="cases.cta.text">Berätta om ert företag, så tar vi fram ett designförslag — gratis och utan förpliktelser.</p>
+        <a href="#hform" class="btn btn-lg" data-i18n="cases.cta.btn">Få ett designförslag</a>
+      </li>
+    </ul>
+  </div>
+</section>
 
 <!-- ================= SERVICES ================= -->
 <section class="section" id="tjanster">
@@ -1243,6 +1329,10 @@ const I18N = {
     "hf.btn":"Få mitt designförslag","hf.note":"Inga förpliktelser. Vi hör av oss inom 24 timmar.",
     "hf.okTitle":"Tack — vi hör av oss!","hf.okMsg":"Vi återkommer inom 24 timmar med nästa steg.",
     "svc.cta":"Boka kostnadsfritt möte","svc.ctaLead":"Redo att komma igång?",
+    "cases.eyebrow":"Case","cases.title":"Några hemsidor vi gjort.","cases.lead":"Byggda från grunden — design, kod och animationer.",
+    "cases.1.t":"<b>Bageri</b> · Hantverk · Hitta hit","cases.2.t":"<b>Löpning</b> · Community · Event","cases.3.t":"<b>Kallbad</b> · Bastu · Bokning",
+    "cases.cta.eyebrow":"Nästa?","cases.cta.title":"Er sajt kan vara nästa.",
+    "cases.cta.text":"Berätta om ert företag, så tar vi fram ett designförslag — gratis och utan förpliktelser.","cases.cta.btn":"Få ett designförslag",
     "mock.ad.sp":"Sponsrad","mock.ad.t":"Boka rum vid havet","mock.ad.btn":"Läs mer",
     "mock.ai.call":"Inkommande samtal","mock.ai.sub":"Okänt nummer · 14:32","mock.ai.live":"AI svarar",
     "mock.ai.m1":"Hej! Du har nått Nordlys. Hur kan jag hjälpa dig?","mock.ai.m2":"Jag vill boka ett rum till helgen.",
@@ -1330,6 +1420,10 @@ const I18N = {
     "hf.btn":"Get my design proposal","hf.note":"No obligations. We'll be in touch within 24 hours.",
     "hf.okTitle":"Thanks — we'll be in touch!","hf.okMsg":"We'll get back to you within 24 hours with the next step.",
     "svc.cta":"Book a free call","svc.ctaLead":"Ready to get started?",
+    "cases.eyebrow":"Work","cases.title":"Some sites we\u2019ve made.","cases.lead":"Built from scratch — design, code and animation.",
+    "cases.1.t":"<b>Bakery</b> · Craft · Directions","cases.2.t":"<b>Running</b> · Community · Events","cases.3.t":"<b>Cold bath</b> · Sauna · Booking",
+    "cases.cta.eyebrow":"Next?","cases.cta.title":"Your site could be next.",
+    "cases.cta.text":"Tell us about your business and we\u2019ll draft a design proposal — free, no strings attached.","cases.cta.btn":"Get a design proposal",
     "mock.ad.sp":"Sponsored","mock.ad.t":"Book a room by the sea","mock.ad.btn":"Learn more",
     "mock.ai.call":"Incoming call","mock.ai.sub":"Unknown number · 14:32","mock.ai.live":"AI answering",
     "mock.ai.m1":"Hi! You've reached Nordlys. How can I help?","mock.ai.m2":"I'd like to book a room for the weekend.",
@@ -1911,6 +2005,20 @@ const WORK_PROJECTS = [
   window.addEventListener("resize", resize, { passive:true });
   resize();
   requestAnimationFrame(frame);
+})();
+
+(function initCases(){
+  const vids = document.querySelectorAll(".case video");
+  if(!vids.length) return;
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;   // posters only
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      const v = e.target;
+      if(e.isIntersecting){ const p = v.play(); if(p && p.catch) p.catch(()=>{}); }
+      else v.pause();
+    });
+  }, {threshold:.25});
+  vids.forEach(v=> io.observe(v));
 })();
 
 (function initHeroForm(){
