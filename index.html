@@ -571,13 +571,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    CTA BANNER
    ============================================================ */
-.cta-banner{position:relative;overflow:hidden;background:var(--accent-soft);border-radius:clamp(24px,4vw,40px);padding:clamp(48px,7vw,86px) clamp(28px,5vw,64px);text-align:center;color:#fff}
-.cta-banner::before{content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:80%;height:120%;background:radial-gradient(ellipse at center,rgba(239,91,78,.4),transparent 60%);filter:blur(30px)}
-.cta-banner > *{position:relative;z-index:1}
-.cta-banner h2{color:var(--ink);font-size:clamp(30px,4.6vw,52px)}
-.cta-banner p{color:var(--ink-soft);max-width:50ch;margin:18px auto 34px}
-.cta-banner .btn-primary{background:var(--accent);color:var(--ink)}
-.cta-banner .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
 
 /* ============================================================
    FOOTER
@@ -1058,17 +1051,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div>
 </section>
 
-<!-- ================= CTA BANNER ================= -->
-<section class="section" id="cta">
-  <div class="wrap">
-    <div class="cta-banner reveal">
-      <h2 data-i18n="cta.title">Redo att se vad CertaCode kan göra för ert företag?</h2>
-      <p data-i18n="cta.lead">Ett första möte är kostnadsfritt och utan förpliktelser.</p>
-      <a href="#boka" class="btn btn-primary btn-lg" data-i18n="cta.btn">Boka ett möte</a>
-    </div>
-  </div>
-</section>
-
 <!-- ================= BOOKING ================= -->
 <section class="section booking" id="boka">
   <div class="wrap">
@@ -1355,7 +1337,6 @@ const I18N = {
     "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.",
     "faq.5.q":"Kan ni garantera att vi hamnar först på Google?",
     "faq.5.a":"Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.",
-    "cta.title":"Redo att se vad CertaCode kan göra för ert företag?","cta.lead":"Ett första möte är kostnadsfritt och utan förpliktelser.","cta.btn":"Boka ett möte",
     "foot.tagline":"Digital marknadsföring, SEO och AI-automation för företag som vill växa.",
     "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.privacy":"Integritetspolicy","foot.location":"Sverige","foot.rights":"Alla rättigheter förbehållna.",
     "months":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
@@ -1443,7 +1424,6 @@ const I18N = {
     "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development whenever you want it.",
     "faq.5.q":"Can you guarantee a first-page ranking on Google?",
     "faq.5.a":"No — nobody can seriously guarantee that. We improve the conditions for you to show up when potential customers search for your services: technical SEO, content, local SEO and Google Business Profile. It is work that pays off over time.",
-    "cta.title":"Ready to see what CertaCode can do for your business?","cta.lead":"A first meeting is free and without obligation.","cta.btn":"Book a call",
     "foot.tagline":"Digital marketing, SEO and AI automation for businesses that want to grow.",
     "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.privacy":"Privacy policy","foot.location":"Sweden","foot.rights":"All rights reserved.",
     "months":["January","February","March","April","May","June","July","August","September","October","November","December"],
