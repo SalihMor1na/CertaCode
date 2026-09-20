@@ -101,6 +101,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--accent);opacity:.6}
 .section{padding:clamp(64px,8vw,112px) 0}
+/* bands: the page alternates cream / warm tint / one dark block so sections read as sections */
+.section--tint{background:var(--bg-tint)}
+.section--tint .eyebrow{color:#B8321F}  /* the tint needs a deeper coral to keep 4.5:1 */
+.section--dark{background:var(--ink);color:#fff}
+.section--dark .sec-head h2{color:#fff}
+.section--dark .lead{color:rgba(255,255,255,.78)}
+.section--dark .eyebrow{color:var(--accent-on-dark)}
+.section--dark .eyebrow::before{background:var(--accent-on-dark)}
 .lead{color:var(--ink-soft);font-size:clamp(16px,1.02vw,20px);max-width:58ch}
 
 /* Buttons */
@@ -373,23 +381,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    SERVICES
    ============================================================ */
-.services{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.svc{
-  position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:34px 30px;overflow:hidden;transition:transform .45s var(--ease), box-shadow .45s, border-color .45s;
-}
-.svc::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
-  background:linear-gradient(135deg,var(--accent),transparent 40%);opacity:0;transition:opacity .45s;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
-.svc:hover::after{opacity:1}
-.svc__icon{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:22px;transition:transform .45s var(--ease)}
-.svc:hover .svc__icon{transform:scale(1.06) rotate(-4deg)}
-.svc__icon svg{width:28px;height:28px}
-.svc h3{font-size:clamp(22px,1.3vw,27px);margin-bottom:12px}
-.svc p{color:var(--ink-soft);font-size:clamp(15.5px,.92vw,17.5px)}
-.svc__tag{font-weight:600;color:var(--ink);margin:-2px 0 10px;font-size:clamp(15px,.95vw,17px)}
-.svc__list{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
+/* why: three columns split by hairlines, no cards */
+.why{display:grid;grid-template-columns:repeat(3,1fr)}
+.why__item{padding:clamp(6px,1vw,14px) clamp(24px,3vw,48px) clamp(6px,1vw,14px) clamp(24px,3vw,48px);border-left:1px solid var(--line-strong)}
+.why__item:first-child{padding-left:0;border-left:0}
+.why__item:last-child{padding-right:0}
+.why__icon{width:60px;height:60px;border-radius:18px;background:var(--surface);color:var(--accent-ink);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
+.why__icon svg{width:28px;height:28px}
+.why__item h3{margin-top:24px;font-size:clamp(22px,1.5vw,28px);letter-spacing:-.015em}
+.why__item p{margin-top:12px;font-size:clamp(16px,1vw,18px);line-height:1.55;color:var(--ink-soft)}
 /* AI receptionist showcase */
 /* before / after: one table, Före against Efter row by row */
 .cmp{border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm)}
@@ -408,21 +408,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .is-after p{color:var(--ink)}
 .faq__link{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent-ink)}
 .opt-grid .opt:nth-child(7){grid-column:1/-1}
-.svc__list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft)}
-.svc__list li svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:2px}
 
 /* ============================================================
-   PROCESS
+   PROCESS — numbered timeline on the dark band
    ============================================================ */
-.process{background:transparent;color:var(--ink)}
-.process .eyebrow{color:var(--accent-ink)}
-.process .eyebrow::before{background:var(--accent-ink)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:12px}
-.step{background:var(--surface);padding:30px 26px 32px;border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
-.step:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
-.step__num{font-family:var(--font-display);font-size:clamp(34px,3vw,48px);color:var(--accent);font-weight:800;letter-spacing:-.03em;line-height:1}
-.step h3{font-size:clamp(20px,1.15vw,23px);margin:14px 0 8px;color:var(--ink)}
-.step p{font-size:clamp(14.5px,.85vw,16px);color:var(--ink-soft);line-height:1.6}
+.tl{position:relative;list-style:none;padding:0;margin:clamp(8px,1vw,16px) 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,48px)}
+.tl::before{content:"";position:absolute;left:22px;right:22px;top:22px;height:1px;background:rgba(255,255,255,.18)}
+.tl__num{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--ink);font-weight:800;font-size:15px;letter-spacing:.02em;box-shadow:0 0 0 8px var(--ink)}
+.tl__step h3{margin-top:22px;font-size:clamp(19px,1.3vw,24px);color:#fff}
+.tl__step p{margin-top:10px;font-size:clamp(15px,.95vw,17px);line-height:1.6;color:rgba(255,255,255,.76);max-width:30ch}
 
 /* ============================================================
    WORK / RESULTS
@@ -558,7 +552,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    FAQ
    ============================================================ */
-.faq{max-width:820px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.faq__col{display:flex;flex-direction:column;gap:14px}
 .faq__item{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden;transition:box-shadow .3s,border-color .3s}
 .faq__item[open]{box-shadow:var(--shadow-sm);border-color:var(--line-strong)}
 .faq__q{list-style:none;cursor:pointer;padding:clamp(22px,1.6vw,30px) clamp(26px,1.9vw,36px);display:flex;justify-content:space-between;align-items:center;gap:20px;font-weight:600;font-size:clamp(17px,1.05vw,20px)}
@@ -610,8 +605,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .hform{max-width:520px}
   .tiles{grid-template-columns:1fr}
   .tile{width:100%;max-width:560px;justify-self:center;min-height:0}
-  .services,.quotes{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr 1fr}
+  .quotes{grid-template-columns:1fr 1fr}
+  .tl{grid-template-columns:1fr 1fr;row-gap:40px}
+  .tl::before{display:none}
+  .tl__num{box-shadow:none}
   .results{grid-template-columns:1fr 1fr}
   .booking__card{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
@@ -626,7 +623,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav__links{display:none}
   .nav__right .btn{display:none}
   .nav__burger{display:flex}
-  .services,.quotes,.steps,.results{grid-template-columns:1fr}
+  .quotes,.results{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr;row-gap:0}
+  .tl::before{display:block;left:22px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .tl__step{position:relative;padding:0 0 32px 64px}
+  .tl__step:last-child{padding-bottom:0}
+  .tl__num{position:absolute;left:0;top:0;box-shadow:0 0 0 6px var(--ink)}
+  .tl__step h3{margin-top:8px}
+  .why{grid-template-columns:1fr}
+  .why__item{padding:24px 0;border-left:0;border-top:1px solid var(--line-strong)}
+  .why__item:first-child{padding-top:0;border-top:0}
+  .faq{grid-template-columns:1fr}
   .opt-grid{grid-template-columns:1fr}
   .tile{border-radius:22px}
   .tile__body{padding:18px 20px 26px}
@@ -662,7 +669,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .tile__body p{font-size:17px}
   .tile__tags li{font-size:14px;padding:7px 12px}
   .tile__label{font-size:13.5px}
-  .step p{font-size:17px}
+  .tl__step p{font-size:17px}
   .faq__a{font-size:17px}
   .booking__perks li{font-size:17px}
   .opt span{font-size:14.5px}
@@ -690,7 +697,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .tile__body h3{font-size:30px}
   .tile__body p{font-size:18px}
   .tile__tags li{font-size:15px}
-  .step p{font-size:18px}
+  .tl__step p{font-size:18px}
   .faq__a{font-size:18px}
   .hero h1{font-size:min(4vw,108px)}
   .hero .lead{font-size:24px}
@@ -972,46 +979,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </section>
 
 <!-- ================= PROCESS ================= -->
-<section class="section" id="process">
+<section class="section section--dark" id="process">
   <div class="wrap">
-    <div class="process">
-      <div>
-        <div class="sec-head reveal">
-          <span class="eyebrow" data-i18n="proc.eyebrow">Så arbetar vi</span>
-          <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
-          <p class="lead" data-i18n="proc.lead">Vi börjar med er verksamhet — inte med tekniken.</p>
-        </div>
-      </div>
-      <div class="steps reveal">
-        <div class="step"><div class="step__num">01</div><h3 data-i18n="proc.1.t">Första mötet</h3><p data-i18n="proc.1.d">Vi går igenom er verksamhet, era mål och var det finns störst potential.</p></div>
-        <div class="step"><div class="step__num">02</div><h3 data-i18n="proc.2.t">Strategi</h3><p data-i18n="proc.2.d">Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.</p></div>
-        <div class="step"><div class="step__num">03</div><h3 data-i18n="proc.3.t">Produktion</h3><p data-i18n="proc.3.d">Vi designar, bygger, implementerar och testar lösningen.</p></div>
-        <div class="step"><div class="step__num">04</div><h3 data-i18n="proc.4.t">Lansering &amp; optimering</h3><p data-i18n="proc.4.d">Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.</p></div>
-      </div>
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-i18n="proc.eyebrow">Så arbetar vi</span>
+      <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
+      <p class="lead" data-i18n="proc.lead">Vi börjar med er verksamhet — inte med tekniken.</p>
     </div>
+    <ol class="tl">
+      <li class="tl__step reveal" data-delay="1"><span class="tl__num">01</span><h3 data-i18n="proc.1.t">Första mötet</h3><p data-i18n="proc.1.d">Vi går igenom er verksamhet, era mål och var det finns störst potential.</p></li>
+      <li class="tl__step reveal" data-delay="2"><span class="tl__num">02</span><h3 data-i18n="proc.2.t">Strategi</h3><p data-i18n="proc.2.d">Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.</p></li>
+      <li class="tl__step reveal" data-delay="3"><span class="tl__num">03</span><h3 data-i18n="proc.3.t">Produktion</h3><p data-i18n="proc.3.d">Vi designar, bygger, implementerar och testar lösningen.</p></li>
+      <li class="tl__step reveal" data-delay="4"><span class="tl__num">04</span><h3 data-i18n="proc.4.t">Lansering &amp; optimering</h3><p data-i18n="proc.4.d">Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.</p></li>
+    </ol>
   </div>
 </section>
 
 <!-- ================= WHY CERTACODE ================= -->
-<section class="section" id="varfor">
+<section class="section section--tint" id="varfor">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow" data-i18n="why.eyebrow">Varför CertaCode?</span>
       <h2 data-i18n="why.title">Tre skäl att välja oss.</h2>
     </div>
-    <div class="services">
-      <article class="svc reveal" data-delay="1">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M5 17l.9 2.1L8 20l-2.1.9L5 23l-.9-2.1L2 20l2.1-.9z"/></svg></div>
+    <div class="why">
+      <article class="why__item reveal" data-delay="1">
+        <div class="why__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M5 17l.9 2.1L8 20l-2.1.9L5 23l-.9-2.1L2 20l2.1-.9z"/></svg></div>
         <h3 data-i18n="why.1.t">Skräddarsytt</h3>
         <p data-i18n="why.1.d">Inga generiska paket. Lösningen byggs efter verksamheten.</p>
       </article>
-      <article class="svc reveal" data-delay="2">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+      <article class="why__item reveal" data-delay="2">
+        <div class="why__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
         <h3 data-i18n="why.2.t">Resultatfokuserat</h3>
         <p data-i18n="why.2.d">Vi börjar inte med tekniken. Vi börjar med problemet vi ska lösa.</p>
       </article>
-      <article class="svc reveal" data-delay="3">
-        <div class="svc__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 11.5a3 3 0 1 0 0-6M21.5 20a6 6 0 0 0-4.5-5.8"/></svg></div>
+      <article class="why__item reveal" data-delay="3">
+        <div class="why__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 11.5a3 3 0 1 0 0-6M21.5 20a6 6 0 0 0-4.5-5.8"/></svg></div>
         <h3 data-i18n="why.3.t">En partner</h3>
         <p data-i18n="why.3.d">Webb, marknadsföring och automation fungerar tillsammans — istället för att hanteras av tre olika leverantörer.</p>
       </article>
@@ -1027,6 +1030,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <h2 data-i18n="faq.title">Vanliga frågor</h2>
     </div>
     <div class="faq">
+      <div class="faq__col">
       <details class="faq__item reveal">
         <summary class="faq__q"><span data-i18n="faq.1.q">Vad kostar ett projekt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a"><span data-i18n="faq.1.a">Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.</span> <a href="#boka" class="faq__link" data-i18n="faq.1.cta">Boka ett kostnadsfritt möte</a></div>
@@ -1039,6 +1043,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.3.a">Ja. När projektet är betalt äger du all kod, design och allt innehåll till 100 %. Inga inlåsningar.</div>
       </details>
+      </div>
+      <div class="faq__col">
       <details class="faq__item reveal">
         <summary class="faq__q"><span data-i18n="faq.4.q">Erbjuder ni support efteråt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.4.a">Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.</div>
@@ -1047,6 +1053,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <summary class="faq__q"><span data-i18n="faq.5.q">Kan ni garantera att vi hamnar först på Google?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.5.a">Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.</div>
       </details>
+      </div>
     </div>
   </div>
 </section>
