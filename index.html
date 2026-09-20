@@ -311,20 +311,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .mock-cursor svg{width:20px;height:20px;color:#1B1A17;filter:drop-shadow(0 1px 1px rgba(255,255,255,.7))}
 .mock-cursor span{margin-top:12px;background:#1B1A17;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;box-shadow:var(--shadow-md);white-space:nowrap}
 
-/* 2 · social ad card (the Meta tile) */
-.adcard{--w:min(78%,272px);--r:-3deg;--top:10px;background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px;color:var(--ink)}
-.adcard__head{display:flex;align-items:center;gap:10px}
-.adcard__avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2F5D8C,#7FA4CB);flex:none}
-.adcard__head b{display:block;font-weight:800;font-size:13.5px}
-.adcard__head small{display:block;color:var(--muted);font-size:11.5px}
-.adcard__img{margin:12px -14px;aspect-ratio:16/9;position:relative;overflow:hidden;background:linear-gradient(165deg,#DCE6F2 0%,#B9CFE6 38%,#7FA4CB 62%,#2F5D8C 100%)}
-.adcard__img i{position:absolute;left:16%;top:20%;width:24%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFF6DF,#F5C976 70%,rgba(245,201,118,0) 72%);filter:blur(3px)}
-.adcard__cta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--bg-tint)}
-.adcard__cta b{display:block;font-size:13.5px;font-weight:800}
-.adcard__cta span{display:block;font-size:12px;color:var(--muted)}
-.adcard__btn{padding:8px 14px;border-radius:100px;background:var(--accent);color:var(--ink);font-weight:700;font-size:12.5px;white-space:nowrap}
-.adcard__actions{display:flex;gap:16px;margin-top:12px;color:var(--ink-soft)}
-.adcard__actions svg{width:20px;height:20px}
+/* 2 · Ads-Manager-style panel (the Meta tile) — illustrative numbers, tagged as such */
+.adsm{--w:min(82%,300px);--r:-3deg;--top:20px;background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);padding:14px;font-size:12px;color:var(--ink)}
+.adsm__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.adsm__head b{display:block;font-size:13px;font-weight:800;line-height:1.2}
+.adsm__head small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.adsm__tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:100px;background:var(--bg-tint);color:var(--muted)}
+.adsm__kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
+.adsm__kpis div{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:6px;padding:7px 10px 8px;border-radius:10px;background:var(--bg-tint)}
+.adsm__kpis small{width:100%;font-size:10.5px;color:var(--muted)}
+.adsm__kpis b{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.adsm__kpis i{font-style:normal;font-size:10.5px;font-weight:700;color:#0B7A55}
+.adsm__chart{position:relative;margin-top:10px}
+.adsm__chart svg{display:block;width:100%;height:72px;overflow:visible}
+.adsm__area{fill:url(#adsmFill)}
+.adsm__line{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420}
+.tile.in .adsm__line{animation:adsmDraw 1.6s var(--ease) .3s forwards}
+.adsm__dot{fill:#fff;stroke:var(--accent);stroke-width:2.4;opacity:0}
+.tile.in .adsm__dot{animation:adsmPop .4s var(--ease) 1.8s forwards}
+@keyframes adsmDraw{to{stroke-dashoffset:0}}
+@keyframes adsmPop{to{opacity:1}}
+.adsm__axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px}
 
 /* 3 · the receptionist taking a call (the AI tile); a ghost card behind it fans the stack */
 .aichat{--w:min(84%,300px);--r:3deg;--top:44px;display:flex;flex-direction:column;gap:10px;background:#fff;border-radius:20px;box-shadow:var(--shadow-lg);padding:14px;font-size:13px;color:var(--ink)}
@@ -897,11 +904,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <!-- Meta Ads: a sponsored post -->
       <article class="tile tile--indigo reveal" data-delay="2">
         <div class="tile__art" aria-hidden="true">
-          <div class="mock adcard">
-            <div class="adcard__head"><span class="adcard__avatar"></span><div><b>Nordlys</b><small data-i18n="mock.ad.sp">Sponsrad</small></div></div>
-            <div class="adcard__img"><i></i></div>
-            <div class="adcard__cta"><div><b data-i18n="mock.ad.t">Boka rum vid havet</b><span>nordlys.se</span></div><span class="adcard__btn" data-i18n="mock.ad.btn">Läs mer</span></div>
-            <div class="adcard__actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 8a4.3 4.3 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l.9-5.4A8 8 0 1 1 21 12z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 15V3M7 8l5-5 5 5"/></svg></div>
+          <div class="mock adsm">
+            <div class="adsm__head"><div><b data-i18n="mock.am.title">Kampanj: Leads – september</b><small data-i18n="mock.am.sub">Meta Ads · Senaste 30 dagarna</small></div><span class="adsm__tag" data-i18n="mock.am.tag">Exempel</span></div>
+            <div class="adsm__kpis">
+              <div><small data-i18n="mock.am.k1">Räckvidd</small><b>48 260</b><i>+31 %</i></div>
+              <div><small data-i18n="mock.am.k2">Klick</small><b>2 137</b><i>+24 %</i></div>
+              <div><small data-i18n="mock.am.k3">Leads</small><b>86</b><i>+42 %</i></div>
+              <div><small data-i18n="mock.am.k4">Kostnad/lead</small><b>118 kr</b><i>−18 %</i></div>
+            </div>
+            <div class="adsm__chart">
+              <svg viewBox="0 0 300 96" preserveAspectRatio="none" aria-hidden="true">
+                <defs><linearGradient id="adsmFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EF5B4E" stop-opacity=".28"/><stop offset="1" stop-color="#EF5B4E" stop-opacity="0"/></linearGradient></defs>
+                <path class="adsm__area" d="M6.0,87.3 Q6.0,87.3 11.0,88.6 Q15.9,90.0 20.9,81.8 Q25.9,73.6 30.8,80.7 Q35.8,87.8 40.8,80.2 Q45.7,72.5 50.7,73.8 Q55.7,75.1 60.6,78.4 Q65.6,81.7 70.6,74.2 Q75.5,66.7 80.5,72.3 Q85.4,77.8 90.4,71.1 Q95.4,64.4 100.3,68.5 Q105.3,72.5 110.3,71.1 Q115.2,69.7 120.2,63.9 Q125.2,58.1 130.1,51.3 Q135.1,44.4 140.1,53.3 Q145.0,62.2 150.0,59.7 Q155.0,57.2 159.9,50.4 Q164.9,43.5 169.9,37.9 Q174.8,32.2 179.8,36.4 Q184.8,40.6 189.7,42.0 Q194.7,43.5 199.7,34.2 Q204.6,24.8 209.6,36.9 Q214.6,49.0 219.5,36.4 Q224.5,23.8 229.4,30.8 Q234.4,37.7 239.4,38.7 Q244.3,39.7 249.3,39.0 Q254.3,38.2 259.2,34.4 Q264.2,30.6 269.2,22.3 Q274.1,14.0 279.1,21.9 Q284.1,29.9 289.0,23.1 T294.0,16.3 L294.0,96 L6.0,96 Z"/>
+                <path class="adsm__line" d="M6.0,87.3 Q6.0,87.3 11.0,88.6 Q15.9,90.0 20.9,81.8 Q25.9,73.6 30.8,80.7 Q35.8,87.8 40.8,80.2 Q45.7,72.5 50.7,73.8 Q55.7,75.1 60.6,78.4 Q65.6,81.7 70.6,74.2 Q75.5,66.7 80.5,72.3 Q85.4,77.8 90.4,71.1 Q95.4,64.4 100.3,68.5 Q105.3,72.5 110.3,71.1 Q115.2,69.7 120.2,63.9 Q125.2,58.1 130.1,51.3 Q135.1,44.4 140.1,53.3 Q145.0,62.2 150.0,59.7 Q155.0,57.2 159.9,50.4 Q164.9,43.5 169.9,37.9 Q174.8,32.2 179.8,36.4 Q184.8,40.6 189.7,42.0 Q194.7,43.5 199.7,34.2 Q204.6,24.8 209.6,36.9 Q214.6,49.0 219.5,36.4 Q224.5,23.8 229.4,30.8 Q234.4,37.7 239.4,38.7 Q244.3,39.7 249.3,39.0 Q254.3,38.2 259.2,34.4 Q264.2,30.6 269.2,22.3 Q274.1,14.0 279.1,21.9 Q284.1,29.9 289.0,23.1 T294.0,16.3"/>
+                <circle class="adsm__dot" cx="294.0" cy="16.3" r="3.5"/>
+              </svg>
+              <div class="adsm__axis"><span data-i18n="mock.am.a1">1 sep</span><span data-i18n="mock.am.a2">15 sep</span><span data-i18n="mock.am.a3">30 sep</span></div>
+            </div>
           </div>
         </div>
         <div class="tile__body">
@@ -924,9 +943,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="tile__art" aria-hidden="true">
           <div class="mock aichat">
             <div class="aichat__call"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></i><div><b data-i18n="mock.ai.call">Inkommande samtal</b><small data-i18n="mock.ai.sub">Okänt nummer · 14:32</small></div><span class="aichat__live" data-i18n="mock.ai.live">AI svarar</span></div>
-            <div class="aichat__msg is-ai" data-i18n="mock.ai.m1">Hej! Du har nått Nordlys. Hur kan jag hjälpa dig?</div>
-            <div class="aichat__msg is-me" data-i18n="mock.ai.m2">Jag vill boka ett rum till helgen.</div>
-            <div class="aichat__done"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><div><b data-i18n="mock.ai.done">Bokat: lör 19 sep, 2 nätter</b><small data-i18n="mock.ai.crm">Skickat till CRM</small></div></div>
+            <div class="aichat__msg is-ai" data-i18n="mock.ai.m1">Hej! Du har nått receptionen. Hur kan jag hjälpa dig?</div>
+            <div class="aichat__msg is-me" data-i18n="mock.ai.m2">Jag vill boka en tid på fredag.</div>
+            <div class="aichat__done"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><div><b data-i18n="mock.ai.done">Bokat: fre 25 sep, 10:00</b><small data-i18n="mock.ai.crm">Skickat till CRM</small></div></div>
           </div>
         </div>
         <div class="tile__body">
@@ -1333,10 +1352,12 @@ const I18N = {
     "cases.1.t":"<b>Bageri</b> · Hantverk · Hitta hit","cases.2.t":"<b>Löpning</b> · Community · Event","cases.3.t":"<b>Kallbad</b> · Bastu · Bokning",
     "cases.cta.eyebrow":"Nästa?","cases.cta.title":"Er sajt kan vara nästa.",
     "cases.cta.text":"Berätta om ert företag, så tar vi fram ett designförslag — gratis och utan förpliktelser.","cases.cta.btn":"Få ett designförslag",
-    "mock.ad.sp":"Sponsrad","mock.ad.t":"Boka rum vid havet","mock.ad.btn":"Läs mer",
+    "mock.am.title":"Kampanj: Leads – september","mock.am.sub":"Meta Ads · Senaste 30 dagarna","mock.am.tag":"Exempel",
+    "mock.am.k1":"Räckvidd","mock.am.k2":"Klick","mock.am.k3":"Leads","mock.am.k4":"Kostnad/lead",
+    "mock.am.a1":"1 sep","mock.am.a2":"15 sep","mock.am.a3":"30 sep",
     "mock.ai.call":"Inkommande samtal","mock.ai.sub":"Okänt nummer · 14:32","mock.ai.live":"AI svarar",
-    "mock.ai.m1":"Hej! Du har nått Nordlys. Hur kan jag hjälpa dig?","mock.ai.m2":"Jag vill boka ett rum till helgen.",
-    "mock.ai.done":"Bokat: lör 19 sep, 2 nätter","mock.ai.crm":"Skickat till CRM",
+    "mock.ai.m1":"Hej! Du har nått receptionen. Hur kan jag hjälpa dig?","mock.ai.m2":"Jag vill boka en tid på fredag.",
+    "mock.ai.done":"Bokat: fre 25 sep, 10:00","mock.ai.crm":"Skickat till CRM",
     "svc.eyebrow":"Vad vi gör","svc.title":"Tre tjänster som får företag att växa.",
     "svc.lead":"Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.",
     "svc.1.title":"Webb & SEO","svc.1.tag":"Webbplatser byggda för att synas och konvertera.",
@@ -1424,10 +1445,12 @@ const I18N = {
     "cases.1.t":"<b>Bakery</b> · Craft · Directions","cases.2.t":"<b>Running</b> · Community · Events","cases.3.t":"<b>Cold bath</b> · Sauna · Booking",
     "cases.cta.eyebrow":"Next?","cases.cta.title":"Your site could be next.",
     "cases.cta.text":"Tell us about your business and we\u2019ll draft a design proposal — free, no strings attached.","cases.cta.btn":"Get a design proposal",
-    "mock.ad.sp":"Sponsored","mock.ad.t":"Book a room by the sea","mock.ad.btn":"Learn more",
+    "mock.am.title":"Campaign: Leads – September","mock.am.sub":"Meta Ads · Last 30 days","mock.am.tag":"Example",
+    "mock.am.k1":"Reach","mock.am.k2":"Clicks","mock.am.k3":"Leads","mock.am.k4":"Cost per lead",
+    "mock.am.a1":"1 Sep","mock.am.a2":"15 Sep","mock.am.a3":"30 Sep",
     "mock.ai.call":"Incoming call","mock.ai.sub":"Unknown number · 14:32","mock.ai.live":"AI answering",
-    "mock.ai.m1":"Hi! You've reached Nordlys. How can I help?","mock.ai.m2":"I'd like to book a room for the weekend.",
-    "mock.ai.done":"Booked: Sat 19 Sep, 2 nights","mock.ai.crm":"Sent to CRM",
+    "mock.ai.m1":"Hi! You've reached the front desk. How can I help?","mock.ai.m2":"I'd like to book a time on Friday.",
+    "mock.ai.done":"Booked: Fri 25 Sep, 10:00","mock.ai.crm":"Sent to CRM",
     "svc.eyebrow":"What we do","svc.title":"Three services that help businesses grow.",
     "svc.lead":"Web, advertising and automation — working together instead of across three different suppliers.",
     "svc.1.title":"Web & SEO","svc.1.tag":"Websites built to be found and to convert.",
