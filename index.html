@@ -100,7 +100,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--accent-ink);
 }
 .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--accent);opacity:.6}
-.section{padding:clamp(72px,11vw,132px) 0}
+.section{padding:clamp(64px,8vw,112px) 0}
 .lead{color:var(--ink-soft);font-size:clamp(16px,1.02vw,20px);max-width:58ch}
 
 /* Buttons */
@@ -390,23 +390,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .svc p{color:var(--ink-soft);font-size:clamp(15.5px,.92vw,17.5px)}
 .svc__tag{font-weight:600;color:var(--ink);margin:-2px 0 10px;font-size:clamp(15px,.95vw,17px)}
 .svc__list{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px}
-/* SEO block under the service cards */
-.seo{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center;margin-top:clamp(44px,5vw,72px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line)}
-.seo__title{font-size:clamp(24px,2vw,38px);margin:12px 0 14px;letter-spacing:-.02em}
-.seo p{color:var(--ink-soft);font-size:clamp(15.5px,.98vw,18px)}
-.seo__chips{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.seo__chip{display:flex;align-items:center;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-weight:500;font-size:15px}
-.seo__chip svg{width:18px;height:18px;color:var(--accent);flex:none}
 /* AI receptionist showcase */
-/* before / after */
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-.ba__col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(24px,2.6vw,36px)}
-.ba__col h3{font-size:clamp(19px,1.3vw,24px);margin:0}
-.ba__col.is-after{background:var(--accent-soft);border-color:transparent}
-.ba ul{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:12px}
-.ba li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.55;color:var(--ink-soft)}
-.ba li svg{width:18px;height:18px;flex:none;margin-top:3px;color:var(--muted)}
-.ba .is-after li svg{color:var(--accent)}
+/* before / after: one table, Före against Efter row by row */
+.cmp{border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm)}
+.cmp__head,.cmp__row{display:grid;grid-template-columns:1fr 1fr}
+.cmp__row{border-top:1px solid var(--line)}
+.cmp__cell{display:flex;gap:16px;align-items:flex-start;padding:clamp(18px,1.9vw,28px) clamp(20px,2.4vw,36px)}
+.cmp__cell.is-after{background:var(--accent-soft)}
+.cmp__head .cmp__cell{padding-top:clamp(20px,1.8vw,26px);padding-bottom:clamp(16px,1.4vw,20px)}
+.cmp__head h3{font-size:clamp(20px,1.4vw,26px);margin:0;letter-spacing:-.01em}
+.cmp__head .is-after h3{color:var(--accent-ink)}
+.cmp__cell i{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px}
+.cmp__cell i svg{width:15px;height:15px}
+.is-before i{background:var(--bg-tint);color:var(--muted)}
+.is-after i{background:var(--accent);color:var(--ink)}
+.cmp__cell p{margin:0;font-size:clamp(16px,1.05vw,19px);line-height:1.5;color:var(--ink-soft)}
+.is-after p{color:var(--ink)}
 .faq__link{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent-ink)}
 .opt-grid .opt:nth-child(7){grid-column:1/-1}
 .svc__list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft)}
@@ -599,46 +598,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    REVEAL ANIMATION
    ============================================================ */
-/* ---------- Arbete: WebGL-karusell ---------- */
-.work{padding-bottom:clamp(56px,8vw,96px)}
-.work__stage{position:relative;margin-top:clamp(24px,3vw,44px);height:clamp(360px,min(92vh,62vw),1180px);
-  cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.work__stage.is-dragging{cursor:grabbing}
-.work__canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;
-  transition:opacity .7s var(--ease)}
-.work__canvas.ready{opacity:1}
-.work__labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.work__label{position:absolute;top:0;left:0;text-align:center;white-space:nowrap;
-  transform:translate(-50%,0);transition:opacity .35s var(--ease)}
-.work__label b{display:block;font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;
-  font-size:clamp(19px,1.5vw,30px);color:var(--ink)}
-.work__label span{display:block;margin-top:6px;font-size:clamp(12px,.78vw,14px);
-  letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.work__hint{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
-  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
-  opacity:.75;transition:opacity .5s var(--ease);pointer-events:none}
-.work__hint.hide{opacity:0}
-
-/* Fallback list: shown when WebGL is unavailable or motion is reduced */
-.work__fallback{display:none;list-style:none;gap:clamp(16px,2vw,26px);
-  padding:0 var(--gutter);overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch}
-.work__fallback li{flex:0 0 min(78vw,520px);scroll-snap-align:center}
-.work__fallback img{width:100%;height:auto;border-radius:14px;box-shadow:var(--shadow-md);
-  background:var(--surface)}
-.work__fallback span{display:block;margin-top:14px;font-family:var(--font-display);
-  font-size:clamp(18px,1.4vw,26px);color:var(--ink)}
-.work__stage.is-fallback{height:auto;cursor:default}
-.work__stage.is-fallback .work__canvas,
-.work__stage.is-fallback .work__labels,
-.work__stage.is-fallback .work__hint{display:none}
-.work__stage.is-fallback .work__fallback{display:flex}
-
-@media (max-width:720px){
-  .work__stage{height:clamp(280px,72vw,420px)}
-  .work__label b{font-size:18px}
-  .work__hint{display:none}   /* collides with the card label on narrow screens; swiping is instinctive there */
-}
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 .reveal[data-delay="1"]{transition-delay:.08s}
@@ -676,12 +635,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav__burger{display:flex}
   .services,.quotes,.steps,.results{grid-template-columns:1fr}
   .opt-grid{grid-template-columns:1fr}
-  .seo{grid-template-columns:1fr}
   .tile{border-radius:22px}
   .tile__body{padding:18px 20px 26px}
   .tiles__cta{flex-direction:column;gap:12px;width:100%;margin-top:18px;padding:18px 18px 14px;border-radius:26px;text-align:center}
   .tiles__cta .btn{width:100%}
-  .ba{grid-template-columns:1fr}
+  .cmp__head{display:none}
+  .cmp__row{grid-template-columns:1fr}
+  .cmp__cell{padding:16px 18px}
+  .cmp__cell.is-after{border-top:1px dashed rgba(27,26,23,.12)}
   .field.two{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
   body{font-size:16px}
@@ -703,6 +664,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .brand__mark{width:38px;height:38px}
   .nav__links{gap:40px}
   .nav__link{font-size:16.5px}
+  .tile__body h3{font-size:28px}
+  .tile__body p{font-size:17px}
+  .tile__tags li{font-size:14px;padding:7px 12px}
+  .tile__label{font-size:13.5px}
+  .step p{font-size:17px}
+  .faq__a{font-size:17px}
+  .booking__perks li{font-size:17px}
+  .opt span{font-size:14.5px}
+  .hform label{font-size:15px}
   .hero h1{font-size:min(4vw,92px)}
   .hero .lead{font-size:22px;max-width:60ch}
   .checks li{font-size:19px}
@@ -723,6 +693,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav__links{gap:44px}
   .nav__link{font-size:17.5px}
   .nav .btn{font-size:16px;padding:15px 28px}
+  .tile__body h3{font-size:30px}
+  .tile__body p{font-size:18px}
+  .tile__tags li{font-size:15px}
+  .step p{font-size:18px}
+  .faq__a{font-size:18px}
   .hero h1{font-size:min(4vw,108px)}
   .hero .lead{font-size:24px}
   .checks li{font-size:21px}
@@ -755,7 +730,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <nav class="nav__links" aria-label="Huvudmeny">
       <a class="nav__link" href="#tjanster" data-i18n="nav.services">Tjänster</a>
       <a class="nav__link" href="#ai" data-i18n="nav.ai">AI &amp; Automation</a>
-      <a class="nav__link" href="#arbete" data-i18n="nav.work">Case</a>
+      <a class="nav__link" href="#sajter" data-i18n="nav.work">Case</a>
       <a class="nav__link" href="#varfor" data-i18n="nav.about">Om oss</a>
       <a class="nav__link" href="#faq" data-i18n="nav.faq">FAQ</a>
     </nav>
@@ -777,7 +752,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div class="mobile-menu" id="mobileMenu">
   <a href="#tjanster" data-i18n="nav.services">Tjänster</a>
   <a href="#ai" data-i18n="nav.ai">AI &amp; Automation</a>
-  <a href="#arbete" data-i18n="nav.work">Case</a>
+  <a href="#sajter" data-i18n="nav.work">Case</a>
   <a href="#varfor" data-i18n="nav.about">Om oss</a>
   <a href="#faq" data-i18n="nav.faq">FAQ</a>
   <a href="#boka" data-i18n="nav.cta" style="color:var(--accent)">Boka möte</a>
@@ -964,79 +939,36 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <a href="#boka" class="btn btn-primary btn-lg" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
     </div>
 
-    <!-- SEO is its own value proposition, not a feature bullet -->
-    <div class="seo reveal">
-      <div>
-        <span class="eyebrow" data-i18n="seo.eyebrow">SEO</span>
-        <h3 class="seo__title" data-i18n="seo.title">Synas när kunderna söker.</h3>
-        <p data-i18n="seo.lead">Vi förbättrar förutsättningarna för att ditt företag ska synas när potentiella kunder söker efter era tjänster. Vi lovar inga placeringar — det kan ingen seriöst garantera — men vi gör arbetet som ger resultat över tid.</p>
-      </div>
-      <div class="seo__chips">
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.1">Teknisk SEO</span></div>
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.2">On-page SEO</span></div>
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.3">Lokal SEO</span></div>
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.4">Google Business Profile</span></div>
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.5">Sökordsanalys</span></div>
-        <div class="seo__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="seo.6">Innehåll</span></div>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ================= AUTOMATION: BEFORE / AFTER ================= -->
-<section class="section" id="automation" style="padding-top:0">
+<section class="section" id="automation">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow" data-i18n="auto.eyebrow">Automationsexempel</span>
       <h2 data-i18n="auto.title">Före och efter.</h2>
       <p class="lead" data-i18n="auto.lead">Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.</p>
     </div>
-    <div class="ba reveal">
-      <div class="ba__col">
-        <h3 data-i18n="auto.before">Före</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b1">Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b2">Förfrågningar landar i inkorgen och glöms bort.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span data-i18n="auto.b3">Samma uppgifter skrivs in i flera olika system.</span></li>
-        </ul>
+    <!-- one table, so each Före reads against its Efter on the same line -->
+    <div class="cmp reveal">
+      <div class="cmp__head">
+        <div class="cmp__cell is-before"><h3 data-i18n="auto.before">Före</h3></div>
+        <div class="cmp__cell is-after"><h3 data-i18n="auto.after">Efter</h3></div>
       </div>
-      <div class="ba__col is-after">
-        <h3 data-i18n="auto.after">Efter</h3>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a1">AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a2">Varje förfrågan registreras och följs upp automatiskt.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg><span data-i18n="auto.a3">Informationen hamnar i ert CRM — en gång, på rätt ställe.</span></li>
-        </ul>
+      <div class="cmp__row">
+        <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b1">Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.</p></div>
+        <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a1">AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.</p></div>
+      </div>
+      <div class="cmp__row">
+        <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b2">Förfrågningar landar i inkorgen och glöms bort.</p></div>
+        <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a2">Varje förfrågan registreras och följs upp automatiskt.</p></div>
+      </div>
+      <div class="cmp__row">
+        <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b3">Samma uppgifter skrivs in i flera olika system.</p></div>
+        <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a3">Informationen hamnar i ert CRM — en gång, på rätt ställe.</p></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ================= ARBETE ================= -->
-<section class="section work" id="arbete">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="work.eyebrow">Portfölj</span>
-      <h2 data-i18n="work.title">Sajter vi byggt.</h2>
-      <p class="lead" data-i18n="work.lead">Dra i sidled för att bläddra. Varje sajt är byggd från grunden — design, kod och animationer.</p>
-    </div>
-  </div>
-
-  <div class="work__stage reveal" id="workStage">
-    <canvas class="work__canvas" id="workCanvas" aria-hidden="true"></canvas>
-
-    <!-- Titles live in the DOM so they stay crisp, selectable and translatable;
-         their x-position is projected from the WebGL plane each frame. -->
-    <div class="work__labels" id="workLabels" aria-hidden="true"></div>
-
-    <!-- Accessible, no-WebGL and reduced-motion fallback -->
-    <ul class="work__fallback" id="workFallback">
-      <li><img src="assets/portfolio/dagett.jpg" alt="Sajten dag ett — en löparsajt" width="640" height="360" loading="lazy" decoding="async"><span>dag ett</span></li>
-      <li><img src="assets/portfolio/bageri.jpg" alt="Sajten Bageri Bohuslän" width="640" height="360" loading="lazy" decoding="async"><span>Bageri Bohuslän</span></li>
-      <li><img src="assets/portfolio/tarnvik.jpg" alt="Sajten Tärnvik Bad" width="640" height="360" loading="lazy" decoding="async"><span>Tärnvik Bad</span></li>
-    </ul>
-
-    <div class="work__hint" id="workHint" data-i18n="work.hint">Dra för att bläddra</div>
   </div>
 </section>
 
@@ -1089,7 +1021,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </section>
 
 <!-- ================= FAQ ================= -->
-<section class="section" id="faq" style="padding-top:0">
+<section class="section" id="faq">
   <div class="wrap">
     <div class="sec-head sec-head--center reveal">
       <span class="eyebrow" data-i18n="faq.eyebrow">Vanliga frågor</span>
@@ -1112,12 +1044,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <summary class="faq__q"><span data-i18n="faq.4.q">Erbjuder ni support efteråt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.4.a">Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.</div>
       </details>
+      <details class="faq__item reveal">
+        <summary class="faq__q"><span data-i18n="faq.5.q">Kan ni garantera att vi hamnar först på Google?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="faq__a" data-i18n="faq.5.a">Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.</div>
+      </details>
     </div>
   </div>
 </section>
 
 <!-- ================= CTA BANNER ================= -->
-<section class="section" style="padding-top:0">
+<section class="section" id="cta">
   <div class="wrap">
     <div class="cta-banner reveal">
       <h2 data-i18n="cta.title">Redo att se vad CertaCode kan göra för ert företag?</h2>
@@ -1364,9 +1300,6 @@ const I18N = {
     "svc.3.title":"AI & automation","svc.3.tag":"Låt systemen göra det repetitiva arbetet.",
     "svc.3.desc":"Vi bygger skräddarsydda AI- och automationslösningar som minskar administration och gör verksamheten effektivare.",
     "svc.3.f1":"AI-receptionist","svc.3.f2":"Automatiserad lead-hantering","svc.3.f3":"Bokningssystem","svc.3.f4":"CRM-automation","svc.3.f5":"E-postautomation","svc.3.f6":"AI-agenter",
-    "seo.eyebrow":"SEO","seo.title":"Synas när kunderna söker.",
-    "seo.lead":"Vi förbättrar förutsättningarna för att ditt företag ska synas när potentiella kunder söker efter era tjänster. Vi lovar inga placeringar — det kan ingen seriöst garantera — men vi gör arbetet som ger resultat över tid.",
-    "seo.1":"Teknisk SEO","seo.2":"On-page SEO","seo.3":"Lokal SEO","seo.4":"Google Business Profile","seo.5":"Sökordsanalys","seo.6":"Innehåll",
     "ai.eyebrow":"AI-receptionist","ai.title":"Missa aldrig ett kundsamtal igen.",
     "ai.lead":"En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.",
     "ai.f1":"Kund ringer","ai.f2":"AI svarar","ai.f3":"Förstår ärendet","ai.f4":"Svarar, bokar eller vidarebefordrar","ai.f5":"Information skickas till CRM",
@@ -1380,9 +1313,6 @@ const I18N = {
     "auto.a1":"AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.",
     "auto.a2":"Varje förfrågan registreras och följs upp automatiskt.",
     "auto.a3":"Informationen hamnar i ert CRM — en gång, på rätt ställe.",
-    "work.eyebrow":"Case","work.title":"Sajter vi byggt.",
-    "work.lead":"Dra i sidled för att bläddra. Varje sajt är byggd från grunden — design, kod och animationer.",
-    "work.hint":"Dra för att bläddra",
     "proc.eyebrow":"Så arbetar vi","proc.title":"Fyra steg från första mötet till resultat.",
     "proc.lead":"Vi börjar med er verksamhet — inte med tekniken.",
     "proc.1.t":"Första mötet","proc.1.d":"Vi går igenom er verksamhet, era mål och var det finns störst potential.",
@@ -1418,6 +1348,8 @@ const I18N = {
     "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-lösningar sätts upp på 1–3 veckor.",
     "faq.3.q":"Äger jag allt vi tar fram?","faq.3.a":"Ja. När det är betalt äger du all kod, design, annonskonton och allt innehåll till 100 %. Inga inlåsningar.",
     "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.",
+    "faq.5.q":"Kan ni garantera att vi hamnar först på Google?",
+    "faq.5.a":"Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.",
     "cta.title":"Redo att se vad CertaCode kan göra för ert företag?","cta.lead":"Ett första möte är kostnadsfritt och utan förpliktelser.","cta.btn":"Boka ett möte",
     "foot.tagline":"Digital marknadsföring, SEO och AI-automation för företag som vill växa.",
     "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.privacy":"Integritetspolicy","foot.location":"Sverige","foot.rights":"Alla rättigheter förbehållna.",
@@ -1457,9 +1389,6 @@ const I18N = {
     "svc.3.title":"AI & automation","svc.3.tag":"Let the systems do the repetitive work.",
     "svc.3.desc":"We build tailored AI and automation solutions that reduce admin and make the business more efficient.",
     "svc.3.f1":"AI receptionist","svc.3.f2":"Automated lead handling","svc.3.f3":"Booking systems","svc.3.f4":"CRM automation","svc.3.f5":"Email automation","svc.3.f6":"AI agents",
-    "seo.eyebrow":"SEO","seo.title":"Be found when customers search.",
-    "seo.lead":"We improve the conditions for your business to be found when potential customers search for your services. We don't promise rankings — nobody seriously can — but we do the work that pays off over time.",
-    "seo.1":"Technical SEO","seo.2":"On-page SEO","seo.3":"Local SEO","seo.4":"Google Business Profile","seo.5":"Keyword research","seo.6":"Content",
     "ai.eyebrow":"AI receptionist","ai.title":"Never miss a customer call again.",
     "ai.lead":"An AI receptionist can answer customers around the clock, handle common questions, qualify leads and help with bookings — without staff having to interrupt their work.",
     "ai.f1":"Customer calls","ai.f2":"AI answers","ai.f3":"Understands the request","ai.f4":"Answers, books or forwards","ai.f5":"Information sent to CRM",
@@ -1473,9 +1402,6 @@ const I18N = {
     "auto.a1":"The AI receptionist answers immediately, around the clock, and books the customer in.",
     "auto.a2":"Every enquiry is logged and followed up automatically.",
     "auto.a3":"The information lands in your CRM — once, in the right place.",
-    "work.eyebrow":"Case","work.title":"Sites we've built.",
-    "work.lead":"Drag sideways to browse. Every site is built from scratch — design, code and animation.",
-    "work.hint":"Drag to browse",
     "proc.eyebrow":"How we work","proc.title":"Four steps from the first meeting to results.",
     "proc.lead":"We start with your business — not the technology.",
     "proc.1.t":"The first meeting","proc.1.d":"We go through your business, your goals and where the biggest potential is.",
@@ -1511,6 +1437,8 @@ const I18N = {
     "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within 2–4 weeks. Ad campaigns can be live within days, and AI solutions are set up in 1–3 weeks.",
     "faq.3.q":"Do I own everything we create?","faq.3.a":"Yes. Once it's paid, you own all code, design, ad accounts and content 100%. No lock-in.",
     "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development whenever you want it.",
+    "faq.5.q":"Can you guarantee a first-page ranking on Google?",
+    "faq.5.a":"No — nobody can seriously guarantee that. We improve the conditions for you to show up when potential customers search for your services: technical SEO, content, local SEO and Google Business Profile. It is work that pays off over time.",
     "cta.title":"Ready to see what CertaCode can do for your business?","cta.lead":"A first meeting is free and without obligation.","cta.btn":"Book a call",
     "foot.tagline":"Digital marketing, SEO and AI automation for businesses that want to grow.",
     "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.privacy":"Privacy policy","foot.location":"Sweden","foot.rights":"All rights reserved.",
@@ -1586,444 +1514,6 @@ const countIO = new IntersectionObserver((entries)=>{
   });
 },{threshold:0.6});
 document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(el));
-
-/* ============ ARBETE: curved WebGL carousel ============
-   To add a project later: drop the three files in assets/portfolio/
-   and add one entry here. Nothing else needs touching. */
-const WORK_PROJECTS = [
-  { id:"dagett",  title:"dag ett",          tag:"Löpning · Community", tagEn:"Running · Community" },
-  { id:"bageri",  title:"Bageri Bohuslän",  tag:"Bageri · Hantverk",   tagEn:"Bakery · Craft" },
-  { id:"tarnvik", title:"Tärnvik Bad",      tag:"Kallbad · Bastu",     tagEn:"Cold bath · Sauna" }
-];
-
-(function initWork(){
-  const stage  = document.getElementById("workStage");
-  const canvas = document.getElementById("workCanvas");
-  const labelsEl = document.getElementById("workLabels");
-  const hintEl = document.getElementById("workHint");
-  if(!stage || !canvas) return;
-
-  // lazy images inside a display:none container never load, so switch them
-  // to eager at the moment we actually decide to show the fallback
-  function useFallback(){
-    stage.classList.add("is-fallback");
-    stage.querySelectorAll(".work__fallback img").forEach(img => {
-      img.loading = "eager";
-      if(!img.complete) img.src = img.src;
-    });
-  }
-
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let gl = null;
-  try{
-    gl = canvas.getContext("webgl", { alpha:true, antialias:true, premultipliedAlpha:false })
-      || canvas.getContext("experimental-webgl");
-  }catch(e){ gl = null; }
-  if(!gl || reduce.matches){ useFallback(); return; }
-
-  /* One continuous wave runs along the whole strip and every card samples it
-     from its own world position, so the right edge of a card meets the left
-     edge of the next at the same phase and the row reads as one chain. */
-  const VERT = `
-    attribute vec2 aPos;
-    attribute vec2 aUV;
-    uniform float uOffsetX, uDist, uAmp, uFreq, uYAmp;
-    uniform mat4  uProj;
-    varying mediump vec2  vUV;
-    varying mediump vec2  vWorld;
-    varying mediump float vShade;
-    void main(){
-      float wx = aPos.x + uOffsetX;
-      float ph = wx * uFreq;
-      float z  = uAmp * (cos(ph) - 1.0);
-      float y  = aPos.y + uYAmp * sin(ph * 0.5);
-      vUV = aUV;
-      vWorld = vec2(wx, y);
-      vShade = z / max(uAmp, 0.0001);
-      gl_Position = uProj * vec4(wx, y, z - uDist, 1.0);
-    }`;
-
-  /* The cursor distorts the picture inside the card, not the card itself.
-     Displacing geometry towards the camera magnifies it under perspective,
-     which is exactly the swelling we do not want. */
-  const FRAG = `
-    precision mediump float;
-    uniform sampler2D uTex;
-    uniform float uRadius, uAspect, uAlpha, uFall, uPull, uWarp, uRingFreq, uRingSpeed, uTime;
-    uniform vec2  uMouse, uCardSize;
-    varying mediump vec2  vUV;
-    varying mediump vec2  vWorld;
-    varying mediump float vShade;
-    void main(){
-      // silhouette comes from the undistorted uv, so the outline never moves
-      vec2 p = abs(vUV - 0.5) * vec2(uAspect, 1.0) * 2.0;
-      vec2 halfSize = vec2(uAspect, 1.0) - uRadius;
-      vec2 dd = max(p - halfSize, 0.0);
-      float edge = length(dd) - uRadius;
-      float a = 1.0 - smoothstep(-0.005, 0.005, edge);
-      if(a <= 0.001) discard;
-
-      // a droplet meeting water: soft concentric rings drifting outward,
-      // barely moving the picture rather than dragging it one way
-      vec2  delta = uMouse - vWorld;
-      float d     = length(delta);
-      vec2  dir   = d > 1e-4 ? delta / d : vec2(0.0);
-      float env   = smoothstep(uFall, 0.0, d);
-      float ring  = sin(d * uRingFreq - uTime * uRingSpeed);
-      float infl  = env * uWarp;
-      vec2  duv   = vec2(dir.x / uCardSize.x, -dir.y / uCardSize.y);
-      vec2  uvw   = clamp(vUV + duv * ring * infl * uPull, 0.0, 1.0);
-
-      vec4 tex = texture2D(uTex, uvw);
-      float shade = 1.0 + vShade * 0.22 + infl * 0.025;
-      vec3 bg = vec3(0.9725, 0.9686, 0.9451);
-      vec3 col = mix(bg, tex.rgb * shade, 0.90 + 0.06 * infl);
-      gl_FragColor = vec4(col, a * uAlpha);
-    }`;
-
-  function compile(type, src){
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src); gl.compileShader(s);
-    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
-      console.warn("work shader:", gl.getShaderInfoLog(s)); return null;
-    }
-    return s;
-  }
-  const vs = compile(gl.VERTEX_SHADER, VERT), fs = compile(gl.FRAGMENT_SHADER, FRAG);
-  if(!vs || !fs){ useFallback(); return; }
-  const prog = gl.createProgram();
-  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
-    console.warn("work program link:", gl.getProgramInfoLog(prog));
-    useFallback(); return;
-  }
-  gl.useProgram(prog);
-
-  const SEG_X = 44, SEG_Y = 1;
-  const PLANE_H = 1.0, ASPECT = 16/9, PLANE_W = PLANE_H * ASPECT, HALF_W = PLANE_W/2;
-  const pos = [], uv = [], idx = [];
-  for(let iy=0; iy<=SEG_Y; iy++){
-    for(let ix=0; ix<=SEG_X; ix++){
-      const u = ix/SEG_X, v = iy/SEG_Y;
-      pos.push((u-0.5)*PLANE_W, (v-0.5)*PLANE_H);
-      uv.push(u, 1-v);
-    }
-  }
-  for(let iy=0; iy<SEG_Y; iy++){
-    for(let ix=0; ix<SEG_X; ix++){
-      const a = iy*(SEG_X+1)+ix, b = a+1, c = a+(SEG_X+1), d = c+1;
-      idx.push(a,c,b, b,c,d);
-    }
-  }
-  function buffer(data, target, Type){
-    const b = gl.createBuffer(); gl.bindBuffer(target, b);
-    gl.bufferData(target, new Type(data), gl.STATIC_DRAW); return b;
-  }
-  const posBuf = buffer(pos, gl.ARRAY_BUFFER, Float32Array);
-  const uvBuf  = buffer(uv,  gl.ARRAY_BUFFER, Float32Array);
-  const idxBuf = buffer(idx, gl.ELEMENT_ARRAY_BUFFER, Uint16Array);
-  const aPos = gl.getAttribLocation(prog,"aPos"), aUV = gl.getAttribLocation(prog,"aUV");
-  const U = n => gl.getUniformLocation(prog, n);
-  const uProj=U("uProj"), uOffsetX=U("uOffsetX"), uDist=U("uDist"),
-        uAmp=U("uAmp"), uFreq=U("uFreq"), uYAmp=U("uYAmp"),
-        uMouse=U("uMouse"), uWarp=U("uWarp"), uFall=U("uFall"),
-        uPull=U("uPull"), uCardSize=U("uCardSize"), uTex=U("uTex"),
-        uRingFreq=U("uRingFreq"), uRingSpeed=U("uRingSpeed"), uTime=U("uTime"),
-        uRadius=U("uRadius"), uAspect=U("uAspect"), uAlpha=U("uAlpha");
-
-  function makeTexture(){
-    const t = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([245,245,243,255]));
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    return t;
-  }
-
-  const items = WORK_PROJECTS.map(p => {
-    const it = { ...p, tex: makeTexture(), video:null, videoReady:false, playing:false };
-    const img = new Image();
-    img.onload = () => {
-      gl.bindTexture(gl.TEXTURE_2D, it.tex);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
-      canvas.classList.add("ready"); needsDraw = true;
-    };
-    img.src = `assets/portfolio/${p.id}.jpg`;
-    return it;
-  });
-
-  // repeat the projects so the chain is long enough to never show its own seam
-  const REPEATS = Math.max(2, Math.ceil(7 / items.length));
-  const slots = [];
-  for(let r=0;r<REPEATS;r++) for(let i=0;i<items.length;i++) slots.push(i);
-
-  function startVideos(all){
-    items.forEach((it,i)=>{
-      if(!it.video){
-        const v = document.createElement("video");
-        v.muted = true; v.loop = true; v.playsInline = true;
-        v.setAttribute("playsinline",""); v.setAttribute("muted","");
-        v.preload = "auto";
-        const canWebm = v.canPlayType('video/webm; codecs="vp9"');
-        v.src = `assets/portfolio/${it.id}.` +
-                ((canWebm === "probably" || canWebm === "maybe") ? "webm" : "mp4");
-        v.addEventListener("playing", ()=>{ it.videoReady = true; }, { once:true });
-        it.video = v;
-      }
-      const want = all || i === centreItem();
-      if(want && !it.playing){ const p = it.video.play(); if(p&&p.catch) p.catch(()=>{}); it.playing = true; }
-      else if(!want && it.playing){ it.video.pause(); it.playing = false; }
-    });
-  }
-  function stopVideos(){
-    items.forEach(it => { if(it.video && it.playing){ it.video.pause(); it.playing = false; } });
-  }
-
-  const GAP = 0.05;                                  // cards almost touch: one ribbon
-  const SPAN = PLANE_W + GAP, TOTAL = SPAN * slots.length;
-  let scroll = 0, target = 0, pointerX = null, pointerY = null;
-  let dragging = false, lastX = 0, dragVel = 0;
-  let width = 0, height = 0, needsDraw = true, visible = false, hovered = -1;
-  let hoverAmt = slots.map(()=>0);
-  let speed = 0;                                  // pointer speed, decays each frame
-  let clock = 0;                                  // drives the outward ring drift
-
-  const wrap = x => ((x + TOTAL/2) % TOTAL + TOTAL) % TOTAL - TOTAL/2;
-  function centreItem(){
-    let best = 0, bd = Infinity;
-    slots.forEach((item,s)=>{ const d = Math.abs(wrap(s*SPAN - scroll)); if(d<bd){ bd=d; best=item; } });
-    return best;
-  }
-
-  function perspective(fovY, aspect, near, far){
-    const f = 1/Math.tan(fovY/2), nf = 1/(near-far);
-    return new Float32Array([
-      f/aspect,0,0,0,  0,f,0,0,
-      0,0,(far+near)*nf,-1,  0,0,2*far*near*nf,0
-    ]);
-  }
-
-  let proj, camDist, viewHalfW, ampAmt, freqAmt, yAmpAmt, playAll, fallAmt, pullAmt;
-  function resize(){
-    const r = stage.getBoundingClientRect();
-    width = Math.max(1, Math.round(r.width)); height = Math.max(1, Math.round(r.height));
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
-    gl.viewport(0,0,canvas.width,canvas.height);
-
-    const aspect = width/height, fov = 45 * Math.PI/180, tanHalf = Math.tan(fov/2);
-    // size the card against BOTH axes: on a wide screen the stage height is
-    // capped, so a width-only rule made the card taller than the stage
-    const shareW = width < 720 ? 0.80 : 0.60;    // ~3 1/3 cards across
-    const shareH = width < 720 ? 0.62 : 0.56;    // leaves room for the title
-    const distFromWidth  = (PLANE_W / shareW) / (2*tanHalf*aspect);
-    const distFromHeight = (PLANE_H / shareH) / (2*tanHalf);
-    camDist = Math.max(distFromWidth, distFromHeight);
-    proj = perspective(fov, aspect, 0.1, 100);
-    viewHalfW = camDist * tanHalf * aspect;
-    ampAmt  = width < 720 ? 0.30 : 0.46;         // depth of the wave
-    freqAmt = (2*Math.PI) / (SPAN * 2.2);        // short enough that every card bows
-    yAmpAmt = width < 720 ? 0.05 : 0.09;         // gentle vertical snake
-    fallAmt = width < 720 ? 0.38 : 0.52;         // how far the rings reach
-    pullAmt = width < 720 ? 0.016 : 0.022;       // how far the picture actually moves
-    playAll = width >= 720;                      // phones keep one decode
-    needsDraw = true;
-  }
-
-  const labelEls = slots.map(() => {
-    const el = document.createElement("div");
-    el.className = "work__label";
-    el.innerHTML = `<b></b><span></span>`;
-    labelsEl.appendChild(el);
-    return el;
-  });
-  function syncLabelText(){
-    const en = document.documentElement.lang === "en";
-    slots.forEach((item,s)=>{
-      labelEls[s].querySelector("b").textContent = items[item].title;
-      labelEls[s].querySelector("span").textContent = en ? items[item].tagEn : items[item].tag;
-    });
-  }
-  syncLabelText();
-  document.addEventListener("certacode:lang", syncLabelText);
-
-  const waveZ = wx => ampAmt * (Math.cos(wx*freqAmt) - 1);
-  const waveY = wx => yAmpAmt * Math.sin(wx*freqAmt*0.5);
-
-  // screen pointer -> world position on the plane at depth z
-  function pointerWorldAt(z){
-    if(pointerX == null) return null;
-    const viewZ = camDist - z;
-    const ndcX = (pointerX/width)*2 - 1, ndcY = 1 - (pointerY/height)*2;
-    return { x: ndcX * viewZ / proj[0], y: ndcY * viewZ / proj[5] };
-  }
-
-  function project(x, y, z){
-    const w = proj[11]*(z-camDist) || 1e-6;
-    return { x:((proj[0]*x)/w*0.5+0.5)*width, y:(1-((proj[5]*y)/w*0.5+0.5))*height };
-  }
-
-  function layout(){
-    return slots.map((item,s)=>{
-      const ox = wrap(s*SPAN - scroll);
-      const edge = Math.abs(ox)/(TOTAL/2);
-      const alpha = 1 - Math.min(1, Math.max(0, (edge - 0.86)/(0.99 - 0.86)));
-      return { s, item, ox, alpha, z: waveZ(ox), sy: waveY(ox) };
-    });
-  }
-
-  function hitTest(px, py){
-    if(px == null) return -1;
-    let best = -1, bestZ = -Infinity;
-    for(const c of layout()){
-      if(c.alpha < 0.4) continue;
-      const tl = project(c.ox - HALF_W, c.sy + PLANE_H/2, c.z);
-      const br = project(c.ox + HALF_W, c.sy - PLANE_H/2, c.z);
-      if(px >= tl.x && px <= br.x && py >= tl.y && py <= br.y && c.z > bestZ){
-        best = c.s; bestZ = c.z;
-      }
-    }
-    return best;
-  }
-
-  function draw(){
-    gl.clearColor(0,0,0,0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
-    gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
-    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);
-    gl.enableVertexAttribArray(aUV); gl.vertexAttribPointer(aUV,2,gl.FLOAT,false,0,0);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
-
-    gl.uniformMatrix4fv(uProj,false,proj);
-    gl.uniform1f(uDist,camDist); gl.uniform1f(uAmp,ampAmt);
-    gl.uniform1f(uFreq,freqAmt); gl.uniform1f(uYAmp,yAmpAmt);
-    gl.uniform1f(uRadius,0.12); gl.uniform1f(uAspect,ASPECT);
-    gl.uniform1f(uFall,fallAmt);
-    gl.uniform2f(uCardSize, PLANE_W, PLANE_H);
-    gl.uniform1f(uRingFreq, 15.0); gl.uniform1f(uRingSpeed, 3.2);
-    gl.uniform1f(uTime, clock);
-    gl.uniform1i(uTex,0); gl.activeTexture(gl.TEXTURE0);
-
-    // upload each playing video once per frame, not once per card that shows it
-    for(const it of items){
-      if(it.playing && it.videoReady && it.video.readyState >= 2){
-        gl.bindTexture(gl.TEXTURE_2D, it.tex);
-        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,it.video);
-      }
-    }
-
-    const cards = layout().sort((a,b)=> a.z - b.z);     // furthest back first
-    for(const c of cards){
-      if(c.alpha <= 0.002){ labelEls[c.s].style.opacity = "0"; continue; }
-      const it = items[c.item];
-      gl.bindTexture(gl.TEXTURE_2D, it.tex);
-      const h = hoverAmt[c.s];
-      const m = h > 0.002 ? pointerWorldAt(c.z) : null;
-      gl.uniform1f(uOffsetX, c.ox);
-      gl.uniform2f(uMouse,   m ? m.x : 1e6, m ? m.y : 1e6);
-      gl.uniform1f(uWarp,    h);
-      gl.uniform1f(uPull,    pullAmt * (1 + speed * 0.8));
-      gl.uniform1f(uAlpha,   c.alpha);
-      gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
-
-      const p = project(c.ox, c.sy - PLANE_H/2, c.z);
-      const el = labelEls[c.s];
-      el.style.transform = `translate(-50%,0) translate(${p.x}px, ${p.y + 16}px)`;
-      el.style.opacity = String(c.alpha * (0.5 + 0.5*h));
-    }
-  }
-
-  let last = performance.now();
-  function frame(now){
-    const dt = Math.min((now - last)/1000, 0.05); last = now;
-    clock += dt;
-    if(visible){
-      if(!dragging){
-        target += dragVel;
-        dragVel *= Math.pow(0.02, dt);
-        if(Math.abs(dragVel) < 0.00002) dragVel = 0;
-      }
-      const before = scroll;
-      scroll += (target - scroll) * (1 - Math.exp(-dt/0.085));
-
-      const nowHovered = dragging ? -1 : hitTest(pointerX, pointerY);
-      if(nowHovered !== hovered){
-        hovered = nowHovered;
-        stage.style.cursor = hovered >= 0 ? "pointer" : "";
-      }
-      speed *= Math.pow(0.0008, dt);               // settles when the mouse stops
-      let hoverMoving = speed > 0.002;
-      for(let s=0;s<hoverAmt.length;s++){
-        const want = (s === hovered) ? 1 : 0;
-        // grabs quickly, springs back a little slower
-        const tau = want ? 0.075 : 0.20;
-        const nh = hoverAmt[s] + (want - hoverAmt[s]) * (1 - Math.exp(-dt/tau));
-        if(Math.abs(nh - hoverAmt[s]) > 0.0004) hoverMoving = true;
-        hoverAmt[s] = nh;
-      }
-
-      startVideos(playAll);
-      const moving = Math.abs(scroll - before) > 0.00005 || dragging || hoverMoving || hovered >= 0;
-      const playingNow = items.some(it => it.playing && it.videoReady);
-      if(moving || needsDraw || playingNow){ draw(); needsDraw = false; }
-    }
-    requestAnimationFrame(frame);
-  }
-
-  const toWorld = px => (px/width) * (viewHalfW*2);
-
-  stage.addEventListener("pointerdown", e => {
-    dragging = true; lastX = e.clientX; dragVel = 0;
-    stage.classList.add("is-dragging");
-    try{ stage.setPointerCapture(e.pointerId); }catch(_){}
-    if(hintEl) hintEl.classList.add("hide");
-  });
-  stage.addEventListener("pointermove", e => {
-    const r = stage.getBoundingClientRect();
-    const nx = e.clientX - r.left, ny = e.clientY - r.top;
-    if(pointerX != null){
-      const dpx = Math.hypot(nx - pointerX, ny - pointerY);
-      speed = Math.min(1, speed + dpx / Math.max(width, 1) * 3.0);
-    }
-    pointerX = nx; pointerY = ny;
-    if(!dragging){ needsDraw = true; return; }
-    const dx = e.clientX - lastX; lastX = e.clientX;
-    const d = toWorld(dx);
-    target -= d; scroll -= d;
-    dragVel = -d * 0.6;
-    needsDraw = true;
-  });
-  function endDrag(e){
-    if(!dragging) return;
-    dragging = false; stage.classList.remove("is-dragging");
-    try{ stage.releasePointerCapture(e.pointerId); }catch(_){}
-  }
-  stage.addEventListener("pointerup", endDrag);
-  stage.addEventListener("pointercancel", endDrag);
-  stage.addEventListener("pointerleave", () => { pointerX = pointerY = null; });
-  stage.addEventListener("wheel", e => {
-    const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
-    if(!dx) return;
-    e.preventDefault();
-    target += toWorld(dx); dragVel = 0;
-    if(hintEl) hintEl.classList.add("hide");
-  }, { passive:false });
-
-  new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting;
-    if(visible) needsDraw = true; else stopVideos();
-  }, { threshold:0.15 }).observe(stage);
-
-  window.addEventListener("resize", resize, { passive:true });
-  resize();
-  requestAnimationFrame(frame);
-})();
 
 (function initCases(){
   const vids = document.querySelectorAll(".case video");
