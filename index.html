@@ -298,16 +298,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:translateX(-50%) rotate(var(--r,0deg)) translateY(var(--lift,0px));transition:transform .6s var(--ease)}
 
 /* 1 · browser window with a design-tool selection on top */
-.mock-browser{--w:min(100%,430px);--r:-4deg;--top:36px;left:57%;background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden}
+.mock-browser{--w:min(94%,440px);--r:-3deg;left:50%;top:50%;transform:translate(-50%,-50%) rotate(var(--r)) translateY(var(--lift,0px));background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden}
 .mock-browser__bar{display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;background:#F1EFE7}
 .mock-browser__bar i{width:8px;height:8px;border-radius:50%;background:#D9D4C7}
 .mock-browser__bar span{flex:1;height:14px;margin-left:8px;border-radius:7px;background:#fff}
 .mock-browser>img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:top}
-.mock-browser__sel{position:absolute;left:14%;top:38%;width:58%;height:36%;border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.28),inset 0 0 0 1px rgba(0,0,0,.28);
-  background:linear-gradient(#fff,#fff) 0 0/7px 7px no-repeat,linear-gradient(#fff,#fff) 100% 0/7px 7px no-repeat,
-             linear-gradient(#fff,#fff) 0 100%/7px 7px no-repeat,linear-gradient(#fff,#fff) 100% 100%/7px 7px no-repeat;background-origin:border-box}
-.mock-browser__sel b{position:absolute;left:50%;bottom:-24px;transform:translateX(-50%);background:var(--accent);color:var(--ink);font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px;white-space:nowrap}
-.mock-cursor{position:absolute;left:58%;top:60%;display:flex;align-items:flex-start;gap:2px;transform:translateY(var(--lift,0px));transition:transform .6s var(--ease)}
+.mock-cursor{position:absolute;left:63%;top:68%;display:flex;align-items:flex-start;gap:2px;transform:translateY(var(--lift,0px));transition:transform .6s var(--ease)}
 .mock-cursor svg{width:20px;height:20px;color:#1B1A17;filter:drop-shadow(0 1px 1px rgba(255,255,255,.7))}
 .mock-cursor span{margin-top:12px;background:#1B1A17;color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:100px;box-shadow:var(--shadow-md);white-space:nowrap}
 
@@ -883,7 +879,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <div class="mock mock-browser">
             <div class="mock-browser__bar"><i></i><i></i><i></i><span></span></div>
             <img src="assets/mock/bageri-hero.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
-            <div class="mock-browser__sel"><b>1440 × 900</b></div>
           </div>
           <div class="mock-cursor"><svg viewBox="0 0 24 24" fill="currentColor" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"><path d="M4 2l16 9.5-7.2 1.6L9.5 20z"/></svg><span>CertaCode</span></div>
         </div>
