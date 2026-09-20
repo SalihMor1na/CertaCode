@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
+<script>if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion");</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>CertaCode — Digital marknadsföring, SEO & AI-automation</title>
@@ -258,6 +259,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .phone--r{transform:translateX(62%) rotate(9deg);z-index:1}
 .phone--c{z-index:2}
 @media (prefers-reduced-motion:reduce){.sticker{animation:none}}
+.motion .tiles__cta{transition-delay:.45s}
 /* ---------- Service rows: a big rounded picture beside the text, alternating ---------- */
 /* Three colour tiles: mesh-gradient ground, a mockup up top, copy at the bottom */
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2vw,28px)}
@@ -329,10 +331,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .adsm__chart{position:relative;margin-top:10px}
 .adsm__chart svg{display:block;width:100%;height:72px;overflow:visible}
 .adsm__area{fill:url(#adsmFill)}
-.adsm__line{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420}
-.tile.in .adsm__line{animation:adsmDraw 1.6s var(--ease) .3s forwards}
-.adsm__dot{fill:#fff;stroke:var(--accent);stroke-width:2.4;opacity:0}
-.tile.in .adsm__dot{animation:adsmPop .4s var(--ease) 1.8s forwards}
+.adsm__line{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420}
+.motion .adsm__line{stroke-dashoffset:420}
+.motion .tile.in .adsm__line{animation:adsmDraw 1.6s var(--ease) .7s forwards}
+.adsm__dot{fill:#fff;stroke:var(--accent);stroke-width:2.4}
+.motion .adsm__dot{opacity:0}
+.motion .tile.in .adsm__dot{animation:adsmPop .4s var(--ease) 2.2s forwards}
 @keyframes adsmDraw{to{stroke-dashoffset:0}}
 @keyframes adsmPop{to{opacity:1}}
 .adsm__axis{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px}
@@ -383,8 +387,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ============================================================ */
 /* why: three columns split by hairlines, no cards */
 .why{display:grid;grid-template-columns:repeat(3,1fr)}
-.why__item{padding:clamp(6px,1vw,14px) clamp(24px,3vw,48px) clamp(6px,1vw,14px) clamp(24px,3vw,48px);border-left:1px solid var(--line-strong)}
-.why__item:first-child{padding-left:0;border-left:0}
+.why__item{position:relative;padding:clamp(6px,1vw,14px) clamp(24px,3vw,48px) clamp(6px,1vw,14px) clamp(24px,3vw,48px)}
+.why__item::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line-strong)}
+.why__item:first-child{padding-left:0}
+.why__item:first-child::before{display:none}
 .why__item:last-child{padding-right:0}
 .why__icon{width:60px;height:60px;border-radius:18px;background:var(--surface);color:var(--accent-ink);display:grid;place-items:center;box-shadow:var(--shadow-sm)}
 .why__icon svg{width:28px;height:28px}
@@ -586,14 +592,84 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ============================================================
    REVEAL ANIMATION
    ============================================================ */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-.reveal[data-delay="1"]{transition-delay:.08s}
-.reveal[data-delay="2"]{transition-delay:.16s}
-.reveal[data-delay="3"]{transition-delay:.24s}
-.reveal[data-delay="4"]{transition-delay:.32s}
+/* One dialect: same easing, 0.6–0.9 s, 80–120 ms between siblings. Everything runs once.
+   All pre-states live under html.motion (set in <head> unless reduced motion is on),
+   so without it — or without JS — the page simply shows. */
+:root{--spring:cubic-bezier(.34,1.4,.64,1)}
+.motion .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.motion .reveal.in{opacity:1;transform:none}
+.motion .reveal[data-delay="1"]{transition-delay:.08s}
+.motion .reveal[data-delay="2"]{transition-delay:.16s}
+.motion .reveal[data-delay="3"]{transition-delay:.24s}
+.motion .reveal[data-delay="4"]{transition-delay:.32s}
+/* variants */
+.motion .reveal--scale{transform:translateY(16px) scale(.94);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.motion .reveal--scale.in{transform:none;filter:none}
+.motion .reveal--fade{transform:none}
+.motion .reveal--pop{transform:translateY(20px) scale(.9);transition:opacity .6s var(--ease),transform .8s var(--spring)}
+.motion .reveal--pop.in{transform:none}
+.motion .reveal--none,.motion .reveal--none.in{opacity:1;transform:none;transition:none}   /* observed only; its children carry the motion */
+/* staggered children (indexed by --i from data-stagger) */
+.motion .stagger > *{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0) * 90ms + .2s)}
+.motion .stagger.in > *{opacity:1;transform:none}
+
+/* headline words rise out of the floor */
+.rise-words .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .02em .2em;margin:-.06em -.02em -.2em}
+.rise-words .w > span{display:inline-block}
+.motion .reveal.rise-words{opacity:1;transform:none;transition:none}
+.motion .rise-words .w > span{transform:translateY(130%);transition:transform .9s var(--ease);transition-delay:calc(var(--i,0) * 45ms + .1s)}
+.motion .rise-words.in .w > span{transform:none}
+.motion .rise-words:not(.is-split){opacity:0}
+
+/* portfolio: card → device → name, phones fan open, parallax + tilt layer */
+.case__par{position:absolute;inset:0;transform:translateY(var(--py,0px)) perspective(1200px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .35s var(--ease)}
+.motion .case__scene{opacity:0;transform:translateY(44px);transition:opacity .7s var(--ease) .25s,transform 1s var(--spring) .25s}
+.motion .case.in .case__scene{opacity:1;transform:none}
+.motion .case__text{opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease) .75s,transform .6s var(--ease) .75s}
+.motion .case.in .case__text{opacity:1;transform:none}
+.case__name{overflow:hidden;padding:.05em 0 .2em;margin:-.05em 0 -.2em}
+.case__name > span{display:inline-block}
+.motion .case__name > span{transform:translateY(120%);transition:transform .8s var(--ease) .6s}
+.motion .case.in .case__name > span{transform:none}
+.motion .phone--l,.motion .phone--r{transform:none;transition:transform 1s var(--spring) .55s}
+.motion .case.in .phone--l{transform:translateX(-62%) rotate(-9deg)}
+.motion .case.in .phone--r{transform:translateX(62%) rotate(9deg)}
+
+/* services: mockups lift into the tiles, chat bubbles arrive one by one */
+.motion .tile .mock{--lift:44px;opacity:0;transition:transform .9s var(--spring),opacity .6s var(--ease)}
+.motion .tile.in .mock{--lift:0px;opacity:1;transition-delay:.25s}
+.motion .tile.in:hover .mock{--lift:-8px;transition-delay:0s}
+.motion .tile .mock-cursor{opacity:0;transition:opacity .5s var(--ease)}
+.motion .tile.in .mock-cursor{opacity:1;transition-delay:.8s}
+.motion .tile .aichat > *{opacity:0;transform:translateY(10px) scale(.96);transition:opacity .45s var(--ease),transform .5s var(--spring)}
+.motion .tile.in .aichat > *{opacity:1;transform:none;transition-delay:calc(.6s + var(--i,0) * .28s)}
+
+/* before/after: the Efter column lights up row by row, ticks draw */
+.motion .cmp .is-after{background:var(--surface);transition:background .6s var(--ease)}
+.motion .cmp.in .is-after{background:var(--accent-soft);transition-delay:calc(.35s + var(--i,0) * .15s)}
+.cmp .is-after i svg path{stroke-dasharray:24}
+.motion .cmp .is-after i svg path{stroke-dashoffset:24;transition:stroke-dashoffset .5s var(--ease)}
+.motion .cmp.in .is-after i svg path{stroke-dashoffset:0;transition-delay:calc(.5s + var(--i,0) * .15s)}
+
+/* process: the line draws itself, numbers pop as it reaches them, copy follows */
+.motion .tl::before{transform:scale(0);transform-origin:left top;transition:transform 1.3s var(--ease) .15s}
+.motion .tl.in::before{transform:none}
+.motion .tl__num{transform:scale(0);transition:transform .55s var(--spring)}
+.motion .tl.in .tl__num{transform:none;transition-delay:calc(.15s + var(--i,0) * .33s)}
+.motion .tl__step h3,.motion .tl__step p{opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.motion .tl.in .tl__step h3,.motion .tl.in .tl__step p{opacity:1;transform:none;transition-delay:calc(.35s + var(--i,0) * .33s)}
+
+/* reasons: icons pop, hairlines grow */
+.motion .why__item::before{transform:scaleY(0);transform-origin:top;transition:transform .9s var(--ease) .1s}
+.motion .why__item.in::before{transform:none}
+.motion .why__icon{transform:scale(.6);opacity:0;transition:transform .6s var(--spring),opacity .4s var(--ease)}
+.motion .why__item.in .why__icon{transform:none;opacity:1;transition-delay:.15s}
+
+/* booking calendar: days arrive in a wave */
+@keyframes calPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.motion .cal__day{animation:calPop .5s var(--spring) both;animation-delay:calc(var(--i,0) * 14ms)}
+
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
   *{animation-duration:.001ms !important;transition-duration:.08s !important}
 }
 
@@ -631,8 +707,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .tl__num{position:absolute;left:0;top:0;box-shadow:0 0 0 6px var(--ink)}
   .tl__step h3{margin-top:8px}
   .why{grid-template-columns:1fr}
-  .why__item{padding:24px 0;border-left:0;border-top:1px solid var(--line-strong)}
-  .why__item:first-child{padding-top:0;border-top:0}
+  .why__item{padding:24px 0}
+  .why__item::before{top:0;bottom:auto;left:0;right:0;width:auto;height:1px}
+  .motion .why__item::before{transform:scaleX(0);transform-origin:left}
+  .why__item:first-child{padding-top:0}
   .faq{grid-template-columns:1fr}
   .opt-grid{grid-template-columns:1fr}
   .tile{border-radius:22px}
@@ -765,9 +843,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="hero__grid">
       <div class="hero__copy">
         <span class="eyebrow reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
-        <h1 class="reveal" data-delay="1" data-i18n-html="hero.title">Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.</h1>
+        <h1 class="reveal rise-words" data-i18n-html="hero.title">Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.</h1>
         <p class="lead reveal" data-delay="2" data-i18n="hero.lead">Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.</p>
-        <ul class="checks reveal" data-delay="3">
+        <ul class="checks reveal reveal--none stagger" data-stagger>
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c1">Gratis designförslag, anpassat för er</span></li>
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c2">Inga förpliktelser</span></li>
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><span data-i18n="hero.c3">Svar inom 24 timmar</span></li>
@@ -776,7 +854,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </div>
 
       <!-- lead form: posts to the same backend as the booking, so it really arrives -->
-      <div class="hform reveal" data-delay="2" id="hform">
+      <div class="hform reveal reveal--scale" data-delay="3" id="hform">
         <div class="sticker" aria-hidden="true" data-i18n-html="hero.sticker">Gratis<br>design­förslag</div>
         <h2 data-i18n="hf.title">Få ett gratis designförslag</h2>
         <p data-i18n="hf.sub">Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut — utan kostnad.</p>
@@ -804,37 +882,45 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <p class="lead" data-i18n="cases.lead">Byggda från grunden — design, kod och animationer.</p>
     </div>
     <ul class="cases__grid">
-      <li class="case reveal" data-delay="1">
+      <li class="case reveal reveal--scale" data-delay="1">
         <div class="case__scene" aria-hidden="true">
+          <div class="case__par">
           <div class="dev dev--laptop"><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/bageri.jpg"><source src="assets/portfolio/bageri.webm" type="video/webm"><source src="assets/portfolio/bageri.mp4" type="video/mp4"></video></div><div class="dev__base"></div></div>
+          </div>
         </div>
         <span class="case__scrim" aria-hidden="true"></span>
-        <div class="case__meta"><h3 class="case__name">Bageri Bohuslän</h3><p class="case__text" data-i18n-html="cases.1.t"><b>Bageri</b> · Hantverk · Hitta hit</p></div>
+        <div class="case__meta"><h3 class="case__name"><span>Bageri Bohuslän</span></h3><p class="case__text" data-i18n-html="cases.1.t"><b>Bageri</b> · Hantverk · Hitta hit</p></div>
       </li>
-      <li class="case reveal" data-delay="2">
+      <li class="case reveal reveal--scale" data-delay="2">
         <div class="case__scene" aria-hidden="true">
+          <div class="case__par">
           <div class="dev dev--monitor"><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/dagett.jpg"><source src="assets/portfolio/dagett.webm" type="video/webm"><source src="assets/portfolio/dagett.mp4" type="video/mp4"></video></div><div class="dev__stand"></div><div class="dev__foot"></div></div>
+          </div>
         </div>
         <span class="case__scrim" aria-hidden="true"></span>
-        <div class="case__meta"><h3 class="case__name">dag ett</h3><p class="case__text" data-i18n-html="cases.2.t"><b>Löpning</b> · Community · Event</p></div>
+        <div class="case__meta"><h3 class="case__name"><span>dag ett</span></h3><p class="case__text" data-i18n-html="cases.2.t"><b>Löpning</b> · Community · Event</p></div>
       </li>
-      <li class="case reveal" data-delay="1">
+      <li class="case reveal reveal--scale" data-delay="1">
         <div class="case__scene" aria-hidden="true">
+          <div class="case__par">
           <div class="dev dev--window"><div class="dev__bar"><i></i><i></i><i></i><span></span></div><div class="dev__screen"><video muted loop playsinline preload="metadata" poster="assets/portfolio/tarnvik.jpg"><source src="assets/portfolio/tarnvik.webm" type="video/webm"><source src="assets/portfolio/tarnvik.mp4" type="video/mp4"></video></div></div>
+          </div>
         </div>
         <span class="case__scrim" aria-hidden="true"></span>
-        <div class="case__meta"><h3 class="case__name">Tärnvik Bad</h3><p class="case__text" data-i18n-html="cases.3.t"><b>Kallbad</b> · Bastu · Bokning</p></div>
+        <div class="case__meta"><h3 class="case__name"><span>Tärnvik Bad</span></h3><p class="case__text" data-i18n-html="cases.3.t"><b>Kallbad</b> · Bastu · Bokning</p></div>
       </li>
-      <li class="case reveal" data-delay="2">
+      <li class="case reveal reveal--scale" data-delay="2">
         <div class="case__scene" aria-hidden="true">
+          <div class="case__par">
           <div class="fan">
             <div class="phone phone--l"><img src="assets/mock/phone-dagett.jpg" alt="" width="780" height="1688" loading="lazy" decoding="async"></div>
             <div class="phone phone--r"><img src="assets/mock/phone-tarnvik.jpg" alt="" width="780" height="1688" loading="lazy" decoding="async"></div>
             <div class="phone phone--c"><img src="assets/mock/phone-bageri.jpg" alt="" width="780" height="1688" loading="lazy" decoding="async"></div>
           </div>
+          </div>
         </div>
         <span class="case__scrim" aria-hidden="true"></span>
-        <div class="case__meta"><h3 class="case__name" data-i18n="cases.4.name">Lika bra i mobilen.</h3><p class="case__text" data-i18n-html="cases.4.t"><b>Responsivt</b> · Alla tre sajter · Byggt för tummen</p></div>
+        <div class="case__meta"><h3 class="case__name"><span data-i18n="cases.4.name">Lika bra i mobilen.</span></h3><p class="case__text" data-i18n-html="cases.4.t"><b>Responsivt</b> · Alla tre sajter · Byggt för tummen</p></div>
       </li>
     </ul>
   </div>
@@ -853,7 +939,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="tiles">
 
       <!-- Webb & SEO: a site in a browser window, with a design-tool selection over it -->
-      <article class="tile tile--amber reveal" data-delay="1">
+      <article class="tile tile--amber reveal reveal--scale" data-delay="1">
         <div class="tile__art" aria-hidden="true">
           <div class="mock mock-browser">
             <div class="mock-browser__bar"><i></i><i></i><i></i><span></span></div>
@@ -876,7 +962,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </article>
 
       <!-- Meta Ads: a sponsored post -->
-      <article class="tile tile--indigo reveal" data-delay="2">
+      <article class="tile tile--indigo reveal reveal--scale" data-delay="2">
         <div class="tile__art" aria-hidden="true">
           <div class="mock adsm">
             <div class="adsm__head"><div><b data-i18n="mock.am.title">Kampanj: Leads – september</b><small data-i18n="mock.am.sub">Meta Ads · Senaste 30 dagarna</small></div><span class="adsm__tag" data-i18n="mock.am.tag">Exempel</span></div>
@@ -913,9 +999,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </article>
 
       <!-- AI & automation: the receptionist taking a call and booking it -->
-      <article class="tile tile--coral reveal" data-delay="3" id="ai">
+      <article class="tile tile--coral reveal reveal--scale" data-delay="3" id="ai">
         <div class="tile__art" aria-hidden="true">
-          <div class="mock aichat">
+          <div class="mock aichat" data-stagger>
             <div class="aichat__call"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></i><div><b data-i18n="mock.ai.call">Inkommande samtal</b><small data-i18n="mock.ai.sub">Okänt nummer · 14:32</small></div><span class="aichat__live" data-i18n="mock.ai.live">AI svarar</span></div>
             <div class="aichat__msg is-ai" data-i18n="mock.ai.m1">Hej! Du har nått receptionen. Hur kan jag hjälpa dig?</div>
             <div class="aichat__msg is-me" data-i18n="mock.ai.m2">Jag vill boka en tid på fredag.</div>
@@ -938,7 +1024,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </article>
     </div>
 
-    <div class="tiles__cta reveal">
+    <div class="tiles__cta reveal reveal--pop">
       <span data-i18n="svc.ctaLead">Redo att komma igång?</span>
       <a href="#boka" class="btn btn-primary btn-lg" data-i18n="svc.cta">Boka kostnadsfritt möte</a>
     </div>
@@ -955,7 +1041,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <p class="lead" data-i18n="auto.lead">Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.</p>
     </div>
     <!-- one table, so each Före reads against its Efter on the same line -->
-    <div class="cmp reveal">
+    <div class="cmp reveal reveal--fade" data-stagger>
       <div class="cmp__head">
         <div class="cmp__cell is-before"><h3 data-i18n="auto.before">Före</h3></div>
         <div class="cmp__cell is-after"><h3 data-i18n="auto.after">Efter</h3></div>
@@ -984,11 +1070,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
       <p class="lead" data-i18n="proc.lead">Vi börjar med er verksamhet — inte med tekniken.</p>
     </div>
-    <ol class="tl">
-      <li class="tl__step reveal" data-delay="1"><span class="tl__num">01</span><h3 data-i18n="proc.1.t">Första mötet</h3><p data-i18n="proc.1.d">Vi går igenom er verksamhet, era mål och var det finns störst potential.</p></li>
-      <li class="tl__step reveal" data-delay="2"><span class="tl__num">02</span><h3 data-i18n="proc.2.t">Strategi</h3><p data-i18n="proc.2.d">Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.</p></li>
-      <li class="tl__step reveal" data-delay="3"><span class="tl__num">03</span><h3 data-i18n="proc.3.t">Produktion</h3><p data-i18n="proc.3.d">Vi designar, bygger, implementerar och testar lösningen.</p></li>
-      <li class="tl__step reveal" data-delay="4"><span class="tl__num">04</span><h3 data-i18n="proc.4.t">Lansering &amp; optimering</h3><p data-i18n="proc.4.d">Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.</p></li>
+    <ol class="tl reveal reveal--none" data-stagger>
+      <li class="tl__step"><span class="tl__num">01</span><h3 data-i18n="proc.1.t">Första mötet</h3><p data-i18n="proc.1.d">Vi går igenom er verksamhet, era mål och var det finns störst potential.</p></li>
+      <li class="tl__step"><span class="tl__num">02</span><h3 data-i18n="proc.2.t">Strategi</h3><p data-i18n="proc.2.d">Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.</p></li>
+      <li class="tl__step"><span class="tl__num">03</span><h3 data-i18n="proc.3.t">Produktion</h3><p data-i18n="proc.3.d">Vi designar, bygger, implementerar och testar lösningen.</p></li>
+      <li class="tl__step"><span class="tl__num">04</span><h3 data-i18n="proc.4.t">Lansering &amp; optimering</h3><p data-i18n="proc.4.d">Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.</p></li>
     </ol>
   </div>
 </section>
@@ -1029,25 +1115,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     </div>
     <div class="faq">
       <div class="faq__col">
-      <details class="faq__item reveal">
+      <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.1.q">Vad kostar ett projekt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a"><span data-i18n="faq.1.a">Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.</span> <a href="#boka" class="faq__link" data-i18n="faq.1.cta">Boka ett kostnadsfritt möte</a></div>
       </details>
-      <details class="faq__item reveal">
+      <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.2.q">Hur lång tid tar det?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.</div>
       </details>
-      <details class="faq__item reveal">
+      <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.3.a">Ja. När projektet är betalt äger du all kod, design och allt innehåll till 100 %. Inga inlåsningar.</div>
       </details>
       </div>
       <div class="faq__col">
-      <details class="faq__item reveal">
+      <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.4.q">Erbjuder ni support efteråt?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.4.a">Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.</div>
       </details>
-      <details class="faq__item reveal">
+      <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.5.q">Kan ni garantera att vi hamnar först på Google?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
         <div class="faq__a" data-i18n="faq.5.a">Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.</div>
       </details>
@@ -1059,7 +1145,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <!-- ================= BOOKING ================= -->
 <section class="section booking" id="boka">
   <div class="wrap">
-    <div class="booking__card reveal">
+    <div class="booking__card reveal reveal--scale">
       <!-- Aside -->
       <aside class="booking__aside">
         <span class="eyebrow" data-i18n="book.eyebrow">Boka möte</span>
@@ -1450,6 +1536,7 @@ function applyLang(l){
   });
   document.querySelectorAll(".lang button").forEach(b=> b.setAttribute("aria-pressed", b.dataset.lang===l ? "true":"false"));
   renderCalendar(); renderSlots(); // refresh localized calendar
+  splitRiseWords();                 // the headline was re-rendered
   try{ localStorage.setItem("cc_lang", l); }catch(e){}
 }
 document.querySelectorAll(".lang button").forEach(b=> b.addEventListener("click", ()=> applyLang(b.dataset.lang)));
@@ -1474,10 +1561,89 @@ mobileMenu.querySelectorAll("a").forEach(a=> a.addEventListener("click", closeMe
 /* ============================================================
    REVEAL ON SCROLL
    ============================================================ */
+/* ---- motion helpers: stagger indices and the word split for headlines ---- */
+const MOTION = document.documentElement.classList.contains("motion");
+document.querySelectorAll("[data-stagger]").forEach(p=> [...p.children].forEach((c,i)=> c.style.setProperty("--i", i)));
+function splitRiseWords(){
+  if(!MOTION) return;                                   // plain headline when motion is off
+  document.querySelectorAll(".rise-words").forEach(el=>{
+    if(el.querySelector(".w")) return;
+    let i = 0;
+    const walk = (node)=>{
+      [...node.childNodes].forEach(n=>{
+        if(n.nodeType === 3){
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part=>{
+            if(!part) return;
+            if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement("span"); w.className = "w";
+            const inner = document.createElement("span"); inner.textContent = part; inner.style.setProperty("--i", i++);
+            w.appendChild(inner); frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if(n.nodeType === 1){ walk(n); }
+      });
+    };
+    walk(el); el.classList.add("is-split");
+  });
+}
+splitRiseWords();
+
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
 },{threshold:0.12, rootMargin:"0px 0px -8% 0px"});
 document.querySelectorAll(".reveal").forEach(el=> io.observe(el));
+
+/* portfolio depth: devices lag the scroll a little, and lean toward the cursor */
+(function initCaseDepth(){
+  if(!MOTION) return;
+  const pars = [...document.querySelectorAll(".case__par")]; if(!pars.length) return;
+  let ticking = false;
+  const update = ()=>{
+    ticking = false; const vh = innerHeight;
+    pars.forEach(p=>{
+      const r = p.parentElement.getBoundingClientRect(); if(r.bottom < 0 || r.top > vh) return;
+      const t = (r.top + r.height/2 - vh/2) / vh;           // -0.5 above centre … +0.5 below
+      p.style.setProperty("--py", (t * -18).toFixed(1) + "px");
+    });
+  };
+  const onScroll = ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(update); } };
+  addEventListener("scroll", onScroll, {passive:true}); addEventListener("resize", onScroll); update();
+  if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){
+    pars.forEach(p=>{
+      const card = p.closest(".case");
+      card.addEventListener("mousemove", e=>{
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
+        p.style.setProperty("--ry", (x*8).toFixed(2) + "deg"); p.style.setProperty("--rx", (-y*8).toFixed(2) + "deg");
+      });
+      card.addEventListener("mouseleave", ()=>{ p.style.setProperty("--rx", "0deg"); p.style.setProperty("--ry", "0deg"); });
+    });
+  }
+})();
+
+/* FAQ: answers slide instead of snapping (native toggle when motion is off) */
+(function initFaq(){
+  if(!MOTION) return;
+  document.querySelectorAll(".faq__item").forEach(d=>{
+    const sum = d.querySelector("summary"); if(!sum) return;
+    sum.addEventListener("click", e=>{
+      e.preventDefault();
+      if(d.dataset.animating) return;
+      d.dataset.animating = "1";
+      const ease = "cubic-bezier(.22,1,.36,1)";
+      if(d.open){
+        const from = d.offsetHeight, to = sum.offsetHeight + 2;
+        const a = d.animate([{height:from+"px"},{height:to+"px"}], {duration:280, easing:ease});
+        a.onfinish = ()=>{ d.open = false; delete d.dataset.animating; };
+      } else {
+        const from = d.offsetHeight; d.open = true; const to = d.offsetHeight;
+        const a = d.animate([{height:from+"px"},{height:to+"px"}], {duration:380, easing:ease});
+        a.onfinish = ()=>{ delete d.dataset.animating; };
+      }
+    });
+  });
+})();
 
 /* ============================================================
    COUNT-UP for results
@@ -1612,7 +1778,7 @@ function renderCalendar(){
   for(let d=1; d<=daysInMonth; d++){
     const cellDate = new Date(y,m,d);
     const btn = document.createElement("button");
-    btn.type="button"; btn.className="cal__day"; btn.textContent=d;
+    btn.type="button"; btn.className="cal__day"; btn.textContent=d; btn.style.setProperty("--i", d);
     const dow = cellDate.getDay();
     const isPast = cellDate < today;
     const isWeekend = (dow===0||dow===6);
