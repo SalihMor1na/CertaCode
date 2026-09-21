@@ -415,7 +415,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .cmp__cell p{margin:0;font-size:clamp(16px,1.05vw,19px);line-height:1.5;color:var(--ink-soft)}
 .is-after p{color:var(--ink)}
 .faq__link{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent-ink)}
-.opt-grid .opt:nth-child(7){grid-column:1/-1}
 
 /* ============================================================
    PROCESS — numbered timeline on the dark band
@@ -468,92 +467,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .booking__contact a:hover{color:var(--ink)}
 .booking__contact svg{width:18px;height:18px;color:var(--accent-ink)}
 
-.booking__form{padding:clamp(30px,3.6vw,46px)}
-/* progress */
-.steps-bar{display:flex;align-items:center;gap:0;margin-bottom:30px}
-.steps-bar .sdot{display:flex;align-items:center;gap:12px;flex:1}
-.steps-bar .sdot:last-child{flex:none}
-.steps-bar .num{width:32px;height:32px;flex:none;border-radius:50%;border:1.5px solid var(--line-strong);display:grid;place-items:center;font-size:14px;font-weight:600;color:var(--muted);background:var(--surface);transition:.35s}
-.steps-bar .line{height:1.5px;flex:1;background:var(--line-strong);position:relative;overflow:hidden}
-.steps-bar .line::after{content:"";position:absolute;inset:0;width:0;background:var(--accent);transition:width .45s var(--ease)}
-.steps-bar .sdot.done .num,.steps-bar .sdot.active .num{border-color:var(--accent);background:var(--accent);color:var(--ink)}
-.steps-bar .sdot.done .line::after{width:100%}
-
-.bstep{display:none;animation:fadeStep .5s var(--ease)}
-.bstep.active{display:block}
-@keyframes fadeStep{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
-.bstep h3{font-size:23px;margin-bottom:6px}
-.bstep .sub{color:var(--muted);font-size:14.5px;margin-bottom:24px}
-
-/* service option cards */
-.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.opt{border:1.5px solid var(--line-strong);border-radius:var(--radius);padding:18px;text-align:left;display:flex;gap:14px;align-items:flex-start;transition:.28s;background:var(--surface)}
-.opt:hover{border-color:var(--ink);transform:translateY(-2px)}
-.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 3px var(--accent-glow)}
-.opt__ic{width:42px;height:42px;flex:none;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
-.opt__ic svg{width:22px;height:22px}
-.opt b{font-size:15.5px;display:block;margin-bottom:3px}
-.opt span{font-size:13px;color:var(--muted);line-height:1.45}
-
-/* calendar */
-.cal{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--surface)}
-.cal__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.cal__head b{font-size:15.5px;font-weight:600}
-.cal__nav{display:flex;gap:6px}
-.cal__nav button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line-strong);display:grid;place-items:center;transition:.2s}
-.cal__nav button:hover:not(:disabled){background:var(--bg-tint)}
-.cal__nav button:disabled{opacity:.35;cursor:not-allowed}
-.cal__nav svg{width:16px;height:16px}
-.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cal__dow{font-size:11px;font-weight:600;color:var(--muted);text-align:center;padding:6px 0;text-transform:uppercase;letter-spacing:.04em}
-.cal__day{aspect-ratio:1;border-radius:10px;font-size:14px;font-weight:500;display:grid;place-items:center;transition:.18s;color:var(--ink)}
-.cal__day:hover:not(:disabled){background:var(--accent-soft)}
-.cal__day:disabled{color:var(--line-strong);cursor:not-allowed}
-.cal__day.sel{background:var(--accent);color:#fff;font-weight:600}
-.cal__day.today{box-shadow:inset 0 0 0 1.5px var(--accent)}
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:18px}
-.slot{padding:11px 8px;border:1.5px solid var(--line-strong);border-radius:11px;font-size:14px;font-weight:600;text-align:center;transition:.2s;background:var(--surface)}
-.slot:hover{border-color:var(--ink)}
-.slot[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
-.slots-label{font-size:13px;font-weight:600;color:var(--muted);margin:20px 0 4px}
-
-/* form fields */
-.field{margin-bottom:16px}
-.field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:7px}
-.field label .req{color:var(--danger)}
-.field input,.field textarea{
-  width:100%;padding:13px 15px;border:1.5px solid var(--line-strong);border-radius:12px;
-  font-family:inherit;font-size:15px;background:var(--surface);color:var(--ink);transition:.2s;
-}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.field textarea{resize:vertical;min-height:96px}
-.field.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field.two > div{margin:0}
-.field .err{color:var(--danger);font-size:12.5px;margin-top:5px;display:none}
-.field.invalid input{border-color:var(--danger)}
-.field.invalid .err{display:block}
-
-/* summary */
-.summary{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.summary__row{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;font-size:14.5px;border-bottom:1px solid var(--line)}
-.summary__row:last-child{border-bottom:none}
-.summary__row span{color:var(--muted)}
-.summary__row b{font-weight:600;text-align:right}
-
-.book-error{display:none;margin-top:16px;padding:13px 16px;border-radius:12px;background:#FEF2F2;border:1px solid #FCA5A5;color:#B91C1C;font-size:14px;line-height:1.5}
-.book-error.show{display:block}
-.book-error a{color:var(--accent-ink);font-weight:600;text-decoration:underline}
-.bstep__actions{display:flex;gap:12px;margin-top:26px}
-.bstep__actions .btn-ghost{padding:14px 22px}
 .btn:disabled{opacity:.6;cursor:progress}
-
-/* success */
-.booking-success{display:none;text-align:center;padding:20px 10px}
-.booking-success.show{display:block;animation:fadeStep .5s var(--ease)}
-.booking-success__ic{width:78px;height:78px;border-radius:50%;background:var(--accent-soft);color:var(--ok);display:grid;place-items:center;margin:0 auto 22px}
-.booking-success__ic svg{width:40px;height:40px}
-.booking-success h3{font-size:27px;margin-bottom:12px}
-.booking-success p{color:var(--ink-soft);max-width:38ch;margin:0 auto 26px}
+/* the calendar panel: the embed sizes its own iframe, we give it room and a fallback link */
+.booking__cal{display:flex;flex-direction:column;padding:clamp(12px,1.6vw,22px)}
+.cal-inline{flex:1;min-height:640px}
+.cal-fallback{margin:10px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.cal-fallback a{color:var(--accent-ink);font-weight:600}
 
 /* ============================================================
    FAQ
@@ -665,10 +584,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .motion .why__icon{transform:scale(.6);opacity:0;transition:transform .6s var(--spring),opacity .4s var(--ease)}
 .motion .why__item.in .why__icon{transform:none;opacity:1;transition-delay:.15s}
 
-/* booking calendar: days arrive in a wave */
-@keyframes calPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
-.motion .cal__day{animation:calPop .5s var(--spring) both;animation-delay:calc(var(--i,0) * 14ms)}
-
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;transition-duration:.08s !important}
 }
@@ -712,7 +627,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .motion .why__item::before{transform:scaleX(0);transform-origin:left}
   .why__item:first-child{padding-top:0}
   .faq{grid-template-columns:1fr}
-  .opt-grid{grid-template-columns:1fr}
   .tile{border-radius:22px}
   .tile__body{padding:18px 20px 26px}
   .tiles__cta{flex-direction:column;gap:12px;width:100%;margin-top:18px;padding:18px 18px 14px;border-radius:26px;text-align:center}
@@ -722,7 +636,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .cmp__row{grid-template-columns:1fr}
   .cmp__cell{padding:16px 18px}
   .cmp__cell.is-after{border-top:1px dashed rgba(27,26,23,.12)}
-  .field.two{grid-template-columns:1fr}
   .footer__grid{grid-template-columns:1fr 1fr}
   body{font-size:16px}
 }
@@ -1145,9 +1058,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <h2 data-i18n="book.title">Ett kostnadsfritt samtal på 30 minuter</h2>
         <p data-i18n="book.lead">Berätta om er verksamhet så går vi igenom mål och behov, och återkommer med ett tydligt förslag. Ingen bindning.</p>
         <ul class="booking__perks">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p1">Konkreta råd redan på första mötet</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p2">Ett tydligt förslag efter första mötet</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p3">Svar inom 24 timmar</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p1">Välj en tid som passar dig, direkt i kalendern</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p2">Bekräftelse och möteslänk kommer på en gång</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p3">Konkreta råd redan på första mötet</span></li>
         </ul>
         <div class="booking__contact">
           <a href="mailto:info.certacode@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>info.certacode@gmail.com</a>
@@ -1155,134 +1068,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         </div>
       </aside>
 
-      <!-- Form -->
-      <div class="booking__form">
-        <!-- progress -->
-        <div class="steps-bar" id="stepsBar" aria-hidden="true">
-          <div class="sdot active" data-s="1"><span class="num">1</span><span class="line"></span></div>
-          <div class="sdot" data-s="2"><span class="num">2</span><span class="line"></span></div>
-          <div class="sdot" data-s="3"><span class="num">3</span><span class="line"></span></div>
-          <div class="sdot" data-s="4"><span class="num">4</span></div>
-        </div>
-
-        <form id="bookingForm" novalidate>
-          <!-- STEP 1: service -->
-          <div class="bstep active" data-step="1">
-            <h3 data-i18n="book.s1.title">Vad kan vi hjälpa dig med?</h3>
-            <p class="sub" data-i18n="book.s1.sub">Välj det som passar bäst. Du kan berätta mer sen.</p>
-            <div class="opt-grid" id="serviceOpts">
-              <button type="button" class="opt" data-value="Ny webbplats" data-value-en="New website">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
-                <span><b data-i18n="book.s1.o1t">Ny webbplats</b><span data-i18n="book.s1.o1d">Från idé till lansering</span></span>
-              </button>
-              <button type="button" class="opt" data-value="Förnya befintlig webbplats" data-value-en="Renew existing website">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg></span>
-                <span><b data-i18n="book.s1.o2t">Förnya befintlig webbplats</b><span data-i18n="book.s1.o2d">Design, hastighet &amp; konvertering</span></span>
-              </button>
-              <button type="button" class="opt" data-value="SEO / Google" data-value-en="SEO / Google">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
-                <span><b data-i18n="book.s1.o3t">SEO / Google</b><span data-i18n="book.s1.o3d">Synas när kunder söker</span></span>
-              </button>
-              <button type="button" class="opt" data-value="Facebook &amp; Instagram Ads" data-value-en="Facebook &amp; Instagram Ads">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></span>
-                <span><b data-i18n="book.s1.o4t">Facebook &amp; Instagram Ads</b><span data-i18n="book.s1.o4d">Annonser som ger leads</span></span>
-              </button>
-              <button type="button" class="opt" data-value="AI &amp; automation" data-value-en="AI &amp; automation">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span>
-                <span><b data-i18n="book.s1.o5t">AI &amp; automation</b><span data-i18n="book.s1.o5d">Mindre manuellt arbete</span></span>
-              </button>
-              <button type="button" class="opt" data-value="AI-receptionist" data-value-en="AI receptionist">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 5-2 1.5a12 12 0 0 0 5.5 5.5L16 18l5 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 3 6.6 1.5 1.5 0 0 1 4.5 5"/></svg></span>
-                <span><b data-i18n="book.s1.o6t">AI-receptionist</b><span data-i18n="book.s1.o6d">Svarar när ni inte kan</span></span>
-              </button>
-              <button type="button" class="opt" data-value="Jag vet inte ännu" data-value-en="I don't know yet">
-                <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></span>
-                <span><b data-i18n="book.s1.o7t">Jag vet inte ännu</b><span data-i18n="book.s1.o7d">Vi hjälper er hitta rätt</span></span>
-              </button>
-            </div>
-            <div class="bstep__actions">
-              <button type="button" class="btn btn-primary btn-block" data-next data-i18n="book.next">Nästa steg</button>
-            </div>
-          </div>
-
-          <!-- STEP 2: date & time -->
-          <div class="bstep" data-step="2">
-            <h3 data-i18n="book.s2.title">Välj en tid som passar</h3>
-            <p class="sub" data-i18n="book.s2.sub">Alla tider är i svensk tid (CET). Vardagar.</p>
-            <div class="cal">
-              <div class="cal__head">
-                <b id="calMonth">Månad</b>
-                <div class="cal__nav">
-                  <button type="button" id="calPrev" aria-label="Föregående månad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-                  <button type="button" id="calNext" aria-label="Nästa månad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-                </div>
-              </div>
-              <div class="cal__grid" id="calGrid"></div>
-            </div>
-            <div class="slots-label" data-i18n="book.s2.slots">Lediga tider</div>
-            <div class="slots" id="slots"></div>
-            <div class="bstep__actions">
-              <button type="button" class="btn btn-ghost" data-prev data-i18n="book.back">Tillbaka</button>
-              <button type="button" class="btn btn-primary btn-block" data-next data-i18n="book.next">Nästa steg</button>
-            </div>
-          </div>
-
-          <!-- STEP 3: details -->
-          <div class="bstep" data-step="3">
-            <h3 data-i18n="book.s3.title">Dina uppgifter</h3>
-            <p class="sub" data-i18n="book.s3.sub">Så vi vet vem vi ska prata med.</p>
-            <div class="field two">
-              <div class="field" id="f-name">
-                <label data-i18n="book.f.name">Namn <span class="req">*</span></label>
-                <input type="text" name="name" autocomplete="name" />
-                <div class="err" data-i18n="book.f.nameErr">Fyll i ditt namn</div>
-              </div>
-              <div class="field" id="f-company">
-                <label data-i18n="book.f.company">Företag</label>
-                <input type="text" name="company" autocomplete="organization" />
-              </div>
-            </div>
-            <div class="field" id="f-email">
-              <label data-i18n="book.f.email">E-post <span class="req">*</span></label>
-              <input type="email" name="email" autocomplete="email" inputmode="email" />
-              <div class="err" data-i18n="book.f.emailErr">Ange en giltig e-postadress</div>
-            </div>
-            <div class="field" id="f-phone">
-              <label data-i18n="book.f.phone">Telefon</label>
-              <input type="tel" name="phone" autocomplete="tel" inputmode="tel" />
-            </div>
-            <div class="field">
-              <label data-i18n="book.f.msg">Berätta kort om projektet</label>
-              <textarea name="message" data-i18n-attr="placeholder|book.f.msgPh" placeholder="Berätta kort om er verksamhet och vad ni vill uppnå."></textarea>
-            </div>
-            <div class="bstep__actions">
-              <button type="button" class="btn btn-ghost" data-prev data-i18n="book.back">Tillbaka</button>
-              <button type="button" class="btn btn-primary btn-block" data-next data-i18n="book.review">Granska bokning</button>
-            </div>
-          </div>
-
-          <!-- STEP 4: review -->
-          <div class="bstep" data-step="4">
-            <h3 data-i18n="book.s4.title">Ser detta rätt ut?</h3>
-            <p class="sub" data-i18n="book.s4.sub">Kontrollera och skicka in din förfrågan.</p>
-            <div class="summary" id="summary"></div>
-            <div class="book-error" id="bookErr" role="alert"></div>
-            <div class="bstep__actions">
-              <button type="button" class="btn btn-ghost" data-prev data-i18n="book.back">Tillbaka</button>
-              <button type="submit" class="btn btn-primary btn-block" id="submitBtn" data-i18n="book.confirm">Bekräfta bokning</button>
-            </div>
-          </div>
-        </form>
-
-        <!-- success -->
-        <div class="booking-success" id="bookingSuccess">
-          <div class="booking-success__ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-          </div>
-          <h3 data-i18n="book.done.title">Tack! Vi hörs snart.</h3>
-          <p id="successMsg" data-i18n="book.done.msg">Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.</p>
-          <button type="button" class="btn btn-ghost" id="resetBooking" data-i18n="book.done.again">Boka en till tid</button>
-        </div>
+      <!-- Calendar: Cal.com inline embed, fetched only when the section comes near -->
+      <div class="booking__cal">
+        <div id="calInline" class="cal-inline" aria-label="Boka en tid"></div>
+        <p class="cal-fallback"><a href="https://cal.com/certacode-bj1uxx/mote" target="_blank" rel="noopener" data-i18n="book.open">Öppna kalendern i ett nytt fönster</a></p>
       </div>
     </div>
   </div>
@@ -1396,24 +1185,10 @@ const I18N = {
     "why.3.t":"En partner","why.3.d":"Webb, marknadsföring och automation fungerar tillsammans, istället för att hanteras av tre olika leverantörer.",
     "book.title":"Ett kostnadsfritt samtal på 30 minuter",
     "book.lead":"Berätta om er verksamhet så går vi igenom mål och behov, och återkommer med ett tydligt förslag. Ingen bindning.",
-    "book.p1":"Konkreta råd redan på första mötet","book.p2":"Ett tydligt förslag efter första mötet","book.p3":"Svar inom 24 timmar",
-    "book.s1.title":"Vad kan vi hjälpa dig med?","book.s1.sub":"Välj det som passar bäst. Du kan berätta mer sen.",
-    "book.s1.o1t":"Ny webbplats","book.s1.o1d":"Från idé till lansering",
-    "book.s1.o2t":"Förnya befintlig webbplats","book.s1.o2d":"Design, hastighet & konvertering",
-    "book.s1.o3t":"SEO / Google","book.s1.o3d":"Synas när kunder söker",
-    "book.s1.o4t":"Facebook & Instagram Ads","book.s1.o4d":"Annonser som ger leads",
-    "book.s1.o5t":"AI & automation","book.s1.o5d":"Mindre manuellt arbete",
-    "book.s1.o6t":"AI-receptionist","book.s1.o6d":"Svarar när ni inte kan",
-    "book.s1.o7t":"Jag vet inte ännu","book.s1.o7d":"Vi hjälper er hitta rätt",
-    "book.s2.title":"Välj en tid som passar","book.s2.sub":"Alla tider är i svensk tid (CET). Vardagar.","book.s2.slots":"Lediga tider",
-    "book.s3.title":"Dina uppgifter","book.s3.sub":"Så vi vet vem vi ska prata med.",
-    "book.f.name":"Namn","book.f.nameErr":"Fyll i ditt namn","book.f.company":"Företag",
-    "book.f.email":"E-post","book.f.emailErr":"Ange en giltig e-postadress","book.f.phone":"Telefon",
-    "book.f.msg":"Berätta kort om er verksamhet","book.f.msgPh":"Berätta kort om er verksamhet och vad ni vill uppnå.",
+    "book.p1":"Välj en tid som passar dig, direkt i kalendern","book.p2":"Bekräftelse och möteslänk kommer på en gång","book.p3":"Konkreta råd redan på första mötet",
+    "book.open":"Öppna kalendern i ett nytt fönster",
     "book.s4.title":"Ser detta rätt ut?","book.s4.sub":"Kontrollera och skicka in din förfrågan.",
-    "book.next":"Nästa steg","book.back":"Tillbaka","book.review":"Granska bokning","book.confirm":"Bekräfta bokning","book.sending":"Skickar…","book.error":"Något gick fel när förfrågan skulle skickas. Försök igen om en stund, eller mejla oss direkt på","book.errorMail":"öppna e-post",
-    "book.done.title":"Tack! Vi hörs snart.","book.done.msg":"Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.","book.done.again":"Boka en till tid",
-    "sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
+    "book.sending":"Skickar…","book.error":"Något gick fel när förfrågan skulle skickas. Försök igen om en stund, eller mejla oss direkt på","sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
     "faq.title":"Vanliga frågor",
     "faq.1.q":"Vad kostar det?","faq.1.a":"Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.","faq.1.cta":"Boka ett kostnadsfritt möte",
     "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom två till fyra veckor. Annonskampanjer kan vara igång inom några dagar, och AI-lösningar sätts upp på en till tre veckor.",
@@ -1423,9 +1198,7 @@ const I18N = {
     "faq.5.a":"Nej. Det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.",
     "foot.tagline":"Digital marknadsföring, SEO och AI-automation för företag som vill växa.",
     "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.privacy":"Integritetspolicy","foot.location":"Sverige","foot.rights":"Alla rättigheter förbehållna.",
-    "months":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
-    "dow":["Mån","Tis","Ons","Tor","Fre","Lör","Sön"]
-  },
+    },
   en:{
     "nav.services":"Services","nav.work":"Portfolio","nav.about":"About","nav.faq":"FAQ","nav.cta":"Book a call",
     "hero.eyebrow":"Digital agency · Sweden",
@@ -1483,24 +1256,10 @@ const I18N = {
     "why.3.t":"One partner","why.3.d":"Web, marketing and automation work together, instead of being handled by three different suppliers.",
     "book.title":"A free 30-minute call",
     "book.lead":"Tell us about your business and we'll go through goals and needs, then come back with a clear proposal. No commitment.",
-    "book.p1":"Concrete advice on the first call","book.p2":"A clear proposal after the first meeting","book.p3":"Reply within 24 hours",
-    "book.s1.title":"How can we help you?","book.s1.sub":"Pick what fits best. You can tell us more later.",
-    "book.s1.o1t":"New website","book.s1.o1d":"From idea to launch",
-    "book.s1.o2t":"Renew existing website","book.s1.o2d":"Design, speed & conversion",
-    "book.s1.o3t":"SEO / Google","book.s1.o3d":"Be found when customers search",
-    "book.s1.o4t":"Facebook & Instagram Ads","book.s1.o4d":"Ads that generate leads",
-    "book.s1.o5t":"AI & automation","book.s1.o5d":"Less manual work",
-    "book.s1.o6t":"AI receptionist","book.s1.o6d":"Answers when you can't",
-    "book.s1.o7t":"I don't know yet","book.s1.o7d":"We'll help you figure it out",
-    "book.s2.title":"Pick a time that works","book.s2.sub":"All times are in Swedish time (CET). Weekdays.","book.s2.slots":"Available times",
-    "book.s3.title":"Your details","book.s3.sub":"So we know who to talk to.",
-    "book.f.name":"Name","book.f.nameErr":"Please enter your name","book.f.company":"Company",
-    "book.f.email":"Email","book.f.emailErr":"Enter a valid email address","book.f.phone":"Phone",
-    "book.f.msg":"Tell us briefly about your business","book.f.msgPh":"Tell us briefly about your business and what you want to achieve.",
+    "book.p1":"Pick a time that suits you, right in the calendar","book.p2":"Confirmation and meeting link arrive straight away","book.p3":"Concrete advice on the first call",
+    "book.open":"Open the calendar in a new window",
     "book.s4.title":"Does this look right?","book.s4.sub":"Check and submit your request.",
-    "book.next":"Next step","book.back":"Back","book.review":"Review booking","book.confirm":"Confirm booking","book.sending":"Sending…","book.error":"Something went wrong while sending your request. Please try again shortly, or email us directly at","book.errorMail":"open email",
-    "book.done.title":"Thanks! Talk soon.","book.done.msg":"Your request has been received. We'll confirm your time by email within 24 hours.","book.done.again":"Book another time",
-    "sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
+    "book.sending":"Sending…","book.error":"Something went wrong while sending your request. Please try again shortly, or email us directly at","sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
     "faq.title":"Frequently asked questions",
     "faq.1.q":"What does it cost?","faq.1.a":"Every business and project has different needs, so we don't work with fixed standard packages. In a free first meeting we go through your goals and needs, then put together a clear proposal.","faq.1.cta":"Book a free call",
     "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within two to four weeks. Ad campaigns can be live within days, and AI solutions are set up in one to three weeks.",
@@ -1510,9 +1269,7 @@ const I18N = {
     "faq.5.a":"No. Nobody can seriously guarantee that. We improve the conditions for you to show up when potential customers search for your services: technical SEO, content, local SEO and Google Business Profile. It is work that pays off over time.",
     "foot.tagline":"Digital marketing, SEO and AI automation for businesses that want to grow.",
     "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.privacy":"Privacy policy","foot.location":"Sweden","foot.rights":"All rights reserved.",
-    "months":["January","February","March","April","May","June","July","August","September","October","November","December"],
-    "dow":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
-  }
+    }
 };
 
 let lang = "sv";
@@ -1528,7 +1285,6 @@ function applyLang(l){
     el.setAttribute(attr, t(key));
   });
   document.querySelectorAll(".lang button").forEach(b=> b.setAttribute("aria-pressed", b.dataset.lang===l ? "true":"false"));
-  renderCalendar(); renderSlots(); // refresh localized calendar
   splitRiseWords();                 // the headline was re-rendered
   try{ localStorage.setItem("cc_lang", l); }catch(e){}
 }
@@ -1713,270 +1469,29 @@ document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(
 })();
 
 /* ============================================================
-   BOOKING FLOW
-   ============================================================ */
-const booking = {
-  service:null, serviceEn:null, date:null, time:null,
-  step:1
-};
-const form = document.getElementById("bookingForm");
-const stepsBar = document.getElementById("stepsBar");
-const bsteps = [...document.querySelectorAll(".bstep")];
-
-function showStep(n){
-  booking.step = n;
-  bsteps.forEach(s=> s.classList.toggle("active", +s.dataset.step===n));
-  stepsBar.querySelectorAll(".sdot").forEach(d=>{
-    const s = +d.dataset.s;
-    d.classList.toggle("active", s===n);
-    d.classList.toggle("done", s<n);
-  });
-  if(n===4) buildSummary();
-}
-
-/* Service selection */
-const serviceOpts = document.getElementById("serviceOpts");
-serviceOpts.addEventListener("click", (e)=>{
-  const btn = e.target.closest(".opt"); if(!btn) return;
-  serviceOpts.querySelectorAll(".opt").forEach(o=> o.setAttribute("aria-pressed","false"));
-  btn.setAttribute("aria-pressed","true");
-  booking.service = btn.dataset.value;
-  booking.serviceEn = btn.dataset.valueEn;
-});
-
-/* Calendar */
-const calGrid = document.getElementById("calGrid");
-const calMonth = document.getElementById("calMonth");
-const calPrev = document.getElementById("calPrev");
-const calNext = document.getElementById("calNext");
-const slotsEl = document.getElementById("slots");
-const SLOTS = ["09:00","10:00","11:00","13:00","14:00","15:00","16:00"];
-let viewDate = new Date(); viewDate.setDate(1);
-const today = new Date(); today.setHours(0,0,0,0);
-const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-function sameDay(a,b){ return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
-
-function renderCalendar(){
-  if(!calGrid) return;
-  const y = viewDate.getFullYear(), m = viewDate.getMonth();
-  calMonth.textContent = t("months")[m] + " " + y;
-  calPrev.disabled = (y===minMonth.getFullYear() && m===minMonth.getMonth());
-  calGrid.innerHTML = "";
-  t("dow").forEach(d=>{ const el=document.createElement("div"); el.className="cal__dow"; el.textContent=d; calGrid.appendChild(el); });
-  // Monday-first offset
-  let firstDow = new Date(y,m,1).getDay(); firstDow = (firstDow+6)%7;
-  const daysInMonth = new Date(y,m+1,0).getDate();
-  for(let i=0;i<firstDow;i++){ calGrid.appendChild(document.createElement("div")); }
-  for(let d=1; d<=daysInMonth; d++){
-    const cellDate = new Date(y,m,d);
-    const btn = document.createElement("button");
-    btn.type="button"; btn.className="cal__day"; btn.textContent=d; btn.style.setProperty("--i", d);
-    const dow = cellDate.getDay();
-    const isPast = cellDate < today;
-    const isWeekend = (dow===0||dow===6);
-    if(isPast || isWeekend){ btn.disabled = true; }
-    if(sameDay(cellDate, today)) btn.classList.add("today");
-    if(sameDay(cellDate, booking.date)) btn.classList.add("sel");
-    btn.addEventListener("click", ()=>{
-      booking.date = cellDate; booking.time = null;
-      calGrid.querySelectorAll(".cal__day").forEach(x=>x.classList.remove("sel"));
-      btn.classList.add("sel"); renderSlots();
-    });
-    calGrid.appendChild(btn);
-  }
-}
-function renderSlots(){
-  if(!slotsEl) return;
-  slotsEl.innerHTML = "";
-  SLOTS.forEach(s=>{
-    const b = document.createElement("button");
-    b.type="button"; b.className="slot"; b.textContent=s;
-    b.setAttribute("aria-pressed", booking.time===s ? "true":"false");
-    if(!booking.date) b.disabled = false; // allow but validated on next
-    b.addEventListener("click", ()=>{
-      booking.time = s;
-      slotsEl.querySelectorAll(".slot").forEach(x=> x.setAttribute("aria-pressed","false"));
-      b.setAttribute("aria-pressed","true");
-    });
-    slotsEl.appendChild(b);
-  });
-}
-calPrev.addEventListener("click", ()=>{ viewDate.setMonth(viewDate.getMonth()-1); renderCalendar(); });
-calNext.addEventListener("click", ()=>{ viewDate.setMonth(viewDate.getMonth()+1); renderCalendar(); });
-renderCalendar(); renderSlots();
-
-/* Formatting */
-function fmtDate(d){
-  if(!d) return t("sum.notset");
-  return t("dow")[(d.getDay()+6)%7] + " " + d.getDate() + " " + t("months")[d.getMonth()] + " " + d.getFullYear();
-}
-
-/* Validation helpers */
-function markInvalid(id, bad){ document.getElementById(id).classList.toggle("invalid", bad); }
-function validateStep(n){
-  if(n===1){
-    if(!booking.service){ shake(serviceOpts); return false; }
-    return true;
-  }
-  if(n===2){
-    if(!booking.date){ shake(document.querySelector(".cal")); return false; }
-    if(!booking.time){ shake(slotsEl); return false; }
-    return true;
-  }
-  if(n===3){
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    markInvalid("f-name", !name);
-    markInvalid("f-email", !emailOk);
-    if(!name){ form.name.focus(); return false; }
-    if(!emailOk){ if(name) form.email.focus(); return false; }
-    return true;
-  }
-  return true;
-}
-function shake(el){
-  if(reduceMotion || !el) return;
-  el.animate([{transform:"translateX(0)"},{transform:"translateX(-7px)"},{transform:"translateX(7px)"},{transform:"translateX(0)"}],{duration:280,easing:"ease-in-out"});
-}
-
-/* Nav buttons */
-form.querySelectorAll("[data-next]").forEach(b=> b.addEventListener("click", ()=>{
-  if(!validateStep(booking.step)) return;
-  showStep(Math.min(booking.step+1,4));
-  scrollFormIntoView();
-}));
-form.querySelectorAll("[data-prev]").forEach(b=> b.addEventListener("click", ()=>{
-  showStep(Math.max(booking.step-1,1));
-  scrollFormIntoView();
-}));
-function scrollFormIntoView(){
-  const y = document.getElementById("boka").getBoundingClientRect().top + window.scrollY - 90;
-  if(window.innerWidth < 1024) window.scrollTo({top:y, behavior: reduceMotion?"auto":"smooth"});
-}
-
-/* Summary */
-function buildSummary(){
-  const s = document.getElementById("summary");
-  const rows = [
-    [t("sum.service"), lang==="en" ? (booking.serviceEn||t("sum.notset")) : (booking.service||t("sum.notset"))],
-    [t("sum.datetime"), booking.date ? (fmtDate(booking.date) + " · " + (booking.time||"")) : t("sum.notset")],
-    [t("sum.name"), form.name.value.trim() || t("sum.notset")],
-    [t("sum.email"), form.email.value.trim() || t("sum.notset")],
-    [t("sum.phone"), form.phone.value.trim() || "—"]
-  ];
-  s.innerHTML = rows.map(r=>`<div class="summary__row"><span>${r[0]}</span><b>${escapeHtml(r[1])}</b></div>`).join("");
-}
-function escapeHtml(str){ return String(str).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-
-/* ============================================================
-   BOKNINGSLEVERANS — via egen backend (/api/booking)
+   BOOKING — Cal.com inline calendar
    ------------------------------------------------------------
-   Formuläret skickar INTE nyckeln själv. Det postar till vår
-   Cloudflare Pages Function (functions/api/booking.js), som håller
-   Web3Forms-nyckeln som en krypterad secret på servern och skickar
-   vidare. Nyckeln finns alltså aldrig i den här filen eller i
-   webbläsaren.  (Körs sidan som ren statisk fil utan backend faller
-   den snyggt tillbaka på att öppna besökarens mejlklient.)
+   Availability comes from the owner's Google Calendar, confirmations
+   and the Meet link are sent by Cal.com. The embed script is fetched
+   only when the section comes near (or a "Boka" link is clicked).
    ============================================================ */
-const BOOKING_ENDPOINT = "/api/booking";
+const BOOKING_ENDPOINT = "/api/booking";   // still used by the hero form (design proposal request)
 
-const submitBtn = document.getElementById("submitBtn");
-const bookErr = document.getElementById("bookErr");
-
-function showBookingSuccess(mailtoFallback){
-  form.style.display = "none";
-  stepsBar.style.display = "none";
-  const succ = document.getElementById("bookingSuccess");
-  succ.classList.add("show");
-  const extra = mailtoFallback
-    ? `<br><br><a href="${mailtoFallback}" style="color:var(--accent);font-weight:600">${lang==="en"?"Open your email to send":"Öppna e-post för att skicka"} →</a>`
-    : "";
-  document.getElementById("successMsg").innerHTML = t("book.done.msg") + extra;
-  scrollFormIntoView();
-}
-function resetSubmitBtn(label){ submitBtn.disabled = false; submitBtn.textContent = label; }
-
-form.addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  if(!validateStep(3)){ showStep(3); return; }
-  bookErr.classList.remove("show");
-
-  const svc = lang==="en" ? booking.serviceEn : booking.service;
-  const subject = `Bokningsförfrågan – ${svc} – ${form.name.value.trim()}`;
-  const bodyLines = [
-    `Tjänst / Service: ${svc}`,
-    `Datum / Date: ${fmtDate(booking.date)} ${booking.time||""}`,
-    `Namn / Name: ${form.name.value.trim()}`,
-    `Företag / Company: ${form.company.value.trim()||"-"}`,
-    `E-post / Email: ${form.email.value.trim()}`,
-    `Telefon / Phone: ${form.phone.value.trim()||"-"}`,
-    ``,
-    `Meddelande / Message:`,
-    form.message.value.trim()||"-"
-  ];
-  const mailto = `mailto:info.certacode@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-  const payload = {
-    subject: subject,
-    replyto: form.email.value.trim(),
-    fields: {
-      "Tjänst": svc,
-      "Datum & tid": `${fmtDate(booking.date)} ${booking.time||""}`,
-      "Namn": form.name.value.trim(),
-      "Företag": form.company.value.trim()||"-",
-      "E-post": form.email.value.trim(),
-      "Telefon": form.phone.value.trim()||"-",
-      "Meddelande": form.message.value.trim()||"-"
-    }
+(function initCal(){
+  const el = document.getElementById("calInline"); if(!el) return;
+  const CAL_LINK = "certacode-bj1uxx/mote";
+  let loaded = false;
+  const load = ()=>{
+    if(loaded) return; loaded = true;
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "mote", {origin:"https://app.cal.com"});
+    Cal.ns.mote("inline", { elementOrSelector:"#calInline", calLink: CAL_LINK, config:{ layout:"month_view", theme:"light" } });
+    Cal.ns.mote("ui", { cssVarsPerTheme:{ light:{ "cal-brand":"#EF5B4E" } }, hideEventTypeDetails:false, layout:"month_view" });
   };
-
-  const originalLabel = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = t("book.sending");
-
-  try{
-    const res = await fetch(BOOKING_ENDPOINT, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    // Parse JSON if the backend answered with it; otherwise treat as "no backend present".
-    let data = null;
-    try{ data = await res.json(); }catch(_){ data = null; }
-
-    if(data && data.success){
-      showBookingSuccess(null);
-      return;
-    }
-    if(!data){
-      // No backend (e.g. opened as a plain static file / preview) → mailto fallback.
-      resetSubmitBtn(originalLabel);
-      showBookingSuccess(mailto);
-      try{ window.location.href = mailto; }catch(err){}
-      return;
-    }
-    throw new Error(data.message || "Booking error");
-  } catch(err){
-    resetSubmitBtn(originalLabel);
-    bookErr.innerHTML = `${t("book.error")} <a href="${mailto}">${t("book.errorMail")}</a>.`;
-    bookErr.classList.add("show");
-  }
-});
-
-/* Reset */
-document.getElementById("resetBooking").addEventListener("click", ()=>{
-  booking.service=null; booking.serviceEn=null; booking.date=null; booking.time=null;
-  form.reset();
-  serviceOpts.querySelectorAll(".opt").forEach(o=> o.setAttribute("aria-pressed","false"));
-  document.getElementById("bookingSuccess").classList.remove("show");
-  form.style.display=""; stepsBar.style.display="";
-  document.querySelectorAll(".field").forEach(f=> f.classList.remove("invalid"));
-  renderCalendar(); renderSlots();
-  showStep(1);
-});
+  const io = new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ load(); io.disconnect(); } }, {rootMargin:"600px 0px"});
+  io.observe(el);
+  document.querySelectorAll('a[href="#boka"]').forEach(a=> a.addEventListener("click", load));
+})();
 
 /* ============================================================
    INIT
