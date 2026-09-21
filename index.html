@@ -471,7 +471,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* the calendar panel: the embed sizes its own iframe, we give it room and a fallback link */
 .booking__cal{display:flex;flex-direction:column;padding:clamp(12px,1.6vw,22px)}
 .cal-inline{flex:1;min-height:640px}
-.cal-fallback{margin:10px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.cal-fallback{display:none;margin:10px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.cal-fallback.show{display:block}   /* only when the embed hasn't appeared */
 .cal-fallback a{color:var(--accent-ink);font-weight:600}
 
 /* ============================================================
@@ -1481,8 +1482,11 @@ const BOOKING_ENDPOINT = "/api/booking";   // still used by the hero form (desig
   const el = document.getElementById("calInline"); if(!el) return;
   const CAL_LINK = "certacode-bj1uxx/mote";
   let loaded = false;
+  const fallback = el.parentElement.querySelector(".cal-fallback");
   const load = ()=>{
     if(loaded) return; loaded = true;
+    // if nothing has rendered after a while (blocked script, old browser), offer the plain link
+    setTimeout(()=>{ if(!el.querySelector("iframe") && fallback) fallback.classList.add("show"); }, 8000);
     (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
     Cal("init", "mote", {origin:"https://app.cal.com"});
     Cal.ns.mote("inline", { elementOrSelector:"#calInline", calLink: CAL_LINK, config:{ layout:"month_view", theme:"light" } });
