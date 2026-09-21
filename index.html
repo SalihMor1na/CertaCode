@@ -95,12 +95,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    LAYOUT PRIMITIVES
    ============================================================ */
 .wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent-ink);
-}
-.eyebrow::before{content:"";width:22px;height:1.5px;background:var(--accent);opacity:.6}
+.hero__kicker{display:block;font-size:15px;font-weight:600;color:var(--muted);margin-bottom:14px}
 :root{--sp:clamp(64px,8vw,112px)}
 .section{padding:var(--sp) 0}
 /* Two cream sections share a 2×--sp gap. A cream section that touches a coloured band only gets its own
@@ -111,12 +106,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .section:not(.section--tint):not(.section--dark):has(+ .section--dark){padding-bottom:calc(var(--sp) * 2)}
 /* bands: the page alternates cream / warm tint / one dark block so sections read as sections */
 .section--tint{background:var(--bg-tint)}
-.section--tint .eyebrow{color:#B8321F}  /* the tint needs a deeper coral to keep 4.5:1 */
 .section--dark{background:var(--ink);color:#fff}
 .section--dark .sec-head h2{color:#fff}
 .section--dark .lead{color:rgba(255,255,255,.78)}
-.section--dark .eyebrow{color:var(--accent-on-dark)}
-.section--dark .eyebrow::before{background:var(--accent-on-dark)}
 .lead{color:var(--ink-soft);font-size:clamp(16px,1.02vw,20px);max-width:58ch}
 
 /* Buttons */
@@ -301,7 +293,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* fixed art height: the mockups are px-sized, so the zone fits them at every viewport */
 .tile__art{position:relative;height:360px;flex:none}
 .tile__body{position:relative;padding:22px 28px 32px}
-.tile__label{display:block;font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tile-soft);margin-bottom:10px}
+.tile__label{display:block;font-size:14px;font-weight:700;color:var(--tile-soft);margin-bottom:8px}
 .tile__body h3{font-size:clamp(21px,1.45vw,25px);letter-spacing:-.015em;color:var(--tile-ink)}
 .tile__body p{margin-top:12px;font-size:15.5px;line-height:1.55;color:var(--tile-soft);font-weight:500}
 .tile__tags{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
@@ -383,10 +375,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    SECTION HEADER
    ============================================================ */
 .sec-head{max-width:640px;margin-bottom:clamp(40px,6vw,64px)}
-.sec-head h2{font-size:clamp(30px,2.9vw,62px);margin-top:16px;letter-spacing:-.02em}
+.sec-head h2{font-size:clamp(30px,2.9vw,62px);margin-top:0;letter-spacing:-.02em}
 .sec-head p{margin-top:18px}
 .sec-head--center{margin-inline:auto;text-align:center}
-.sec-head--center .eyebrow::before{display:none}
 .sec-head--center .lead{margin-inline:auto}
 
 /* ============================================================
@@ -463,9 +454,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-columns:.85fr 1.15fr;
 }
 .booking__aside{background:var(--accent-soft);color:var(--ink);padding:clamp(34px,4vw,52px);display:flex;flex-direction:column}
-.booking__aside .eyebrow{color:var(--ink)}
-.booking__aside .eyebrow::before{background:var(--accent-ink)}
-.booking__aside h2{color:var(--ink);font-size:clamp(28px,3.4vw,38px);margin-top:16px}
+.booking__aside h2{color:var(--ink);font-size:clamp(28px,3.4vw,38px);margin-top:0}
 .booking__aside p{color:var(--ink-soft);margin-top:18px;font-size:15.5px}
 .booking__perks{list-style:none;padding:0;margin:32px 0 0;display:flex;flex-direction:column;gap:16px}
 .booking__perks li{display:flex;gap:13px;align-items:flex-start;font-size:15px;color:var(--ink)}
@@ -753,7 +742,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .tile__body h3{font-size:28px}
   .tile__body p{font-size:17px}
   .tile__tags li{font-size:14px;padding:7px 12px}
-  .tile__label{font-size:13.5px}
+  .tile__label{font-size:15px}
   .tl__step p{font-size:17px}
   .faq__a{font-size:17px}
   .booking__perks li{font-size:17px}
@@ -849,7 +838,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="wrap">
     <div class="hero__grid">
       <div class="hero__copy">
-        <span class="eyebrow reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
+        <span class="hero__kicker reveal" data-i18n="hero.eyebrow">Digital byrå · Sverige</span>
         <h1 class="reveal rise-words" data-i18n-html="hero.title">Vi hjälper företag att <em>växa</em> med digital marknadsföring, SEO och AI-automation.</h1>
         <p class="lead reveal" data-delay="2" data-i18n="hero.lead">Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.</p>
         <ul class="checks reveal reveal--none stagger" data-stagger>
@@ -864,7 +853,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <div class="hform reveal reveal--scale" data-delay="3" id="hform">
         <div class="sticker" aria-hidden="true" data-i18n-html="hero.sticker">Gratis<br>design­förslag</div>
         <h2 data-i18n="hf.title">Få ett gratis designförslag</h2>
-        <p data-i18n="hf.sub">Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut — utan kostnad.</p>
+        <p data-i18n="hf.sub">Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut. Utan kostnad.</p>
         <form id="heroForm" novalidate>
           <div class="field"><label for="hf-name" data-i18n="hf.name">Namn</label><input id="hf-name" name="name" type="text" autocomplete="name"></div>
           <div class="field"><label for="hf-email" data-i18n="hf.email">E-post</label><input id="hf-email" name="email" type="email" autocomplete="email" inputmode="email"></div>
@@ -873,7 +862,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <button type="submit" class="btn btn-primary btn-lg" data-i18n="hf.btn">Få mitt designförslag</button>
           <p class="hform__note" data-i18n="hf.note">Inga förpliktelser. Vi hör av oss inom 24 timmar.</p>
         </form>
-        <div class="hform__ok"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></div><h3 data-i18n="hf.okTitle">Tack — vi hör av oss!</h3><p data-i18n="hf.okMsg">Vi återkommer inom 24 timmar med nästa steg.</p></div>
+        <div class="hform__ok"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></div><h3 data-i18n="hf.okTitle">Tack! Vi hör av oss.</h3><p data-i18n="hf.okMsg">Vi återkommer inom 24 timmar med nästa steg.</p></div>
       </div>
     </div>
   </div>
@@ -884,9 +873,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section cases" id="sajter">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="cases.eyebrow">Portfölj</span>
       <h2 data-i18n="cases.title">Några hemsidor vi gjort.</h2>
-      <p class="lead" data-i18n="cases.lead">Byggda från grunden — design, kod och animationer.</p>
+      <p class="lead" data-i18n="cases.lead">Byggda från grunden: design, kod och animationer.</p>
     </div>
     <ul class="cases__grid">
       <li class="case reveal reveal--scale" data-delay="1">
@@ -937,9 +925,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section" id="tjanster">
   <div class="wrap">
     <div class="sec-head sec-head--center reveal">
-      <span class="eyebrow" data-i18n="svc.eyebrow">Vad vi gör</span>
       <h2 data-i18n="svc.title">Tre tjänster som får företag att växa.</h2>
-      <p class="lead" data-i18n="svc.lead">Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.</p>
+      <p class="lead" data-i18n="svc.lead">Webb, annonsering och automation som fungerar tillsammans, istället för hos tre olika leverantörer.</p>
     </div>
 
     <!-- Three services as colour tiles: mockup up top, copy at the bottom, one shared CTA floating over the edge -->
@@ -972,7 +959,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <article class="tile tile--indigo reveal reveal--scale" data-delay="2">
         <div class="tile__art" aria-hidden="true">
           <div class="mock adsm">
-            <div class="adsm__head"><div><b data-i18n="mock.am.title">Kampanj: Leads – september</b><small data-i18n="mock.am.sub">Meta Ads · Senaste 30 dagarna</small></div><span class="adsm__tag" data-i18n="mock.am.tag">Exempel</span></div>
+            <div class="adsm__head"><div><b data-i18n="mock.am.title">Kampanj: Leads, september</b><small data-i18n="mock.am.sub">Meta Ads · Senaste 30 dagarna</small></div><span class="adsm__tag" data-i18n="mock.am.tag">Exempel</span></div>
             <div class="adsm__kpis">
               <div><small data-i18n="mock.am.k1">Räckvidd</small><b>48 260</b><i>+31 %</i></div>
               <div><small data-i18n="mock.am.k2">Klick</small><b>2 137</b><i>+24 %</i></div>
@@ -1018,7 +1005,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="tile__body">
           <span class="tile__label" data-i18n="svc.3.title">AI &amp; automation</span>
           <h3 data-i18n="ai.title">Missa aldrig ett kundsamtal igen.</h3>
-          <p data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.</p>
+          <p data-i18n="ai.lead">En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar, utan att personal behöver avbryta sitt arbete.</p>
           <ul class="tile__tags">
             <li data-i18n="svc.3.f1">AI-receptionist</li>
             <li data-i18n="svc.3.f2">Automatiserad lead-hantering</li>
@@ -1043,7 +1030,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section" id="automation">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="auto.eyebrow">Automationsexempel</span>
       <h2 data-i18n="auto.title">Före och efter.</h2>
       <p class="lead" data-i18n="auto.lead">Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.</p>
     </div>
@@ -1054,7 +1040,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
         <div class="cmp__cell is-after"><h3 data-i18n="auto.after">Efter</h3></div>
       </div>
       <div class="cmp__row">
-        <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b1">Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.</p></div>
+        <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b1">Kunden ringer när ni är upptagna. Ingen svarar, och kunden ringer nästa företag.</p></div>
         <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a1">AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.</p></div>
       </div>
       <div class="cmp__row">
@@ -1063,7 +1049,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </div>
       <div class="cmp__row">
         <div class="cmp__cell is-before"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></i><p data-i18n="auto.b3">Samma uppgifter skrivs in i flera olika system.</p></div>
-        <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a3">Informationen hamnar i ert CRM — en gång, på rätt ställe.</p></div>
+        <div class="cmp__cell is-after"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg></i><p data-i18n="auto.a3">Informationen hamnar i ert CRM. En gång, på rätt ställe.</p></div>
       </div>
     </div>
   </div>
@@ -1073,7 +1059,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section section--dark" id="process">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="proc.eyebrow">Så arbetar vi</span>
       <h2 data-i18n="proc.title">Fyra steg från första mötet till resultat.</h2>
       <p class="lead" data-i18n="proc.lead">Inga överraskningar. Ni vet alltid vad nästa steg är.</p>
     </div>
@@ -1090,7 +1075,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section section--tint" id="varfor">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow" data-i18n="why.eyebrow">Varför CertaCode?</span>
       <h2 data-i18n="why.title">Tre skäl att välja oss.</h2>
     </div>
     <div class="why">
@@ -1107,7 +1091,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <article class="why__item reveal" data-delay="3">
         <div class="why__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 11.5a3 3 0 1 0 0-6M21.5 20a6 6 0 0 0-4.5-5.8"/></svg></div>
         <h3 data-i18n="why.3.t">En partner</h3>
-        <p data-i18n="why.3.d">Webb, marknadsföring och automation fungerar tillsammans — istället för att hanteras av tre olika leverantörer.</p>
+        <p data-i18n="why.3.d">Webb, marknadsföring och automation fungerar tillsammans, istället för att hanteras av tre olika leverantörer.</p>
       </article>
     </div>
   </div>
@@ -1117,7 +1101,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <section class="section" id="faq">
   <div class="wrap">
     <div class="sec-head sec-head--center reveal">
-      <span class="eyebrow" data-i18n="faq.eyebrow">Vanliga frågor</span>
       <h2 data-i18n="faq.title">Vanliga frågor</h2>
     </div>
     <div class="faq">
@@ -1128,7 +1111,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </details>
       <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.2.q">Hur lång tid tar det?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på 1–3 veckor.</div>
+        <div class="faq__a" data-i18n="faq.2.a">En hemsida lanseras oftast inom två till fyra veckor. Annonskampanjer kan vara igång inom några dagar, och AI-assistenter sätts upp på en till tre veckor.</div>
       </details>
       <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.3.q">Äger jag koden och designen?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
@@ -1142,7 +1125,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </details>
       <details class="faq__item reveal reveal--fade">
         <summary class="faq__q"><span data-i18n="faq.5.q">Kan ni garantera att vi hamnar först på Google?</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
-        <div class="faq__a" data-i18n="faq.5.a">Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.</div>
+        <div class="faq__a" data-i18n="faq.5.a">Nej. Det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.</div>
       </details>
       </div>
     </div>
@@ -1155,9 +1138,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div class="booking__card reveal reveal--scale">
       <!-- Aside -->
       <aside class="booking__aside">
-        <span class="eyebrow" data-i18n="book.eyebrow">Boka möte</span>
         <h2 data-i18n="book.title">Ett kostnadsfritt samtal på 30 minuter</h2>
-        <p data-i18n="book.lead">Berätta om er verksamhet så går vi igenom mål och behov — och återkommer med ett tydligt förslag. Ingen bindning.</p>
+        <p data-i18n="book.lead">Berätta om er verksamhet så går vi igenom mål och behov, och återkommer med ett tydligt förslag. Ingen bindning.</p>
         <ul class="booking__perks">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p1">Konkreta råd redan på första mötet</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="book.p2">Ett tydligt förslag efter första mötet</span></li>
@@ -1183,7 +1165,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <!-- STEP 1: service -->
           <div class="bstep active" data-step="1">
             <h3 data-i18n="book.s1.title">Vad kan vi hjälpa dig med?</h3>
-            <p class="sub" data-i18n="book.s1.sub">Välj det som passar bäst — du kan berätta mer sen.</p>
+            <p class="sub" data-i18n="book.s1.sub">Välj det som passar bäst. Du kan berätta mer sen.</p>
             <div class="opt-grid" id="serviceOpts">
               <button type="button" class="opt" data-value="Ny webbplats" data-value-en="New website">
                 <span class="opt__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
@@ -1293,7 +1275,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
           <div class="booking-success__ic">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           </div>
-          <h3 data-i18n="book.done.title">Tack — vi hörs snart!</h3>
+          <h3 data-i18n="book.done.title">Tack! Vi hörs snart.</h3>
           <p id="successMsg" data-i18n="book.done.msg">Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.</p>
           <button type="button" class="btn btn-ghost" id="resetBooking" data-i18n="book.done.again">Boka en till tid</button>
         </div>
@@ -1360,22 +1342,22 @@ const I18N = {
     "hero.lead":"Från fler leads och bättre synlighet på Google till AI-system som automatiserar repetitivt arbete. CertaCode bygger digitala lösningar som sparar tid och skapar tillväxt.",
     "hero.c1":"Gratis designförslag, anpassat för er","hero.c2":"Inga förpliktelser","hero.c3":"Svar inom 24 timmar",
     "hero.alt":"Eller boka ett kostnadsfritt möte","hero.sticker":"Gratis<br>design&shy;förslag",
-    "hf.title":"Få ett gratis designförslag","hf.sub":"Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut — utan kostnad.",
+    "hf.title":"Få ett gratis designförslag","hf.sub":"Berätta var vi hittar er idag, så visar vi hur er nya hemsida kan se ut. Utan kostnad.",
     "hf.name":"Namn","hf.email":"E-post","hf.site":"Nuvarande hemsida (valfritt)","hf.err":"Fyll i namn och en giltig e-postadress.",
     "hf.btn":"Få mitt designförslag","hf.note":"Inga förpliktelser. Vi hör av oss inom 24 timmar.",
-    "hf.okTitle":"Tack — vi hör av oss!","hf.okMsg":"Vi återkommer inom 24 timmar med nästa steg.",
+    "hf.okTitle":"Tack! Vi hör av oss.","hf.okMsg":"Vi återkommer inom 24 timmar med nästa steg.",
     "svc.cta":"Boka kostnadsfritt möte","svc.ctaLead":"Redo att komma igång?",
-    "cases.eyebrow":"Portfölj","cases.title":"Några hemsidor vi gjort.","cases.lead":"Byggda från grunden — design, kod och animationer.",
+    "cases.title":"Några hemsidor vi gjort.","cases.lead":"Byggda från grunden: design, kod och animationer.",
     "cases.1.t":"<b>Bageri</b> · Hantverk · Hitta hit","cases.2.t":"<b>Löpning</b> · Community · Event","cases.3.t":"<b>Kallbad</b> · Bastu · Bokning",
     "cases.4.name":"Lika bra i mobilen.","cases.4.t":"<b>Responsivt</b> · Alla tre sajter · Byggt för tummen",
-    "mock.am.title":"Kampanj: Leads – september","mock.am.sub":"Meta Ads · Senaste 30 dagarna","mock.am.tag":"Exempel",
+    "mock.am.title":"Kampanj: Leads, september","mock.am.sub":"Meta Ads · Senaste 30 dagarna","mock.am.tag":"Exempel",
     "mock.am.k1":"Räckvidd","mock.am.k2":"Klick","mock.am.k3":"Leads","mock.am.k4":"Kostnad/lead",
     "mock.am.a1":"1 sep","mock.am.a2":"15 sep","mock.am.a3":"30 sep",
     "mock.ai.call":"Inkommande samtal","mock.ai.sub":"Okänt nummer · 14:32","mock.ai.live":"AI svarar",
     "mock.ai.m1":"Hej! Du har nått receptionen. Hur kan jag hjälpa dig?","mock.ai.m2":"Jag vill boka en tid på fredag.",
     "mock.ai.done":"Bokat: fre 25 sep, 10:00","mock.ai.crm":"Skickat till CRM",
-    "svc.eyebrow":"Vad vi gör","svc.title":"Tre tjänster som får företag att växa.",
-    "svc.lead":"Webb, annonsering och automation — som fungerar tillsammans istället för hos tre olika leverantörer.",
+    "svc.title":"Tre tjänster som får företag att växa.",
+    "svc.lead":"Webb, annonsering och automation som fungerar tillsammans, istället för hos tre olika leverantörer.",
     "svc.1.title":"Webb & SEO","svc.1.tag":"Webbplatser byggda för att synas och konvertera.",
     "svc.1.desc":"Vi skapar och förnyar moderna webbplatser med fokus på användarupplevelse, hastighet, konvertering och synlighet på Google.",
     "svc.1.f1":"SEO","svc.1.f2":"Webbdesign","svc.1.f3":"Utveckling","svc.1.f4":"Konverteringsoptimering","svc.1.f5":"Lokal SEO",
@@ -1385,33 +1367,33 @@ const I18N = {
     "svc.3.title":"AI & automation","svc.3.tag":"Låt systemen göra det repetitiva arbetet.",
     "svc.3.desc":"Vi bygger skräddarsydda AI- och automationslösningar som minskar administration och gör verksamheten effektivare.",
     "svc.3.f1":"AI-receptionist","svc.3.f2":"Automatiserad lead-hantering","svc.3.f3":"Bokningssystem","svc.3.f4":"CRM-automation","svc.3.f5":"E-postautomation","svc.3.f6":"AI-agenter",
-    "ai.eyebrow":"AI-receptionist","ai.title":"Missa aldrig ett kundsamtal igen.",
-    "ai.lead":"En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar — utan att personal behöver avbryta sitt arbete.",
+    "ai.title":"Missa aldrig ett kundsamtal igen.",
+    "ai.lead":"En AI-receptionist kan svara kunder dygnet runt, hantera vanliga frågor, kvalificera leads och hjälpa till med bokningar, utan att personal behöver avbryta sitt arbete.",
     "ai.f1":"Kund ringer","ai.f2":"AI svarar","ai.f3":"Förstår ärendet","ai.f4":"Svarar, bokar eller vidarebefordrar","ai.f5":"Information skickas till CRM",
     "ai.cta":"Boka ett kostnadsfritt möte",
-    "auto.eyebrow":"Automationsexempel","auto.title":"Före och efter.",
+    "auto.title":"Före och efter.",
     "auto.lead":"Ett exempel på hur vardagen kan förändras när det repetitiva sköts av systemen.",
     "auto.before":"Före","auto.after":"Efter",
-    "auto.b1":"Kunden ringer när ni är upptagna. Ingen svarar — och kunden ringer nästa företag.",
+    "auto.b1":"Kunden ringer när ni är upptagna. Ingen svarar, och kunden ringer nästa företag.",
     "auto.b2":"Förfrågningar landar i inkorgen och glöms bort.",
     "auto.b3":"Samma uppgifter skrivs in i flera olika system.",
     "auto.a1":"AI-receptionisten svarar direkt, dygnet runt, och bokar in kunden.",
     "auto.a2":"Varje förfrågan registreras och följs upp automatiskt.",
-    "auto.a3":"Informationen hamnar i ert CRM — en gång, på rätt ställe.",
+    "auto.a3":"Informationen hamnar i ert CRM. En gång, på rätt ställe.",
     "proc.eyebrow":"Så arbetar vi","proc.title":"Fyra steg från första mötet till resultat.",
     "proc.lead":"Inga överraskningar. Ni vet alltid vad nästa steg är.",
     "proc.1.t":"Första mötet","proc.1.d":"Vi går igenom er verksamhet, era mål och var det finns störst potential.",
     "proc.2.t":"Strategi","proc.2.d":"Vi tar fram lösningen och ett tydligt upplägg utifrån era behov.",
     "proc.3.t":"Produktion","proc.3.d":"Vi designar, bygger, implementerar och testar lösningen.",
     "proc.4.t":"Lansering & optimering","proc.4.d":"Vi lanserar, mäter resultaten och förbättrar löpande där det behövs.",
-    "why.eyebrow":"Varför CertaCode?","why.title":"Tre skäl att välja oss.",
+    "why.title":"Tre skäl att välja oss.",
     "why.1.t":"Skräddarsytt","why.1.d":"Inga generiska paket. Lösningen byggs efter verksamheten.",
     "why.2.t":"Resultatfokuserat","why.2.d":"Snyggt är lätt. Vi bygger för att det ska ge fler kunder.",
-    "why.3.t":"En partner","why.3.d":"Webb, marknadsföring och automation fungerar tillsammans — istället för att hanteras av tre olika leverantörer.",
-    "book.eyebrow":"Boka möte","book.title":"Ett kostnadsfritt samtal på 30 minuter",
-    "book.lead":"Berätta om er verksamhet så går vi igenom mål och behov — och återkommer med ett tydligt förslag. Ingen bindning.",
+    "why.3.t":"En partner","why.3.d":"Webb, marknadsföring och automation fungerar tillsammans, istället för att hanteras av tre olika leverantörer.",
+    "book.title":"Ett kostnadsfritt samtal på 30 minuter",
+    "book.lead":"Berätta om er verksamhet så går vi igenom mål och behov, och återkommer med ett tydligt förslag. Ingen bindning.",
     "book.p1":"Konkreta råd redan på första mötet","book.p2":"Ett tydligt förslag efter första mötet","book.p3":"Svar inom 24 timmar",
-    "book.s1.title":"Vad kan vi hjälpa dig med?","book.s1.sub":"Välj det som passar bäst — du kan berätta mer sen.",
+    "book.s1.title":"Vad kan vi hjälpa dig med?","book.s1.sub":"Välj det som passar bäst. Du kan berätta mer sen.",
     "book.s1.o1t":"Ny webbplats","book.s1.o1d":"Från idé till lansering",
     "book.s1.o2t":"Förnya befintlig webbplats","book.s1.o2d":"Design, hastighet & konvertering",
     "book.s1.o3t":"SEO / Google","book.s1.o3d":"Synas när kunder söker",
@@ -1426,15 +1408,15 @@ const I18N = {
     "book.f.msg":"Berätta kort om er verksamhet","book.f.msgPh":"Berätta kort om er verksamhet och vad ni vill uppnå.",
     "book.s4.title":"Ser detta rätt ut?","book.s4.sub":"Kontrollera och skicka in din förfrågan.",
     "book.next":"Nästa steg","book.back":"Tillbaka","book.review":"Granska bokning","book.confirm":"Bekräfta bokning","book.sending":"Skickar…","book.error":"Något gick fel när förfrågan skulle skickas. Försök igen om en stund, eller mejla oss direkt på","book.errorMail":"öppna e-post",
-    "book.done.title":"Tack — vi hörs snart!","book.done.msg":"Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.","book.done.again":"Boka en till tid",
+    "book.done.title":"Tack! Vi hörs snart.","book.done.msg":"Din förfrågan är mottagen. Vi bekräftar din tid via e-post inom 24 timmar.","book.done.again":"Boka en till tid",
     "sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
-    "faq.eyebrow":"Vanliga frågor","faq.title":"Vanliga frågor",
+    "faq.title":"Vanliga frågor",
     "faq.1.q":"Vad kostar det?","faq.1.a":"Varje företag och projekt har olika behov. Därför arbetar vi inte med fasta standardpaket. Under ett kostnadsfritt första möte går vi igenom era mål och behov och tar därefter fram ett tydligt förslag.","faq.1.cta":"Boka ett kostnadsfritt möte",
-    "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom 2–4 veckor. Annonskampanjer kan vara igång inom några dagar, och AI-lösningar sätts upp på 1–3 veckor.",
+    "faq.2.q":"Hur snabbt kan ni komma igång?","faq.2.a":"En hemsida lanseras oftast inom två till fyra veckor. Annonskampanjer kan vara igång inom några dagar, och AI-lösningar sätts upp på en till tre veckor.",
     "faq.3.q":"Äger jag allt vi tar fram?","faq.3.a":"Ja. När det är betalt äger du all kod, design, annonskonton och allt innehåll till 100 %. Inga inlåsningar.",
     "faq.4.q":"Erbjuder ni löpande hjälp?","faq.4.a":"Absolut. Vi sköter löpande annonsering, uppdateringar och vidareutveckling när ni vill ha det.",
     "faq.5.q":"Kan ni garantera att vi hamnar först på Google?",
-    "faq.5.a":"Nej — det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.",
+    "faq.5.a":"Nej. Det kan ingen seriöst garantera. Vi förbättrar förutsättningarna för att ni ska synas när potentiella kunder söker efter era tjänster: teknisk SEO, innehåll, lokal SEO och Google Business Profile. Det är arbete som ger resultat över tid.",
     "foot.tagline":"Digital marknadsföring, SEO och AI-automation för företag som vill växa.",
     "foot.services":"Tjänster","foot.company":"Företag","foot.contact":"Kontakt","foot.privacy":"Integritetspolicy","foot.location":"Sverige","foot.rights":"Alla rättigheter förbehållna.",
     "months":["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"],
@@ -1447,22 +1429,22 @@ const I18N = {
     "hero.lead":"From more leads and better visibility on Google to AI systems that automate repetitive work. CertaCode builds digital solutions that save time and create growth.",
     "hero.c1":"A free design proposal, made for you","hero.c2":"No obligations","hero.c3":"Reply within 24 hours",
     "hero.alt":"Or book a free call","hero.sticker":"Free<br>design proposal",
-    "hf.title":"Get a free design proposal","hf.sub":"Tell us where to find you today and we'll show what your new site could look like — at no cost.",
+    "hf.title":"Get a free design proposal","hf.sub":"Tell us where to find you today and we'll show what your new site could look like. At no cost.",
     "hf.name":"Name","hf.email":"Email","hf.site":"Current website (optional)","hf.err":"Enter your name and a valid email address.",
     "hf.btn":"Get my design proposal","hf.note":"No obligations. We'll be in touch within 24 hours.",
-    "hf.okTitle":"Thanks — we'll be in touch!","hf.okMsg":"We'll get back to you within 24 hours with the next step.",
+    "hf.okTitle":"Thanks! We'll be in touch.","hf.okMsg":"We'll get back to you within 24 hours with the next step.",
     "svc.cta":"Book a free call","svc.ctaLead":"Ready to get started?",
-    "cases.eyebrow":"Portfolio","cases.title":"Some sites we\u2019ve made.","cases.lead":"Built from scratch — design, code and animation.",
+    "cases.title":"Some sites we\u2019ve made.","cases.lead":"Built from scratch: design, code and animation.",
     "cases.1.t":"<b>Bakery</b> · Craft · Directions","cases.2.t":"<b>Running</b> · Community · Events","cases.3.t":"<b>Cold bath</b> · Sauna · Booking",
     "cases.4.name":"Just as good on a phone.","cases.4.t":"<b>Responsive</b> · All three sites · Built for the thumb",
-    "mock.am.title":"Campaign: Leads – September","mock.am.sub":"Meta Ads · Last 30 days","mock.am.tag":"Example",
+    "mock.am.title":"Campaign: Leads, September","mock.am.sub":"Meta Ads · Last 30 days","mock.am.tag":"Example",
     "mock.am.k1":"Reach","mock.am.k2":"Clicks","mock.am.k3":"Leads","mock.am.k4":"Cost per lead",
     "mock.am.a1":"1 Sep","mock.am.a2":"15 Sep","mock.am.a3":"30 Sep",
     "mock.ai.call":"Incoming call","mock.ai.sub":"Unknown number · 14:32","mock.ai.live":"AI answering",
     "mock.ai.m1":"Hi! You've reached the front desk. How can I help?","mock.ai.m2":"I'd like to book a time on Friday.",
     "mock.ai.done":"Booked: Fri 25 Sep, 10:00","mock.ai.crm":"Sent to CRM",
-    "svc.eyebrow":"What we do","svc.title":"Three services that help businesses grow.",
-    "svc.lead":"Web, advertising and automation — working together instead of across three different suppliers.",
+    "svc.title":"Three services that help businesses grow.",
+    "svc.lead":"Web, advertising and automation that work together, instead of across three different suppliers.",
     "svc.1.title":"Web & SEO","svc.1.tag":"Websites built to be found and to convert.",
     "svc.1.desc":"We create and renew modern websites with a focus on user experience, speed, conversion and visibility on Google.",
     "svc.1.f1":"SEO","svc.1.f2":"Web design","svc.1.f3":"Development","svc.1.f4":"Conversion optimisation","svc.1.f5":"Local SEO",
@@ -1472,33 +1454,33 @@ const I18N = {
     "svc.3.title":"AI & automation","svc.3.tag":"Let the systems do the repetitive work.",
     "svc.3.desc":"We build tailored AI and automation solutions that reduce admin and make the business more efficient.",
     "svc.3.f1":"AI receptionist","svc.3.f2":"Automated lead handling","svc.3.f3":"Booking systems","svc.3.f4":"CRM automation","svc.3.f5":"Email automation","svc.3.f6":"AI agents",
-    "ai.eyebrow":"AI receptionist","ai.title":"Never miss a customer call again.",
-    "ai.lead":"An AI receptionist can answer customers around the clock, handle common questions, qualify leads and help with bookings — without staff having to interrupt their work.",
+    "ai.title":"Never miss a customer call again.",
+    "ai.lead":"An AI receptionist can answer customers around the clock, handle common questions, qualify leads and help with bookings, without staff having to interrupt their work.",
     "ai.f1":"Customer calls","ai.f2":"AI answers","ai.f3":"Understands the request","ai.f4":"Answers, books or forwards","ai.f5":"Information sent to CRM",
     "ai.cta":"Book a free call",
-    "auto.eyebrow":"Automation example","auto.title":"Before and after.",
+    "auto.title":"Before and after.",
     "auto.lead":"An example of how the day-to-day can change when the repetitive work is handled by systems.",
     "auto.before":"Before","auto.after":"After",
-    "auto.b1":"A customer calls while you're busy. Nobody answers — and they call the next company.",
+    "auto.b1":"A customer calls while you're busy. Nobody answers, and they call the next company.",
     "auto.b2":"Enquiries land in the inbox and get forgotten.",
     "auto.b3":"The same details are typed into several different systems.",
     "auto.a1":"The AI receptionist answers immediately, around the clock, and books the customer in.",
     "auto.a2":"Every enquiry is logged and followed up automatically.",
-    "auto.a3":"The information lands in your CRM — once, in the right place.",
+    "auto.a3":"The information lands in your CRM. Once, in the right place.",
     "proc.eyebrow":"How we work","proc.title":"Four steps from the first meeting to results.",
     "proc.lead":"No surprises. You always know what the next step is.",
     "proc.1.t":"The first meeting","proc.1.d":"We go through your business, your goals and where the biggest potential is.",
     "proc.2.t":"Strategy","proc.2.d":"We work out the solution and a clear plan based on your needs.",
     "proc.3.t":"Production","proc.3.d":"We design, build, implement and test the solution.",
     "proc.4.t":"Launch & optimisation","proc.4.d":"We launch, measure the results and keep improving where needed.",
-    "why.eyebrow":"Why CertaCode?","why.title":"Three reasons to choose us.",
+    "why.title":"Three reasons to choose us.",
     "why.1.t":"Tailored","why.1.d":"No generic packages. The solution is built around your business.",
     "why.2.t":"Results first","why.2.d":"Pretty is easy. We build for more customers.",
-    "why.3.t":"One partner","why.3.d":"Web, marketing and automation work together — instead of being handled by three different suppliers.",
-    "book.eyebrow":"Book a call","book.title":"A free 30-minute call",
-    "book.lead":"Tell us about your business and we'll go through goals and needs — then come back with a clear proposal. No commitment.",
+    "why.3.t":"One partner","why.3.d":"Web, marketing and automation work together, instead of being handled by three different suppliers.",
+    "book.title":"A free 30-minute call",
+    "book.lead":"Tell us about your business and we'll go through goals and needs, then come back with a clear proposal. No commitment.",
     "book.p1":"Concrete advice on the first call","book.p2":"A clear proposal after the first meeting","book.p3":"Reply within 24 hours",
-    "book.s1.title":"How can we help you?","book.s1.sub":"Pick what fits best — you can tell us more later.",
+    "book.s1.title":"How can we help you?","book.s1.sub":"Pick what fits best. You can tell us more later.",
     "book.s1.o1t":"New website","book.s1.o1d":"From idea to launch",
     "book.s1.o2t":"Renew existing website","book.s1.o2d":"Design, speed & conversion",
     "book.s1.o3t":"SEO / Google","book.s1.o3d":"Be found when customers search",
@@ -1513,15 +1495,15 @@ const I18N = {
     "book.f.msg":"Tell us briefly about your business","book.f.msgPh":"Tell us briefly about your business and what you want to achieve.",
     "book.s4.title":"Does this look right?","book.s4.sub":"Check and submit your request.",
     "book.next":"Next step","book.back":"Back","book.review":"Review booking","book.confirm":"Confirm booking","book.sending":"Sending…","book.error":"Something went wrong while sending your request. Please try again shortly, or email us directly at","book.errorMail":"open email",
-    "book.done.title":"Thanks — talk soon!","book.done.msg":"Your request has been received. We'll confirm your time by email within 24 hours.","book.done.again":"Book another time",
+    "book.done.title":"Thanks! Talk soon.","book.done.msg":"Your request has been received. We'll confirm your time by email within 24 hours.","book.done.again":"Book another time",
     "sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
-    "faq.eyebrow":"FAQ","faq.title":"Frequently asked questions",
+    "faq.title":"Frequently asked questions",
     "faq.1.q":"What does it cost?","faq.1.a":"Every business and project has different needs, so we don't work with fixed standard packages. In a free first meeting we go through your goals and needs, then put together a clear proposal.","faq.1.cta":"Book a free call",
-    "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within 2–4 weeks. Ad campaigns can be live within days, and AI solutions are set up in 1–3 weeks.",
+    "faq.2.q":"How fast can you get started?","faq.2.a":"A website usually launches within two to four weeks. Ad campaigns can be live within days, and AI solutions are set up in one to three weeks.",
     "faq.3.q":"Do I own everything we create?","faq.3.a":"Yes. Once it's paid, you own all code, design, ad accounts and content 100%. No lock-in.",
     "faq.4.q":"Do you offer ongoing help?","faq.4.a":"Absolutely. We handle ongoing advertising, updates and further development whenever you want it.",
     "faq.5.q":"Can you guarantee a first-page ranking on Google?",
-    "faq.5.a":"No — nobody can seriously guarantee that. We improve the conditions for you to show up when potential customers search for your services: technical SEO, content, local SEO and Google Business Profile. It is work that pays off over time.",
+    "faq.5.a":"No. Nobody can seriously guarantee that. We improve the conditions for you to show up when potential customers search for your services: technical SEO, content, local SEO and Google Business Profile. It is work that pays off over time.",
     "foot.tagline":"Digital marketing, SEO and AI automation for businesses that want to grow.",
     "foot.services":"Services","foot.company":"Company","foot.contact":"Contact","foot.privacy":"Privacy policy","foot.location":"Sweden","foot.rights":"All rights reserved.",
     "months":["January","February","March","April","May","June","July","August","September","October","November","December"],
