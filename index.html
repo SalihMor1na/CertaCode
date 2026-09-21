@@ -101,7 +101,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--accent-ink);
 }
 .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--accent);opacity:.6}
-.section{padding:clamp(64px,8vw,112px) 0}
+:root{--sp:clamp(64px,8vw,112px)}
+.section{padding:var(--sp) 0}
+/* Two cream sections share a 2×--sp gap. A cream section that touches a coloured band only gets its own
+   --sp on that side, which reads as cramped — so it takes the band's share too and its air stays even. */
+.section--tint + .section:not(.section--tint):not(.section--dark),
+.section--dark + .section:not(.section--tint):not(.section--dark){padding-top:calc(var(--sp) * 2)}
+.section:not(.section--tint):not(.section--dark):has(+ .section--tint),
+.section:not(.section--tint):not(.section--dark):has(+ .section--dark){padding-bottom:calc(var(--sp) * 2)}
 /* bands: the page alternates cream / warm tint / one dark block so sections read as sections */
 .section--tint{background:var(--bg-tint)}
 .section--tint .eyebrow{color:#B8321F}  /* the tint needs a deeper coral to keep 4.5:1 */
