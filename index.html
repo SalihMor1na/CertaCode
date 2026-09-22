@@ -469,13 +469,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn:disabled{opacity:.6;cursor:progress}
 /* the calendar panel: the embed sizes its own iframe, we give it room and a fallback link */
 .booking__cal{padding:clamp(12px,1.6vw,22px);min-width:0}
-.calcta{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:14px;padding:clamp(28px,4vw,56px) clamp(20px,3vw,40px);background:var(--bg-tint);border-radius:clamp(16px,2vw,24px)}
-.calcta h3{font-size:clamp(22px,1.8vw,30px);letter-spacing:-.015em}
-.calcta p{color:var(--ink-soft);font-size:clamp(15.5px,1vw,17px);max-width:38ch}
-.calcta .btn{margin-top:6px}
-.calcta__note{font-size:13.5px;color:var(--muted)}
-.cal-fallback{display:none;margin:0;font-size:13.5px}
-.cal-fallback.show{display:block}
+.cal-inline{min-height:640px}   /* room before the embed loads; afterwards Cal sizes its own iframe */
+.cal-fallback{display:none;margin:10px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.cal-fallback.show{display:block}   /* only when the embed hasn't appeared */
 .cal-fallback a{color:var(--accent-ink);font-weight:600}
 
 /* ============================================================
@@ -1074,15 +1070,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
       <!-- Calendar: Cal.com inline embed, fetched only when the section comes near -->
       <div class="booking__cal">
-        <div class="calcta">
-          <h3 data-i18n="book.cal.title">Välj en tid i kalendern</h3>
-          <p data-i18n="book.cal.sub">Lediga tider kommer direkt från vår kalender. Du får bekräftelse och möteslänk på mejlen med en gång.</p>
-          <button type="button" class="btn btn-primary btn-lg" id="calBtn"
-                  data-cal-namespace="mote" data-cal-link="certacode-bj1uxx/mote"
-                  data-cal-config='{"layout":"month_view","theme":"light"}' data-i18n="book.cal.btn">Visa lediga tider</button>
-          <p class="calcta__note" data-i18n="book.cal.note">30 minuter, videomöte. Kostnadsfritt och utan förpliktelser.</p>
-          <p class="cal-fallback"><a href="https://cal.com/certacode-bj1uxx/mote" target="_blank" rel="noopener" data-i18n="book.open">Öppna kalendern i ett nytt fönster</a></p>
-        </div>
+        <div id="calInline" class="cal-inline" aria-label="Boka en tid"></div>
+        <p class="cal-fallback"><a href="https://cal.com/certacode-bj1uxx/mote" target="_blank" rel="noopener" data-i18n="book.open">Öppna kalendern i ett nytt fönster</a></p>
       </div>
     </div>
   </div>
@@ -1198,8 +1187,6 @@ const I18N = {
     "book.lead":"Berätta om er verksamhet så går vi igenom mål och behov, och återkommer med ett tydligt förslag. Ingen bindning.",
     "book.p1":"Välj en tid som passar dig, direkt i kalendern","book.p2":"Bekräftelse och möteslänk kommer på en gång","book.p3":"Konkreta råd redan på första mötet",
     "book.open":"Öppna kalendern i ett nytt fönster",
-    "book.cal.title":"Välj en tid i kalendern","book.cal.sub":"Lediga tider kommer direkt från vår kalender. Du får bekräftelse och möteslänk på mejlen med en gång.",
-    "book.cal.btn":"Visa lediga tider","book.cal.note":"30 minuter, videomöte. Kostnadsfritt och utan förpliktelser.",
     "book.s4.title":"Ser detta rätt ut?","book.s4.sub":"Kontrollera och skicka in din förfrågan.",
     "book.sending":"Skickar…","book.error":"Något gick fel när förfrågan skulle skickas. Försök igen om en stund, eller mejla oss direkt på","sum.service":"Tjänst","sum.datetime":"Datum & tid","sum.name":"Namn","sum.email":"E-post","sum.phone":"Telefon","sum.notset":"Ej valt",
     "faq.title":"Vanliga frågor",
@@ -1271,8 +1258,6 @@ const I18N = {
     "book.lead":"Tell us about your business and we'll go through goals and needs, then come back with a clear proposal. No commitment.",
     "book.p1":"Pick a time that suits you, right in the calendar","book.p2":"Confirmation and meeting link arrive straight away","book.p3":"Concrete advice on the first call",
     "book.open":"Open the calendar in a new window",
-    "book.cal.title":"Pick a time in the calendar","book.cal.sub":"Available times come straight from our calendar. You get a confirmation and meeting link by email right away.",
-    "book.cal.btn":"Show available times","book.cal.note":"30 minutes, video call. Free and with no obligation.",
     "book.s4.title":"Does this look right?","book.s4.sub":"Check and submit your request.",
     "book.sending":"Sending…","book.error":"Something went wrong while sending your request. Please try again shortly, or email us directly at","sum.service":"Service","sum.datetime":"Date & time","sum.name":"Name","sum.email":"Email","sum.phone":"Phone","sum.notset":"Not set",
     "faq.title":"Frequently asked questions",
@@ -1507,22 +1492,22 @@ document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(
 const BOOKING_ENDPOINT = "/api/booking";   // still used by the hero form (design proposal request)
 
 (function initCal(){
-  const btn = document.getElementById("calBtn"); if(!btn) return;
-  const fallback = document.querySelector(".cal-fallback");
+  const el = document.getElementById("calInline"); if(!el) return;
   const CAL_LINK = "certacode-bj1uxx/mote";
   let loaded = false;
+  const fallback = el.parentElement.querySelector(".cal-fallback");
   const load = ()=>{
     if(loaded) return; loaded = true;
+    // if nothing has rendered after a while (blocked script, old browser), offer the plain link
+    setTimeout(()=>{ if(!el.querySelector("iframe") && fallback) fallback.classList.add("show"); }, 8000);
     (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
     Cal("init", "mote", {origin:"https://app.cal.com"});
+    Cal.ns.mote("inline", { elementOrSelector:"#calInline", calLink: CAL_LINK, config:{ layout:"month_view", theme:"light" } });
     Cal.ns.mote("ui", { theme:"light", cssVarsPerTheme:{ light:{ "cal-brand":"#EF5B4E" } }, hideEventTypeDetails:false, layout:"month_view" });   // the site is light; follow it, not the OS
-    setTimeout(()=>{ if(!window.Cal && fallback) fallback.classList.add("show"); }, 8000);   // script blocked: offer the plain link
   };
   const io = new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ load(); io.disconnect(); } }, {rootMargin:"600px 0px"});
-  io.observe(btn);
+  io.observe(el);
   document.querySelectorAll('a[href="#boka"]').forEach(a=> a.addEventListener("click", load));
-  // Cal binds its own handler once ready; this only covers the case where it never loaded
-  btn.addEventListener("click", ()=>{ load(); if(!window.Cal) window.open("https://cal.com/" + CAL_LINK, "_blank", "noopener"); });
 })();
 
 /* ============================================================
