@@ -66,8 +66,7 @@
    RESET
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html{-webkit-text-size-adjust:100%}   /* smooth scrolling is applied per anchor click in JS, see initSmoothAnchors */
 body{
   margin:0;
   font-family:var(--font-body);
@@ -454,7 +453,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .booking{position:relative}
 .booking__card{
   background:var(--surface);border:1px solid var(--line);border-radius:clamp(24px,4vw,36px);
-  box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-columns:.85fr 1.15fr;
+  box-shadow:var(--shadow-lg);overflow:hidden;display:grid;grid-template-columns:.85fr 1.15fr;align-items:stretch;
 }
 .booking__aside{background:var(--accent-soft);color:var(--ink);padding:clamp(34px,4vw,52px);display:flex;flex-direction:column}
 .booking__aside h2{color:var(--ink);font-size:clamp(28px,3.4vw,38px);margin-top:0}
@@ -469,8 +468,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 .btn:disabled{opacity:.6;cursor:progress}
 /* the calendar panel: the embed sizes its own iframe, we give it room and a fallback link */
-.booking__cal{display:flex;flex-direction:column;padding:clamp(12px,1.6vw,22px)}
-.cal-inline{flex:1;min-height:640px}
+.booking__cal{padding:clamp(12px,1.6vw,22px);min-width:0}
+.cal-inline{min-height:640px}   /* room before the embed loads; afterwards Cal sizes its own iframe */
 .cal-fallback{display:none;margin:10px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
 .cal-fallback.show{display:block}   /* only when the embed hasn't appeared */
 .cal-fallback a{color:var(--accent-ink);font-weight:600}
@@ -1466,6 +1465,20 @@ document.querySelectorAll(".result b[data-count]").forEach(el=> countIO.observe(
     }finally{
       btn.disabled = false; btn.textContent = label;
     }
+  });
+})();
+
+/* Anchor links scroll smoothly, but the document itself does not: a global
+   smooth scroll makes the booking iframe's own scroll requests compound. */
+(function initSmoothAnchors(){
+  if(!MOTION) return;
+  document.addEventListener("click", (e)=>{
+    const a = e.target.closest('a[href^="#"]'); if(!a) return;
+    const id = a.getAttribute("href"); if(id.length < 2) return;
+    const target = document.querySelector(id); if(!target) return;
+    e.preventDefault();
+    target.scrollIntoView({behavior:"smooth", block:"start"});
+    history.pushState(null, "", id);
   });
 })();
 
